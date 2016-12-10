@@ -3,8 +3,9 @@
     package="com.goldendance.client">
 
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -15,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 注册自定义静态广播接收器 开机启动工具类需要此配置 -->
+        <receiver android:name=".base.StartAppReceiver" />
     </application>
 
 </manifest>
