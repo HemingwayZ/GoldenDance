@@ -8,12 +8,12 @@ import android.util.Log;
  * @author jingle1267@163.com
  * @description And you can turn off the log by set DEBUG_LEVEL = Log.ASSERT.
  */
-public final class LogUtils {
+public final class GDLogUtils {
 
     /**
      * Don't let anyone instantiate this class.
      */
-    private LogUtils() {
+    private GDLogUtils() {
         throw new Error("Do not need instantiate!");
     }
 
