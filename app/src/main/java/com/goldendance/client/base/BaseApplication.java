@@ -45,4 +45,14 @@ public class BaseApplication extends Application {
             }
         }
     }
+
+    public void addActivity(Activity activity) {
+        activityStack.add(activity);
+    }
+
+    public void removeActivity(Activity activity) {
+        if (activityStack.contains(activity)) {
+            activityStack.remove(activity);
+        }
+    }
 }

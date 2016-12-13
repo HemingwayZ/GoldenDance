@@ -1,5 +1,6 @@
 package com.goldendance.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -8,6 +9,7 @@ import com.goldendance.client.base.BaseActivity;
 
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.test.TestMainActivity;
 import com.goldendance.client.utils.GDLogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,8 +24,12 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initIntent() {
+
+    }
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
 
         EventBus.getDefault().register(this);
@@ -31,8 +37,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 //                GDLogUtils.i(TAG, "" + 1 / 0);
-                EventBus.getDefault().post(new MessageEvent("aaa", "aaa"));
-                initData();
+//                EventBus.getDefault().post(new MessageEvent("aaa", "aaa"));
+//                initData();
+                Intent intent = new Intent(MainActivity.this, TestMainActivity.class);
+                startActivity(intent);
             }
         });
     }
