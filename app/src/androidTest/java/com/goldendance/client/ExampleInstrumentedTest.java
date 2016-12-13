@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.goldendance.client.http.GDImageLoader;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,5 +24,12 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.goldendance.client", appContext.getPackageName());
+    }
+
+    @Test
+    public void testImageLoader() {
+//        Context appContext = InstrumentationRegistry.getTargetContext();
+//        GDImageLoader.display(appContext, "http://t10.baidu.com/it/u=845607762,4018225966&fm=76");
+//        System.out.print("testImageloader");
     }
 }
