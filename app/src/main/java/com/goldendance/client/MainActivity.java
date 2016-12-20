@@ -1,12 +1,13 @@
 package com.goldendance.client;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.goldendance.client.base.BaseActivity;
-
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.test.TestMainActivity;
@@ -27,20 +28,37 @@ public class MainActivity extends BaseActivity {
     public void initIntent() {
 
     }
+//
+//    @Override
+//    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+//        super.onCreate(savedInstanceState, persistentState);
+//    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
 
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(getActionBar());
         findViewById(R.id.btnCrash).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                GDLogUtils.i(TAG, "" + 1 / 0);
-//                EventBus.getDefault().post(new MessageEvent("aaa", "aaa"));
+                EventBus.getDefault().post(new MessageEvent("aaa", "aaa"));
 //                initData();
                 Intent intent = new Intent(MainActivity.this, TestMainActivity.class);
-                startActivity(intent);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, view, "crash").toBundle());
+                } else {
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -97,8 +115,20 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onPause() {
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+//        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

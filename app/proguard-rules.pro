@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#Eventbus
+-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
+*;
+}

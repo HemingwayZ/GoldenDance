@@ -23,9 +23,8 @@
 
         <!-- 注册自定义静态广播接收器 开机启动工具类需要此配置 -->
         <receiver android:name=".base.StartAppReceiver" />
-
         <activity android:name=".test.TestImageLoaderActivity" />
-        <activity android:name=".test.TestMainActivity"></activity>
+        <activity android:name=".test.TestMainActivity"/>
     </application>
 
 </manifest>

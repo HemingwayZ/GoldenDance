@@ -21,7 +21,7 @@ public class BaseApplication extends Application {
         handler.init(this);
 
         // 程序异常关闭1s之后重新启动
-        new RebootThreadExceptionHandler(getBaseContext());
+//        new RebootThreadExceptionHandler(getBaseContext());
         super.onCreate();
     }
 
