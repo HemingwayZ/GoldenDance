@@ -17,14 +17,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         BaseApplication application = (BaseApplication) getApplication();
         application.addActivity(this);
         initIntent();
         initView(savedInstanceState);
-        super.onCreate(savedInstanceState);
+
     }
 
-    public abstract void initIntent();
+    public void initIntent() {
+    }
+
+    ;
 
     public abstract void initView(Bundle savedInstanceState);
 

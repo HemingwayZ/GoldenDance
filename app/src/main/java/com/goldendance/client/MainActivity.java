@@ -1,5 +1,6 @@
 package com.goldendance.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import com.goldendance.client.base.BaseActivity;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.utils.GDLogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,11 +26,6 @@ public class MainActivity extends BaseActivity {
     public void initIntent() {
 
     }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-//        super.onCreate(savedInstanceState, persistentState);
-//    }
 
     @Override
     protected void onStart() {
@@ -93,6 +90,9 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 //                GDLogUtils.i(TAG, "" + 1 / 0);
                 EventBus.getDefault().post(new MessageEvent("aaa", "aaa"));
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
 //                initData();
 //                Intent intent = new Intent(MainActivity.this, TestMainActivity.class);
 //
