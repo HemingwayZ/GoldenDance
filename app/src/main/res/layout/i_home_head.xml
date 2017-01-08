@@ -9,11 +9,12 @@
     android:paddingRight="16dp">
 
     <ImageView
+        android:id="@+id/ivAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/i_user_avatar_round" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginLeft="16dp"
@@ -24,6 +25,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="10dp"
             android:src="@mipmap/i_search_left" />
 
@@ -31,14 +33,18 @@
             style="@style/login_register_edit"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="35dp"
             android:background="@null"
-            android:hint="@string/input_phone"
+            android:hint="@string/search_course"
             android:textSize="16sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
             android:src="@mipmap/i_clear" />
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

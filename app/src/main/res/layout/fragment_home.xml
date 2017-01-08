@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context="com.goldendance.client.home.HomeFragment">
 
@@ -9,10 +10,147 @@
         android:id="@+id/i_head"
         layout="@layout/i_home_head" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/i_head"
-        android:src="@mipmap/temp_home_head" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/i_head"
+                android:src="@mipmap/temp_home_head" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#0090ff">
+
+                            <TextView
+                                android:id="@+id/tvMyCourse"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawableLeft="@mipmap/i_my_course"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="我的课程"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#1cde33">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:src="@mipmap/home_main_left" />
+
+                            <TextView
+                                android:id="@+id/tvClass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_marginRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/i_class"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="班课"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#0090ff">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@mipmap/home_main_right" />
+
+                            <TextView
+                                android:id="@+id/tvVIP"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="16dp"
+                                android:drawablePadding="10dp"
+                                android:drawableTop="@mipmap/i_vip"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="VIP"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.95"
+                            android:background="#1cde33">
+
+                            <TextView
+                                android:id="@+id/tvOneToOne"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="16dp"
+                                android:drawableBottom="@mipmap/i_onetoone"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="一对一"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/bg_home_dancing" />
+            </FrameLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

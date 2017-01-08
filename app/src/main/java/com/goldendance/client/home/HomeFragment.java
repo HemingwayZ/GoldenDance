@@ -1,14 +1,17 @@
 package com.goldendance.client.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.goldendance.client.R;
+import com.goldendance.client.login.LoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +21,7 @@ import com.goldendance.client.R;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ImageView ivAvatar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,7 +69,21 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
+        ivAvatar.setOnClickListener(this);
+
+        //四大板块
+
+        view.findViewById(R.id.tvMyCourse).setOnClickListener(this);
+        view.findViewById(R.id.tvClass).setOnClickListener(this);
+        view.findViewById(R.id.tvVIP).setOnClickListener(this);
+        view.findViewById(R.id.tvOneToOne).setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +108,29 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        gotoLogin();
+        switch (v.getId()) {
+            case R.id.ivAvatar:
+                break;
+            case R.id.tvClass:
+                break;
+            case R.id.tvOneToOne:
+                break;
+            case R.id.tvVIP:
+                break;
+            case R.id.tvMyCourse:
+                break;
+        }
+    }
+
+    private void gotoLogin() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
 
     /**

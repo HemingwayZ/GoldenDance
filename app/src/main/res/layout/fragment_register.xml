@@ -29,18 +29,18 @@
 
         </FrameLayout>
         <!--手机号-->
-        <LinearLayout
+        <FrameLayout
             android:layout_width="255dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
                 android:padding="10dp"
                 android:src="@mipmap/i_phone" />
 
@@ -48,6 +48,8 @@
                 style="@style/login_register_edit"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="35dp"
                 android:background="@null"
                 android:hint="@string/input_phone"
                 android:textSize="16sp" />
@@ -55,9 +57,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
                 android:src="@mipmap/i_clear" />
-        </LinearLayout>
+        </FrameLayout>
         <!--验证码-->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,23 +69,25 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="173dp"
                 android:layout_height="45dp"
                 android:background="@drawable/bg_edittext"
-                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
                     android:padding="10dp"
-                    android:src="@mipmap/i_phone" />
+                    android:src="@mipmap/i_code" />
 
                 <EditText
                     style="@style/login_register_edit"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="35dp"
                     android:background="@null"
                     android:hint="@string/input_code"
                     android:textSize="16sp" />
@@ -90,9 +95,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
                     android:padding="10dp"
                     android:src="@mipmap/i_clear" />
-            </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:layout_width="70dp"
@@ -106,7 +112,7 @@
                 android:textSize="11sp" />
         </LinearLayout>
         <!--密码-->
-        <LinearLayout
+        <FrameLayout
             android:layout_width="255dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
@@ -118,22 +124,26 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
                 android:padding="10dp"
                 android:src="@mipmap/i_psw" />
 
             <EditText
                 style="@style/login_register_edit"
                 android:layout_width="166dp"
-                android:inputType="textPassword"
                 android:layout_height="wrap_content"
-                android:hint="@string/input_psw" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="35dp"
+                android:hint="@string/input_psw"
+                android:inputType="textPassword" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
                 android:src="@mipmap/i_clear" />
-        </LinearLayout>
+        </FrameLayout>
 
         <TextView
             android:layout_width="180dp"
