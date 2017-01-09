@@ -4,9 +4,9 @@
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="colorPrimary">#f804b6</color>
-    <color name="colorPrimaryDark">#f804b6</color>
-    <color name="colorAccent">#f804b6</color>
+    <color name="colorPrimary">#fa02c8</color>
+    <color name="colorPrimaryDark">#fa02c8</color>
+    <color name="colorAccent">#fa02c8</color>
 
     <color name="gray_cd">#cdcdcd</color>
     <color name="edittext_bg">#f7f7f8</color>

@@ -27,6 +27,14 @@
                 android:padding="16dp"
                 android:src="@mipmap/i_back" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:text="注册"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/title_head" />
         </FrameLayout>
         <!--手机号-->
         <FrameLayout

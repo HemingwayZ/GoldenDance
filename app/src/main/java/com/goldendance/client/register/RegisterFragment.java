@@ -18,12 +18,12 @@ import com.goldendance.client.R;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements IRegisterContract.IView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private IRegisterContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -91,6 +91,12 @@ public class RegisterFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void setPresenter(IRegisterContract.IPresenter iPresenter) {
+        this.mPresenter = iPresenter;
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

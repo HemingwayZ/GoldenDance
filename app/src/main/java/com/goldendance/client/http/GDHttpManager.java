@@ -103,7 +103,7 @@ public class GDHttpManager {
         getInstance().get(url, handler);
     }
 
-    public static void getPost(String url, Map<String, String> params, final GDOnResponseHandler handler) {
+    public static void doPost(String url, Map<String, String> params, final GDOnResponseHandler handler) {
         getInstance().post(url, params, handler);
     }
 }

@@ -20,8 +20,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:layout_below="@+id/i_head"
                 android:src="@mipmap/temp_home_head" />
 

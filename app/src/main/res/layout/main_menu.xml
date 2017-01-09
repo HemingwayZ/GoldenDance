@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="70dp"
     android:orientation="vertical">
 
     <RadioGroup
@@ -28,6 +28,7 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/menu_btn_home"
             android:gravity="center"
+            android:padding="5dp"
             android:text="首页"
             android:textColor="@drawable/menu_color"
             android:textSize="12sp" />
@@ -44,6 +45,7 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/menu_btn_user"
             android:gravity="center"
+            android:padding="5dp"
             android:text="用户"
             android:textColor="@drawable/menu_color"
             android:textSize="12sp" />
