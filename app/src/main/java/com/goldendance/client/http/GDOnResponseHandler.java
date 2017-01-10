@@ -26,6 +26,11 @@ public class GDOnResponseHandler implements IResponseHandler {
     }
 
     @Override
+    public void onSuccess(int code, String json) {
+
+    }
+
+    @Override
     public void onFailed(IOException e) {
 
     }

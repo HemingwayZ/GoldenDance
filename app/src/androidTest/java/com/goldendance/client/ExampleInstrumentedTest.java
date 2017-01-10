@@ -5,11 +5,17 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.goldendance.client.http.GDImageLoader;
+import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.register.RegisterModel;
+import com.goldendance.client.utils.GDLogUtils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -24,6 +30,25 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.goldendance.client", appContext.getPackageName());
+
+    }
+
+    @Test
+    public void testRegister() {
+        RegisterModel model = new RegisterModel();
+        model.getCode("18859662838", "0", new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                GDLogUtils.d("Test Register", json);
+                super.onSuccess(code, json);
+            }
+
+            @Override
+            public void onFailed(IOException e) {
+                e.printStackTrace();
+                super.onFailed(e);
+            }
+        });
     }
 
     @Test

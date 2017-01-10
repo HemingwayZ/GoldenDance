@@ -20,7 +20,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
             ft.add(R.id.activity_register, fragment);
             ft.commit();
         }
-
         new RegisterPresenter(fragment);
     }
 

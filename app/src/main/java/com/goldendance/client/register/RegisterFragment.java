@@ -1,5 +1,6 @@
 package com.goldendance.client.register;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.goldendance.client.R;
 
@@ -18,7 +20,7 @@ import com.goldendance.client.R;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment implements IRegisterContract.IView {
+public class RegisterFragment extends Fragment implements IRegisterContract.IView, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +31,8 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private View pdLoading;
+    private EditText etMobile;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -65,7 +69,15 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        view.findViewById(R.id.tvSubmit).setOnClickListener(this);
+        etMobile = (EditText) view.findViewById(R.id.etMobile);
+        pdLoading = view.findViewById(R.id.pdLoading);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -95,6 +107,30 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     @Override
     public void setPresenter(IRegisterContract.IPresenter iPresenter) {
         this.mPresenter = iPresenter;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvSubmit:
+                mPresenter.getCode();
+                break;
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        pdLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pdLoading.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public String getMobile() {
+        return etMobile.getText().toString();
     }
 
 
