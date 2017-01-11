@@ -1,5 +1,8 @@
 package com.goldendance.client.register;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
+
 import com.goldendance.client.base.IBaseModel;
 import com.goldendance.client.base.IBasePresenter;
 import com.goldendance.client.base.IBaseView;
@@ -20,10 +23,16 @@ public interface IRegisterContract {
     }
 
     interface IView extends IBaseView<IPresenter> {
+
         void showProgress();
 
         void hideProgress();
 
         String getMobile();
+
+        void showToast(@StringRes int idStr,String msg);
+
+        void startCount();
+        boolean isCounting();
     }
 }

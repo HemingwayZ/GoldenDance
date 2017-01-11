@@ -6,12 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.goldendance.client.R;
+import com.goldendance.client.base.BaseActivity;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterFragment.OnFragmentInteractionListener {
+public class RegisterActivity extends BaseActivity implements RegisterFragment.OnFragmentInteractionListener {
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_register);
         RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_register);
         if (fragment == null) {

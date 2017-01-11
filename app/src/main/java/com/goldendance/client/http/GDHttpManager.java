@@ -1,5 +1,7 @@
 package com.goldendance.client.http;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.goldendance.client.utils.GDLogUtils;
@@ -7,18 +9,16 @@ import com.goldendance.client.utils.GDLogUtils;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Authenticator;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Credentials;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.Route;
+
+import static android.os.Looper.getMainLooper;
 
 /**
  * 网络请求
@@ -26,17 +26,23 @@ import okhttp3.Route;
  */
 
 public class GDHttpManager {
+    //常数集
+    public static final int CODE200 = 200;
+
+
     private static final String TAG = GDHttpManager.class.getSimpleName();
 
     private static final String SCHEME = "http";
     private static final String HOST = "http://120.77.206.145";
     private static final String PORT = "80";
-
-    private static String BASE_URL = "http://120.77.206.145:8080/FirstBlood/";
+    private Handler mainHandler;
+    private static String BASE_URL = "http://120.77.206.145:8080/JinWuTuan/";
     private static GDHttpManager mInstance;
     private static OkHttpClient mOkHttpClient;
 
     private GDHttpManager() {
+        mainHandler = new Handler(Looper.getMainLooper());
+
         mOkHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new BasicAuthInterceptor("255648", "123456"))//auth认证
                 .connectTimeout(10, TimeUnit.SECONDS)//链接超时
@@ -68,8 +74,8 @@ public class GDHttpManager {
         return sb.append(BASE_URL).append(url).toString();
     }
 
-    private void get(String url, Map<String, String> params, final GDOnResponseHandler handler) {
-        call(url, params, handler);
+    private void get(String url, final GDOnResponseHandler handler) {
+        call(url, null, handler);
     }
 
     public static void doGet(String url, Map<String, String> params, final GDOnResponseHandler handler) {
@@ -85,7 +91,7 @@ public class GDHttpManager {
             sb.setCharAt(sb.length() - 1, ' ');
             url = sb.toString().trim();
         }
-        getInstance().get(url, params, handler);
+        getInstance().get(url, handler);
     }
 
     private void post(String url, Map<String, String> params, final GDOnResponseHandler handler) {
@@ -94,13 +100,15 @@ public class GDHttpManager {
 
     private void call(String url, Map<String, String> params, final GDOnResponseHandler handler) {
 
-        Request.Builder requestBuild = new Request.Builder().url("http://120.77.206.145:8080");
-//        Request.Builder requestBuild = new Request.Builder().url(getUrl(url));
+//        Request.Builder requestBuild = new Request.Builder().url("https://shaishufang.com/index.php/api2/account/isnew?fmt=json");
+        Request.Builder requestBuild = new Request.Builder().url(getUrl(url));
         if (params != null) {
             FormBody.Builder builder = new FormBody.Builder();
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 builder.add(entry.getKey(), entry.getValue());
             }
+
+            //一旦调用该句，则使用post请求，而忽略get请求
             requestBuild.post(builder.build());
         }
 
@@ -109,23 +117,36 @@ public class GDHttpManager {
 
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Call call, final IOException e) {
                 e.printStackTrace();
-                handler.onFailed(e);
-                handler.onEnd();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.onFailed(e);
+                        handler.onEnd();
+                    }
+                });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 GDLogUtils.i(TAG, response.toString());
+//                GDLogUtils.i(TAG, "code:" + response.code());
+//                GDLogUtils.i(TAG, "message:" + response.message());
+//                GDLogUtils.i(TAG, "headers:" + response.headers().toString());
+//                GDLogUtils.i(TAG, "body:" + response.body().toString());
+                final int code = response.code();
+                final String result = response.body().string();
 
-                GDLogUtils.i(TAG, "code:" + response.code());
-                GDLogUtils.i(TAG, "message:" + response.message());
-                GDLogUtils.i(TAG, "headers:" + response.headers().toString());
-                GDLogUtils.i(TAG, "body:" + response.body().toString());
-                GDLogUtils.i(TAG, "body string:" + response.body().string());
-//                handler.onSuccess(response.code(), response.body().string());
-                handler.onEnd();
+//                GDLogUtils.i(TAG, "body:" + result);
+                response.isSuccessful();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.onSuccess(code, result);
+                        handler.onEnd();
+                    }
+                });
             }
         });
     }
