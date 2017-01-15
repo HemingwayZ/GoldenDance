@@ -1,10 +1,15 @@
 package com.goldendance.client.register;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.home.HomeActivity;
 import com.goldendance.client.utils.GDLogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -35,21 +41,26 @@ import cz.msebera.android.httpclient.Header;
 public class RegisterFragment extends Fragment implements IRegisterContract.IView, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_ACTION = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final String ACTION_REGISTER = "doRegister";
+    public static final String ACTION_RESET_PEW = "reset_psw";
     private static final String TAG = RegisterFragment.class.getSimpleName();
     private IRegisterContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mAction;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private View pdLoading;
+    private ProgressDialog pdLoading;
     private EditText etMobile;
     private TextView tvMobileCode;
     private Timer timer;
     private EditText etMobileCode;
     private EditText etPassword;
+    private View ivClearMobile;
+    private View ivClearPassword;
+    private View ivClearMobileCode;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -59,15 +70,15 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param action Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment RegisterFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
+    public static RegisterFragment newInstance(String action, String param2) {
         RegisterFragment fragment = new RegisterFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_ACTION, action);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -77,7 +88,7 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mAction = getArguments().getString(ARG_ACTION);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -91,25 +102,86 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         return view;
     }
 
+    class MyTextWatcher implements TextWatcher {
+        View view;
+
+        public MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            int length = s.length();
+            if (length > 0) {
+                switch (view.getId()) {
+                    case R.id.etMobile:
+                        ivClearMobile.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.etMobileCode:
+                        ivClearMobileCode.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.etPassword:
+                        ivClearPassword.setVisibility(View.VISIBLE);
+                        break;
+                }
+            } else {
+                switch (view.getId()) {
+                    case R.id.etMobile:
+                        ivClearMobile.setVisibility(View.GONE);
+                        break;
+                    case R.id.etMobileCode:
+                        ivClearMobileCode.setVisibility(View.GONE);
+                        break;
+                    case R.id.etPassword:
+                        ivClearPassword.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        }
+    }
+
     private void initView(View view) {
         view.findViewById(R.id.tvSubmit).setOnClickListener(this);
+        //
+        etMobileCode = (EditText) view.findViewById(R.id.etMobileCode);
+        etPassword = (EditText) view.findViewById(R.id.etPassword);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
-        pdLoading = view.findViewById(R.id.pdLoading);
+        etMobile.addTextChangedListener(new MyTextWatcher(etMobile));
+        etMobileCode.addTextChangedListener(new MyTextWatcher(etMobileCode));
+        etPassword.addTextChangedListener(new MyTextWatcher(etPassword));
+        pdLoading = new ProgressDialog(getActivity());
+        pdLoading.setMessage(getString(R.string.is_loading));
 
         tvMobileCode = (TextView) view.findViewById(R.id.tvMobileCode);
         tvMobileCode.setOnClickListener(this);
 
-        //
-        etMobileCode = (EditText) view.findViewById(R.id.etMobileCode);
-        etPassword = (EditText) view.findViewById(R.id.etPassword);
 
         //
-        View ivClearMobile = view.findViewById(R.id.ivClearMobile);
-        View ivClearPassword = view.findViewById(R.id.ivClearPassword);
-        View ivClearMobileCode = view.findViewById(R.id.ivClearMobileCode);
+        ivClearMobile = view.findViewById(R.id.ivClearMobile);
+        ivClearPassword = view.findViewById(R.id.ivClearPassword);
+        ivClearMobileCode = view.findViewById(R.id.ivClearMobileCode);
         ivClearMobile.setOnClickListener(this);
         ivClearPassword.setOnClickListener(this);
         ivClearMobileCode.setOnClickListener(this);
+
+        ivClearMobileCode.setVisibility(View.GONE);
+        ivClearPassword.setVisibility(View.GONE);
+        ivClearMobile.setVisibility(View.GONE);
+
+        view.findViewById(R.id.ivBack).setOnClickListener(this);
+        view.findViewById(R.id.tvRegister).setOnClickListener(this);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -145,7 +217,7 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSubmit:
-//                testRegister();
+                mPresenter.doRegister();
                 break;
             case R.id.tvMobileCode:
                 mPresenter.getCode();
@@ -158,6 +230,10 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
                 break;
             case R.id.ivClearPassword:
                 etPassword.setText("");
+                break;
+            case R.id.tvRegister:
+            case R.id.ivBack:
+                getActivity().onBackPressed();
                 break;
         }
     }
@@ -179,17 +255,30 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
 
     @Override
     public void showProgress() {
-        pdLoading.setVisibility(View.VISIBLE);
+        pdLoading.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (pdLoading != null) {
+            pdLoading.dismiss();
+        }
+        super.onDestroyView();
     }
 
     @Override
     public void hideProgress() {
-        pdLoading.setVisibility(View.INVISIBLE);
+        pdLoading.hide();
     }
 
     @Override
     public String getMobile() {
         return etMobile.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return etPassword.getText().toString();
     }
 
     @Override
@@ -223,6 +312,7 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
                             isCounting = false;
                             tvMobileCode.setText(getString(R.string.get_mobile_code));
                             timer.cancel();
+                            timer = null;
                         }
                     }
                 });
@@ -230,12 +320,24 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         };
 
 
-        timer.schedule(task, 1000, 1000);
+        timer.schedule(task, 0, 1000);
     }
 
     @Override
     public boolean isCounting() {
         return isCounting;
+    }
+
+    @Override
+    public String getMobileCode() {
+        return etMobileCode.getText().toString();
+    }
+
+    @Override
+    public void registSucceed() {
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

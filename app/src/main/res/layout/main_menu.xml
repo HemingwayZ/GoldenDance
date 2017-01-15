@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="60dp"
     android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
+        android:gravity="bottom"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
@@ -61,6 +62,7 @@
         android:id="@+id/ivScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:button="@null"

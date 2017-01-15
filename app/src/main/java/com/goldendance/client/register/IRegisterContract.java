@@ -14,25 +14,27 @@ import com.goldendance.client.http.GDOnResponseHandler;
 
 public interface IRegisterContract {
 
-    interface IModel extends IBaseModel {
-        void getCode(String mobile, String type, GDOnResponseHandler handler);
-    }
 
     interface IPresenter extends IBasePresenter {
         void getCode();
+
+        void doRegister();
     }
 
     interface IView extends IBaseView<IPresenter> {
 
-        void showProgress();
-
-        void hideProgress();
-
         String getMobile();
 
-        void showToast(@StringRes int idStr,String msg);
+        String getPassword();
+
+        void showToast(@StringRes int idStr, String msg);
 
         void startCount();
+
         boolean isCounting();
+
+        String getMobileCode();
+
+        void registSucceed();
     }
 }

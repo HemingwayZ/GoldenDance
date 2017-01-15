@@ -138,11 +138,12 @@ public class GDHttpManager {
                 final int code = response.code();
                 final String result = response.body().string();
 
-//                GDLogUtils.i(TAG, "body:" + result);
+                GDLogUtils.i(TAG, "body:" + result);
                 response.isSuccessful();
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+
                         handler.onSuccess(code, result);
                         handler.onEnd();
                     }

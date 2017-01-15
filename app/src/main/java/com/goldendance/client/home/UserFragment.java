@@ -1,6 +1,7 @@
 package com.goldendance.client.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.goldendance.client.R;
+import com.goldendance.client.card.CardActivity;
+import com.goldendance.client.userinfo.UserInfoActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +21,7 @@ import com.goldendance.client.R;
  * Use the {@link UserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,7 +68,15 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        view.findViewById(R.id.llVip).setOnClickListener(this);
+        view.findViewById(R.id.llUserInfo).setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +101,21 @@ public class UserFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.llVip:
+                intent.setClass(getActivity(), CardActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.llUserInfo:
+                intent.setClass(getActivity(), UserInfoActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     /**

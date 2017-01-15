@@ -1,16 +1,26 @@
 package com.goldendance.client.login;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.register.RegisterActivity;
+import com.goldendance.client.utils.GDSharedPreference;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,17 +30,20 @@ import com.goldendance.client.register.RegisterActivity;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener, ILoginContract.IView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private ILoginContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private EditText etMobile;
+    private EditText etPassword;
+    private AlertDialog pbLoading;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -72,7 +85,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
-    view.findViewById(R.id.tvRegister).setOnClickListener(this);
+        view.findViewById(R.id.tvRegister).setOnClickListener(this);
+
+        view.findViewById(R.id.ivBack).setOnClickListener(this);
+
+        view.findViewById(R.id.tvForgetPsw).setOnClickListener(this);
+
+        etMobile = (EditText) view.findViewById(R.id.etMobile);
+        etPassword = (EditText) view.findViewById(R.id.etPassword);
+
+        view.findViewById(R.id.tvSubmit).setOnClickListener(this);
+
+        //
+        pbLoading = new ProgressDialog(getActivity());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -101,13 +126,62 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvRegister:
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.ivBack:
+                getActivity().onBackPressed();
+                break;
+            case R.id.tvSubmit:
+                mPresenter.getToken();
+                break;
         }
     }
+
+    @Override
+    public void setPresenter(ILoginContract.IPresenter iPresenter) {
+        this.mPresenter = iPresenter;
+    }
+
+    @Override
+    public void showProgress() {
+        pbLoading.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        pbLoading.cancel();
+    }
+
+    @Override
+    public String getMobile() {
+        return etMobile.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return etPassword.getText().toString();
+    }
+
+    @Override
+    public void showToast(@StringRes int idStr, String msg) {
+        Toast.makeText(getActivity(), String.format(Locale.getDefault(), getString(idStr), msg), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void saveToken(String tokens) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(GDSharedPreference.KEY_TOKEN, tokens);
+        boolean b = GDSharedPreference.storeValue(getActivity(), map);
+        if (!b) {
+            Toast.makeText(getActivity(), "save token failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        getActivity().onBackPressed();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -122,5 +196,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (pbLoading != null) {
+            pbLoading.dismiss();
+        }
+        super.onDestroyView();
     }
 }

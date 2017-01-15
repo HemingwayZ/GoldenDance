@@ -4,9 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.http.GDOnResponseHandler;
-import com.goldendance.client.register.RegisterModel;
+import com.goldendance.client.model.UserModel;
 import com.goldendance.client.utils.GDLogUtils;
 
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,7 +33,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testRegister() {
-        RegisterModel model = new RegisterModel();
+        UserModel model = new UserModel();
         model.getCode("18859662838", "0", new GDOnResponseHandler() {
             @Override
             public void onSuccess(int code, String json) {

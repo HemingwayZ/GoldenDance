@@ -13,8 +13,6 @@ public interface IResponseHandler {
 
     void onEnd();
 
-    void onSuccess(Response response);
-
     void onSuccess(int code, String json);
 
     void onFailed(IOException e);

@@ -1,4 +1,4 @@
-package com.goldendance.client.model;
+package com.goldendance.client.bean;
 
 import java.io.Serializable;
 

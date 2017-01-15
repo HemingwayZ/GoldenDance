@@ -19,9 +19,12 @@ public class RegisterActivity extends BaseActivity implements RegisterFragment.O
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_register);
+
+        String action = getIntent().getStringExtra("action");
+
         RegisterFragment fragment = (RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_register);
         if (fragment == null) {
-            fragment = RegisterFragment.newInstance("", "");
+            fragment = RegisterFragment.newInstance(action, "");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.activity_register, fragment);
             ft.commit();

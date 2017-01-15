@@ -22,6 +22,7 @@
                 android:background="@mipmap/register_head_bg" />
 
             <ImageView
+                android:id="@+id/ivBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -162,12 +163,6 @@
                 android:src="@mipmap/i_clear" />
         </FrameLayout>
 
-        <ProgressBar
-            android:id="@+id/pdLoading"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvSubmit"

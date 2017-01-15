@@ -1,5 +1,6 @@
 package com.goldendance.client.home;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
+import com.goldendance.client.qrcode.QRCodeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,8 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
             }
         });
 
+        View ivScan = findViewById(R.id.ivScan);
+        ivScan.setOnClickListener(this);
     }
 
     @Override
@@ -100,6 +105,10 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                     //用户页面
                     vpBody.setCurrentItem(1);
                 }
+                break;
+            case R.id.ivScan:
+                Intent intent = new Intent(this, QRCodeActivity.class);
+                startActivity(intent);
                 break;
         }
     }

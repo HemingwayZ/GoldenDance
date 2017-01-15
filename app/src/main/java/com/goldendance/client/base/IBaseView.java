@@ -6,4 +6,8 @@ package com.goldendance.client.base;
 
 public interface IBaseView<IBasePresenter> {
     void setPresenter(IBasePresenter presenter);
+
+    void showProgress();
+
+    void hideProgress();
 }

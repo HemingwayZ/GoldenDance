@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.goldendance.client.R;
+import com.goldendance.client.card.CardActivity;
+import com.goldendance.client.course.CourseActivity;
 import com.goldendance.client.login.LoginActivity;
 
 /**
@@ -112,17 +114,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        gotoLogin();
+
         switch (v.getId()) {
             case R.id.ivAvatar:
+                gotoLogin();
                 break;
             case R.id.tvClass:
+                gotoCourse();
                 break;
             case R.id.tvOneToOne:
+                gotoCourse();
                 break;
             case R.id.tvVIP:
+//                gotoCourse();
+                Intent intent = new Intent(getActivity(), CardActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tvMyCourse:
+                gotoCourse();
                 break;
         }
     }
@@ -130,6 +139,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void gotoLogin() {
         Intent intent = new Intent();
         intent.setClass(getActivity(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoCourse() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), CourseActivity.class);
         startActivity(intent);
     }
 

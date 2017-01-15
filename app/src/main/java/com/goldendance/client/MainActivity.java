@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
 
-//        EventBus.getDefault().register(getActionBar());
+//        EventBus.getDefault().doRegister(getActionBar());
         findViewById(R.id.btnCrash).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,14 +139,11 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(Response response) {
-                try {
-                    GDLogUtils.d(TAG, "body:" + response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                super.onSuccess(response);
+            public void onSuccess(int code, String json) {
+                GDLogUtils.d(TAG, "body:" + json);
+                super.onSuccess(code, json);
             }
+
 
             @Override
             public void onFailed(IOException e) {

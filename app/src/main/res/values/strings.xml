@@ -15,10 +15,14 @@
     <string name="search_course">请输入课程名称或教练姓名</string>
 
     <!--数据异常类-->
+    <string name="network_error">网络异常:%1$s</string>
     <string name="json_parse_error">数据解析异常:%1$s</string>
     <string name="mobile_length_limit">请输入11位的手机号</string>
+    <string name="password_length_limit">请输入不小于六位数的密码</string>
+    <string name="mobile_code_empty">请输入验证码</string>
     <string name="empty_msg">%1$s</string>
     <string name="time_count">剩余%1$d秒</string>
     <string name="get_mobile_code">获取验证码</string>
     <string name="try_after_60s">请60秒后再发送验证码</string>
+    <string name="is_loading">加载中...</string>
 </resources>
