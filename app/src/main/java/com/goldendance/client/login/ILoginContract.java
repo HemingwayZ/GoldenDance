@@ -23,6 +23,6 @@ public interface ILoginContract {
 
         void showToast(@StringRes int idStr, String msg);
 
-        void saveToken(String tokens);
+        void loginSuccess(String tokens);
     }
 }

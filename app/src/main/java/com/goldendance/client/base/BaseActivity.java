@@ -28,8 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void initIntent() {
     }
 
-    ;
-
     public abstract void initView(Bundle savedInstanceState);
 
 

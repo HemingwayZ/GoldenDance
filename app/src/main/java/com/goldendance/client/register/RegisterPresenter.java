@@ -3,6 +3,7 @@ package com.goldendance.client.register;
 import android.text.TextUtils;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.UserBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.bean.DataResultBean;
@@ -128,23 +129,29 @@ public class RegisterPresenter implements IRegisterContract.IPresenter {
                     mView.showToast(R.string.network_error, String.valueOf(code));
                     return;
                 }
-                DataResultBean<RegistResultBean> data = JsonUtils.fromJson(json, new TypeToken<DataResultBean<RegistResultBean>>() {
+                DataResultBean<UserBean> data = JsonUtils.fromJson(json, new TypeToken<DataResultBean<UserBean>>() {
                 });
                 if (data == null) {
                     mView.showToast(R.string.json_parse_error, json);
                     return;
                 }
+
                 if (GDHttpManager.CODE200 != data.getCode()) {
                     mView.showToast(R.string.empty_msg, String.valueOf(data.getCode()) + ":" + data.getMessage());
                     return;
                 }
+                UserBean user = data.getData();
+                if (user == null) {
+                    mView.showToast(R.string.empty_msg, "data is empty");
+                    return;
+                }
+                GDHttpManager.token = user.getTokenid();
                 //请求成功
-                mView.showToast(R.string.empty_msg, data.getMessage());
+                mView.showToast(R.string.empty_msg, data.getMessage() + GDHttpManager.token);
                 mView.registSucceed();
                 super.onSuccess(code, json);
             }
         });
-
     }
 
     @Override

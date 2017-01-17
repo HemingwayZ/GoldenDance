@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.register.RegisterActivity;
+import com.goldendance.client.utils.GDLogUtils;
 import com.goldendance.client.utils.GDSharedPreference;
 
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private ILoginContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,7 +96,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
-
+        etMobile.addTextChangedListener(new MyTextWatcher(etMobile, view.findViewById(R.id.ivClearMobile)));
+        etPassword.addTextChangedListener(new MyTextWatcher(etMobile, view.findViewById(R.id.ivClearPassword)));
         view.findViewById(R.id.tvSubmit).setOnClickListener(this);
 
         //
@@ -171,7 +175,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
     }
 
     @Override
-    public void saveToken(String tokens) {
+    public void loginSuccess(String tokens) {
+        GDLogUtils.i(TAG, "tokens:" + tokens);
         Map<String, Object> map = new HashMap<>();
         map.put(GDSharedPreference.KEY_TOKEN, tokens);
         boolean b = GDSharedPreference.storeValue(getActivity(), map);

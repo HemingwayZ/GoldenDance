@@ -15,7 +15,18 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
+import com.goldendance.client.bean.DataResultBean;
+import com.goldendance.client.bean.User;
+import com.goldendance.client.bean.UserBean;
+import com.goldendance.client.http.GDHttpManager;
+import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.model.IUserModel;
+import com.goldendance.client.model.UserModel;
 import com.goldendance.client.qrcode.QRCodeActivity;
+import com.goldendance.client.utils.GDLogUtils;
+import com.goldendance.client.utils.GDSharedPreference;
+import com.goldendance.client.utils.JsonUtils;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +34,7 @@ import java.util.List;
 public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, View.OnClickListener {
 
 
+    private static final String TAG = HomeActivity.class.getSimpleName();
     private ViewPager vpBody;
     private RadioButton menuUser;
     private RadioButton menuHome;
@@ -30,6 +42,7 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_home);
+        getUserInfo();
         //用户页面
         UserFragment userFragment = UserFragment.newInstance("", "");
         //首页
@@ -38,7 +51,6 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         List<Fragment> mList = new ArrayList<>();
         mList.add(homeFragment);
         mList.add(userFragment);
-
         //底部按钮
         menuUser = (RadioButton) findViewById(R.id.rbMenuUser);
         menuUser.setChecked(false);
@@ -77,6 +89,36 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
 
         View ivScan = findViewById(R.id.ivScan);
         ivScan.setOnClickListener(this);
+    }
+
+    private void getUserInfo() {
+        IUserModel user = new UserModel();
+        String token = (String) GDSharedPreference.get(this, GDSharedPreference.KEY_TOKEN, "");
+        GDLogUtils.i(TAG, "token:" + token);
+        GDHttpManager.token = token;
+        user.getUserInfo(null, token, new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                GDLogUtils.i(TAG, "json:" + json);
+                if (GDHttpManager.CODE200 != code) {
+                    Toast.makeText(HomeActivity.this, "code:" + code, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DataResultBean<UserBean> data = JsonUtils.fromJson(json, new TypeToken<DataResultBean<UserBean>>() {
+                });
+                if (data == null) {
+                    Toast.makeText(HomeActivity.this, "data parse error code:" + code, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (GDHttpManager.CODE200 != data.getCode()) {
+                    Toast.makeText(HomeActivity.this, data.getCode() + ":" + data.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                UserBean user = data.getData();
+                User.setUser(user);
+                super.onSuccess(code, json);
+            }
+        });
     }
 
     @Override

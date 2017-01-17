@@ -4,9 +4,7 @@ import android.text.TextUtils;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.DataResultBean;
-import com.goldendance.client.bean.RegistResultBean;
 import com.goldendance.client.bean.TokenBean;
-import com.goldendance.client.bean.TokenDataBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.IUserModel;
@@ -78,7 +76,7 @@ public class LoginPresenter implements ILoginContract.IPresenter {
                     return;
                 }
                 mView.showToast(R.string.empty_msg, tokenid);
-                mView.saveToken(tokenid);
+                mView.loginSuccess(tokenid);
                 super.onSuccess(code, json);
             }
         });

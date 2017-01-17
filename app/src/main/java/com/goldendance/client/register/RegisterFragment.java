@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.home.HomeActivity;
+import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.utils.GDLogUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -102,81 +103,81 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         return view;
     }
 
-    class MyTextWatcher implements TextWatcher {
-        View view;
-
-        public MyTextWatcher(View view) {
-            this.view = view;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            int length = s.length();
-            if (length > 0) {
-                switch (view.getId()) {
-                    case R.id.etMobile:
-                        ivClearMobile.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.etMobileCode:
-                        ivClearMobileCode.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.etPassword:
-                        ivClearPassword.setVisibility(View.VISIBLE);
-                        break;
-                }
-            } else {
-                switch (view.getId()) {
-                    case R.id.etMobile:
-                        ivClearMobile.setVisibility(View.GONE);
-                        break;
-                    case R.id.etMobileCode:
-                        ivClearMobileCode.setVisibility(View.GONE);
-                        break;
-                    case R.id.etPassword:
-                        ivClearPassword.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        }
-    }
+//    private class MyTextWatcher implements TextWatcher {
+//        View view;
+//
+//        public MyTextWatcher(View view) {
+//            this.view = view;
+//        }
+//
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//            int length = s.length();
+//            if (length > 0) {
+//                switch (view.getId()) {
+//                    case R.id.etMobile:
+//                        ivClearMobile.setVisibility(View.VISIBLE);
+//                        break;
+//                    case R.id.etMobileCode:
+//                        ivClearMobileCode.setVisibility(View.VISIBLE);
+//                        break;
+//                    case R.id.etPassword:
+//                        ivClearPassword.setVisibility(View.VISIBLE);
+//                        break;
+//                }
+//            } else {
+//                switch (view.getId()) {
+//                    case R.id.etMobile:
+//                        ivClearMobile.setVisibility(View.GONE);
+//                        break;
+//                    case R.id.etMobileCode:
+//                        ivClearMobileCode.setVisibility(View.GONE);
+//                        break;
+//                    case R.id.etPassword:
+//                        ivClearPassword.setVisibility(View.GONE);
+//                        break;
+//                }
+//            }
+//        }
+//    }
 
     private void initView(View view) {
         view.findViewById(R.id.tvSubmit).setOnClickListener(this);
+
+        //
+        ivClearMobile = view.findViewById(R.id.ivClearMobile);
+        ivClearPassword = view.findViewById(R.id.ivClearPassword);
+        ivClearMobileCode = view.findViewById(R.id.ivClearMobileCode);
+//        ivClearMobile.setOnClickListener(this);
+//        ivClearPassword.setOnClickListener(this);
+//        ivClearMobileCode.setOnClickListener(this);
+
+        ivClearMobileCode.setVisibility(View.GONE);
+        ivClearPassword.setVisibility(View.GONE);
+        ivClearMobile.setVisibility(View.GONE);
         //
         etMobileCode = (EditText) view.findViewById(R.id.etMobileCode);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
-        etMobile.addTextChangedListener(new MyTextWatcher(etMobile));
-        etMobileCode.addTextChangedListener(new MyTextWatcher(etMobileCode));
-        etPassword.addTextChangedListener(new MyTextWatcher(etPassword));
+        etMobile.addTextChangedListener(new MyTextWatcher(etMobile, ivClearMobile));
+        etMobileCode.addTextChangedListener(new MyTextWatcher(etMobileCode, ivClearMobileCode));
+        etPassword.addTextChangedListener(new MyTextWatcher(etPassword, ivClearPassword));
         pdLoading = new ProgressDialog(getActivity());
         pdLoading.setMessage(getString(R.string.is_loading));
 
         tvMobileCode = (TextView) view.findViewById(R.id.tvMobileCode);
         tvMobileCode.setOnClickListener(this);
 
-
-        //
-        ivClearMobile = view.findViewById(R.id.ivClearMobile);
-        ivClearPassword = view.findViewById(R.id.ivClearPassword);
-        ivClearMobileCode = view.findViewById(R.id.ivClearMobileCode);
-        ivClearMobile.setOnClickListener(this);
-        ivClearPassword.setOnClickListener(this);
-        ivClearMobileCode.setOnClickListener(this);
-
-        ivClearMobileCode.setVisibility(View.GONE);
-        ivClearPassword.setVisibility(View.GONE);
-        ivClearMobile.setVisibility(View.GONE);
 
         view.findViewById(R.id.ivBack).setOnClickListener(this);
         view.findViewById(R.id.tvRegister).setOnClickListener(this);

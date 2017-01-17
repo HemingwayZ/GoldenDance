@@ -28,7 +28,7 @@ import static android.os.Looper.getMainLooper;
 public class GDHttpManager {
     //常数集
     public static final int CODE200 = 200;
-
+    public static String token = "";
 
     private static final String TAG = GDHttpManager.class.getSimpleName();
 
@@ -80,6 +80,7 @@ public class GDHttpManager {
 
     public static void doGet(String url, Map<String, String> params, final GDOnResponseHandler handler) {
         if (params != null && !params.isEmpty()) {
+            params.put("tokenid", token);
             StringBuffer sb = new StringBuffer(url);
             sb.append("?");
             Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
@@ -103,6 +104,7 @@ public class GDHttpManager {
 //        Request.Builder requestBuild = new Request.Builder().url("https://shaishufang.com/index.php/api2/account/isnew?fmt=json");
         Request.Builder requestBuild = new Request.Builder().url(getUrl(url));
         if (params != null) {
+            params.put("tokenid", token);
             FormBody.Builder builder = new FormBody.Builder();
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 builder.add(entry.getKey(), entry.getValue());

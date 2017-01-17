@@ -46,6 +46,13 @@ public class UserModel implements IUserModel {
 
     @Override
     public void getUserInfo(String userId, String tokenid, GDOnResponseHandler handler) {
-
+        String url = "getUserMessage";
+        Map<String, String> params = new HashMap<>();
+        if (userId != null) {
+            //获取用户个人资料
+            params.put("userid", userId);
+        }
+        params.put("tokenid", tokenid);
+        GDHttpManager.doGet(url, params, handler);
     }
 }

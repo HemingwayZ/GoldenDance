@@ -63,11 +63,13 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/ivClearMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
-                android:src="@mipmap/i_clear" />
+                android:src="@mipmap/i_clear"
+                android:visibility="gone" />
         </FrameLayout>
         <!--密码-->
         <FrameLayout
@@ -97,11 +99,13 @@
                 android:inputType="textPassword" />
 
             <ImageView
+                android:id="@+id/ivClearPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
                 android:padding="10dp"
-                android:src="@mipmap/i_clear" />
+                android:src="@mipmap/i_clear"
+                android:visibility="gone" />
         </FrameLayout>
 
         <TextView

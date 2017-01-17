@@ -7,14 +7,22 @@ import java.io.Serializable;
  */
 
 public class UserBean implements Serializable {
-    String tel;
-    String icon;//头像
-    String defoulttime;
-    int points;
-    String cardname;
-    String token;
-    String tokenovertime;
-    String signature;
+    private String tel;
+    private String icon;//头像
+    private String defoulttime;
+    private int points;
+    private String cardname;
+    private String tokenid;
+    private String tokenovertime;
+    private String signature;
+
+    public String getTokenid() {
+        return tokenid;
+    }
+
+    public void setTokenid(String tokenid) {
+        this.tokenid = tokenid;
+    }
 
     public String getTel() {
         return tel;
@@ -56,13 +64,6 @@ public class UserBean implements Serializable {
         this.cardname = cardname;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 
     public String getTokenovertime() {
         return tokenovertime;
