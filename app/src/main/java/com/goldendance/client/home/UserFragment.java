@@ -1,17 +1,21 @@
 package com.goldendance.client.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
 import com.goldendance.client.userinfo.UserInfoActivity;
+import com.goldendance.client.utils.GDSharedPreference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,6 +81,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         view.findViewById(R.id.llVip).setOnClickListener(this);
         view.findViewById(R.id.llUserInfo).setOnClickListener(this);
+        view.findViewById(R.id.llLogOut).setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -115,7 +120,29 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 intent.setClass(getActivity(), UserInfoActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.llLogOut:
+                logOut();
+                break;
         }
+    }
+
+    private void logOut() {
+        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+        ab.setMessage("是否要注销账号？");
+        ab.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                GDSharedPreference.remove(getActivity(), GDSharedPreference.KEY_TOKEN);
+                User.logOut();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+
     }
 
     /**

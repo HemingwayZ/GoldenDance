@@ -106,7 +106,6 @@ public class UserInfoFragment extends Fragment implements IUserInfoContract.IVie
 
     @Override
     public void showProgress() {
-
     }
 
     @Override

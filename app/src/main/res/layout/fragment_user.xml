@@ -249,6 +249,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llLogOut"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginBottom="36dp"
