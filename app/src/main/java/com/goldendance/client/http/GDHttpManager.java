@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import com.goldendance.client.bean.User;
 import com.goldendance.client.utils.GDLogUtils;
 
 import java.io.IOException;
@@ -28,8 +29,8 @@ import static android.os.Looper.getMainLooper;
 public class GDHttpManager {
     //常数集
     public static final int CODE200 = 200;
-    public static String token = "";
-
+    private static final String METHOD_POST = "post";
+    private static final String METHOD_GET = "get";
     private static final String TAG = GDHttpManager.class.getSimpleName();
 
     private static final String SCHEME = "http";
@@ -75,12 +76,12 @@ public class GDHttpManager {
     }
 
     private void get(String url, final GDOnResponseHandler handler) {
-        call(url, null, handler);
+        call(METHOD_GET, url, null, handler);
     }
 
     public static void doGet(String url, Map<String, String> params, final GDOnResponseHandler handler) {
         if (params != null && !params.isEmpty()) {
-            params.put("tokenid", token);
+            params.put("tokenid", User.tokenid);
             StringBuffer sb = new StringBuffer(url);
             sb.append("?");
             Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
@@ -96,21 +97,22 @@ public class GDHttpManager {
     }
 
     private void post(String url, Map<String, String> params, final GDOnResponseHandler handler) {
-        call(url, params, handler);
+        call(METHOD_POST, url, params, handler);
     }
 
-    private void call(String url, Map<String, String> params, final GDOnResponseHandler handler) {
+    private void call(String method, String url, Map<String, String> params, final GDOnResponseHandler handler) {
 
 //        Request.Builder requestBuild = new Request.Builder().url("https://shaishufang.com/index.php/api2/account/isnew?fmt=json");
         Request.Builder requestBuild = new Request.Builder().url(getUrl(url));
-        if (params != null) {
-            params.put("tokenid", token);
+        if (METHOD_POST.equals(method)) {
             FormBody.Builder builder = new FormBody.Builder();
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                builder.add(entry.getKey(), entry.getValue());
+            if (params != null) {
+                params.put("tokenid", User.tokenid == null ? "" : User.tokenid);
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    builder.add(entry.getKey(), entry.getValue());
+                }
+                //一旦调用该句，则使用post请求，而忽略get请求
             }
-
-            //一旦调用该句，则使用post请求，而忽略get请求
             requestBuild.post(builder.build());
         }
 

@@ -7,7 +7,7 @@ import com.goldendance.client.base.IBaseView;
  * Created by hemingway on 2017/1/17.
  */
 
-public interface IUserInfoContract {
+public interface IUpdateUserInfoContract {
     interface IPresenter extends IBasePresenter {
         void updateIcon(String iconBase64);
 

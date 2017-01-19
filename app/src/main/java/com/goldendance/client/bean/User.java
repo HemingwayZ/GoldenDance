@@ -16,12 +16,17 @@ public class User {
     public static String tokenid;
     public static String tokenovertime;
     public static String signature;
+    public static String name;
+    public static String inserttime;
+    public static String gender;
 
     public static void setUser(UserBean userBean) {
         if (userBean == null) {
             return;
         }
         tel = userBean.getTel();
+        inserttime = userBean.getInserttime();
+        gender = userBean.getGender();
         icon = userBean.getIcon();
         defoulttime = userBean.getDefoulttime();
         points = userBean.getPoints();
@@ -29,6 +34,7 @@ public class User {
         tokenid = userBean.getTokenid();
         tokenovertime = userBean.getTokenovertime();
         signature = userBean.getSignature();
+        name = userBean.getName();
     }
 
     public static void logOut() {
@@ -40,6 +46,7 @@ public class User {
         tokenid = null;
         signature = null;
         tokenovertime = null;
-        GDHttpManager.token = "";
+        name = null;
+        inserttime = null;
     }
 }

@@ -13,24 +13,24 @@ import com.goldendance.client.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserInfoFragment.OnFragmentInteractionListener} interface
+ * {@link UpdateUserInfoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserInfoFragment#newInstance} factory method to
+ * Use the {@link UpdateUserInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserInfoFragment extends Fragment implements IUserInfoContract.IView, View.OnClickListener {
+public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoContract.IView, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_ACTION = "action";
     private static final String ARG_PARAM2 = "param2";
-    private IUserInfoContract.IPresenter mPresenter;
+    private IUpdateUserInfoContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String action;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public UserInfoFragment() {
+    public UpdateUserInfoFragment() {
         // Required empty public constructor
     }
 
@@ -40,13 +40,13 @@ public class UserInfoFragment extends Fragment implements IUserInfoContract.IVie
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserInfoFragment.
+     * @return A new instance of fragment UpdateUserInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserInfoFragment newInstance(String param1, String param2) {
-        UserInfoFragment fragment = new UserInfoFragment();
+    public static UpdateUserInfoFragment newInstance(String param1, String param2) {
+        UpdateUserInfoFragment fragment = new UpdateUserInfoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_ACTION, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -56,7 +56,7 @@ public class UserInfoFragment extends Fragment implements IUserInfoContract.IVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            action = getArguments().getString(ARG_ACTION);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -71,7 +71,7 @@ public class UserInfoFragment extends Fragment implements IUserInfoContract.IVie
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.ivBack).setOnClickListener(this);
+//        view.findViewById(R.id.ivBack).setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -100,7 +100,7 @@ public class UserInfoFragment extends Fragment implements IUserInfoContract.IVie
 
 
     @Override
-    public void setPresenter(IUserInfoContract.IPresenter iPresenter) {
+    public void setPresenter(IUpdateUserInfoContract.IPresenter iPresenter) {
         this.mPresenter = iPresenter;
     }
 

@@ -18,6 +18,8 @@ import com.goldendance.client.course.CourseActivity;
 import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.userinfo.UserInfoActivity;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -139,17 +141,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private static final int REQUEST_LOGIN = 1000;
+
     private void gotoLogin() {
         Intent intent = new Intent();
         if (TextUtils.isEmpty(User.tokenid)) {
             intent.setClass(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_LOGIN);
         } else {
             intent.setClass(getActivity(), UserInfoActivity.class);
             startActivity(intent);
         }
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_LOGIN:
+                if (resultCode == RESULT_OK) {
+                    if (getActivity() instanceof HomeActivity) {
+                        ((HomeActivity) getActivity()).getUserInfo();
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void gotoCourse() {

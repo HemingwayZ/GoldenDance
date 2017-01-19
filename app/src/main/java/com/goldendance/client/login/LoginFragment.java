@@ -1,5 +1,6 @@
 package com.goldendance.client.login;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -184,6 +185,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
             Toast.makeText(getActivity(), "save token failed", Toast.LENGTH_SHORT).show();
             return;
         }
+        getActivity().setResult(Activity.RESULT_OK);
         getActivity().onBackPressed();
     }
 

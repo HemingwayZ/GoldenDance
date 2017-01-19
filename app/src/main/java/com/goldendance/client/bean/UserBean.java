@@ -7,7 +7,9 @@ import java.io.Serializable;
  */
 
 public class UserBean implements Serializable {
+    private String userid;
     private String tel;
+    private String gender;
     private String icon;//头像
     private String defoulttime;
     private int points;
@@ -15,6 +17,40 @@ public class UserBean implements Serializable {
     private String tokenid;
     private String tokenovertime;
     private String signature;
+    private String name;
+    private String inserttime;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getInserttime() {
+        return inserttime;
+    }
+
+    public void setInserttime(String inserttime) {
+        this.inserttime = inserttime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getTokenid() {
         return tokenid;

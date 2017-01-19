@@ -7,11 +7,11 @@ import com.goldendance.client.model.UserModel;
  * Created by hemingway on 2017/1/17.
  */
 
-public class UserInfoPresenter implements IUserInfoContract.IPresenter {
-    IUserInfoContract.IView mView;
+public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresenter {
+    IUpdateUserInfoContract.IView mView;
     IUserModel mModel;
 
-    public UserInfoPresenter(IUserInfoContract.IView mView) {
+    public UpdateUserInfoPresenter(IUpdateUserInfoContract.IView mView) {
         this.mView = mView;
         this.mView.setPresenter(this);
         mModel = new UserModel();

@@ -3,6 +3,7 @@ package com.goldendance.client.register;
 import android.text.TextUtils;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.User;
 import com.goldendance.client.bean.UserBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
@@ -145,9 +146,9 @@ public class RegisterPresenter implements IRegisterContract.IPresenter {
                     mView.showToast(R.string.empty_msg, "data is empty");
                     return;
                 }
-                GDHttpManager.token = user.getTokenid();
+                User.tokenid = user.getTokenid();
                 //请求成功
-                mView.showToast(R.string.empty_msg, data.getMessage() + GDHttpManager.token);
+                mView.showToast(R.string.empty_msg, data.getMessage() + User.tokenid);
                 mView.registSucceed();
                 super.onSuccess(code, json);
             }

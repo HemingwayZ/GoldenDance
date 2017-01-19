@@ -91,11 +91,11 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         ivScan.setOnClickListener(this);
     }
 
-    private void getUserInfo() {
+    public void getUserInfo() {
         IUserModel user = new UserModel();
         String token = (String) GDSharedPreference.get(this, GDSharedPreference.KEY_TOKEN, "");
         GDLogUtils.i(TAG, "token:" + token);
-        GDHttpManager.token = token;
+        User.tokenid = token;
         user.getUserInfo(null, token, new GDOnResponseHandler() {
             @Override
             public void onSuccess(int code, String json) {
@@ -112,10 +112,16 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                 }
                 if (GDHttpManager.CODE200 != data.getCode()) {
                     Toast.makeText(HomeActivity.this, data.getCode() + ":" + data.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (500 == data.getCode()) {
+                        //token错误
+                        GDSharedPreference.remove(HomeActivity.this, GDSharedPreference.KEY_TOKEN);
+                        User.tokenid = "";
+                    }
                     return;
                 }
                 UserBean user = data.getData();
                 User.setUser(user);
+                Toast.makeText(HomeActivity.this, User.name + " 登录成功", Toast.LENGTH_LONG).show();
                 super.onSuccess(code, json);
             }
         });

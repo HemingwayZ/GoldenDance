@@ -20,3 +20,4 @@
 -keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
 *;
 }
+
