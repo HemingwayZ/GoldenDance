@@ -1,16 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_user_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:id="@+id/fragment_user_info"
     android:orientation="vertical"
     tools:context="com.goldendance.client.userinfo.UpdateUserInfoFragment">
+
     <!--  android:layoutAnimation="@anim/dialog_up" -->
     <LinearLayout
+        android:id="@+id/llBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llBottom"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="#f1f1f1"
         android:orientation="vertical">
@@ -21,6 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -33,6 +36,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -40,6 +44,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/etUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -49,12 +54,14 @@
                 android:hint="请输入..."
                 android:maxLines="1"
                 android:paddingBottom="16dp"
+
                 android:paddingTop="16dp"
                 android:textColor="#333333"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llOption1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -74,6 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llOption2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -93,6 +101,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -111,4 +120,10 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+
+    <View
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llBottom" />
+</RelativeLayout>

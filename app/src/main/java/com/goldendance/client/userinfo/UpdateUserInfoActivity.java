@@ -53,7 +53,7 @@ public class UpdateUserInfoActivity extends BaseActivity implements UpdateUserIn
 //        });
 //        animation.start();
         super.onBackPressed();
-        overridePendingTransition(0, android.R.anim.fade_out);
+        overridePendingTransition(0, R.anim.top_down);
     }
 
     @Override

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.goldendance.client.R;
 
@@ -29,6 +32,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private EditText etUser;
 
     public UpdateUserInfoFragment() {
         // Required empty public constructor
@@ -71,7 +75,60 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void initView(View view) {
-//        view.findViewById(R.id.ivBack).setOnClickListener(this);
+        view.findViewById(R.id.llCancel).setOnClickListener(this);
+        view.findViewById(R.id.cancel).setOnClickListener(this);
+
+        switch (action) {
+            case UserInfoActivity.ACTION_USERNAME:
+                initEditUserName(view);
+                break;
+            case UserInfoActivity.ACTION_PSW:
+                initEditPSW(view);
+                break;
+            case UserInfoActivity.ACTION_GENDER:
+                initChoiceGender(view);
+                break;
+            case UserInfoActivity.ACTION_ICON:
+                initChoiceIcon(view);
+                break;
+        }
+
+    }
+
+    private void initChoiceIcon(View view) {
+        initTitle(view, "选择头像");
+        view.findViewById(R.id.llEdit).setVisibility(View.GONE);
+    }
+
+    private void initChoiceGender(View view) {
+        initTitle(view, "选择性别");
+        view.findViewById(R.id.llEdit).setVisibility(View.GONE);
+    }
+
+    private void initEditPSW(View view) {
+        initTitle(view, "修改密码");
+        view.findViewById(R.id.llOption1).setVisibility(View.GONE);
+        view.findViewById(R.id.llOption2).setVisibility(View.GONE);
+        etUser = (EditText) view.findViewById(R.id.etUser);
+        etUser.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    }
+
+    /**
+     * 修改用户名
+     *
+     * @param view
+     */
+    private void initEditUserName(View view) {
+        initTitle(view, "修改昵称");
+        view.findViewById(R.id.llOption1).setVisibility(View.GONE);
+        view.findViewById(R.id.llOption2).setVisibility(View.GONE);
+        etUser = (EditText) view.findViewById(R.id.etUser);
+    }
+
+
+    private void initTitle(View view, String title) {
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,7 +173,8 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ivBack:
+            case R.id.llCancel:
+            case R.id.cancel:
                 getActivity().onBackPressed();
                 break;
         }
