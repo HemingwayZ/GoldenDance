@@ -42,6 +42,7 @@ public class LoginPresenter implements ILoginContract.IPresenter {
         String mobile = mView.getMobile();
         String password = mView.getPassword();
         password = GDTextUtils.getMD5(password);
+        mView.showProgress();
         mModel.getToken(mobile, password, new GDOnResponseHandler() {
             @Override
             public void onEnd() {

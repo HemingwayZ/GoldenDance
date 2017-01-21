@@ -19,6 +19,7 @@ public class User {
     public static String name;
     public static String inserttime;
     public static String gender;
+    public static String userid;
 
     public static void setUser(UserBean userBean) {
         if (userBean == null) {
@@ -35,6 +36,7 @@ public class User {
         tokenovertime = userBean.getTokenovertime();
         signature = userBean.getSignature();
         name = userBean.getName();
+        userid = userBean.getUserid();
     }
 
     public static void logOut() {

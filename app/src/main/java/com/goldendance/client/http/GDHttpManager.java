@@ -80,18 +80,20 @@ public class GDHttpManager {
     }
 
     public static void doGet(String url, Map<String, String> params, final GDOnResponseHandler handler) {
-        if (params != null && !params.isEmpty()) {
-            params.put("tokenid", User.tokenid);
-            StringBuffer sb = new StringBuffer(url);
-            sb.append("?");
-            Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, String> next = iterator.next();
-                sb.append(next.getKey()).append("=").append(next.getValue()).append("&");
+        if (params != null) {
+            if (!TextUtils.isEmpty(User.tokenid)) {
+                params.put("tokenid", User.tokenid);
             }
-            //去除最后一个&符号
-            sb.setCharAt(sb.length() - 1, ' ');
-            url = sb.toString().trim();
+            if (!params.isEmpty()) {
+                StringBuilder sb = new StringBuilder(url);
+                sb.append("?");
+                for (Map.Entry<String, String> next : params.entrySet()) {
+                    sb.append(next.getKey()).append("=").append(next.getValue()).append("&");
+                }
+                //去除最后一个&符号
+                sb.setCharAt(sb.length() - 1, ' ');
+                url = sb.toString().trim();
+            }
         }
         getInstance().get(url, handler);
     }
@@ -143,7 +145,7 @@ public class GDHttpManager {
                 final String result = response.body().string();
 
                 GDLogUtils.i(TAG, "body:" + result);
-                response.isSuccessful();
+                boolean successful = response.isSuccessful();
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {

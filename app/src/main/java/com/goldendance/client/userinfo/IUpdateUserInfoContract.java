@@ -9,17 +9,21 @@ import com.goldendance.client.base.IBaseView;
 
 public interface IUpdateUserInfoContract {
     interface IPresenter extends IBasePresenter {
-        void updateIcon(String iconBase64);
 
-        void updateUsername(String username);
+        void confirm();
 
-        void updateSex(String sex);
-
-        void updatePassword(String md5Psw);
 
     }
 
     interface IView extends IBaseView<IPresenter> {
+        String getAction();
 
+        String getEditText();
+
+        void showMsg(String msg);
+
+        void updateSuccess(String key, String value);
+
+        String getGender();
     }
 }

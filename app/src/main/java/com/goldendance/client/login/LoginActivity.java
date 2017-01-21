@@ -18,7 +18,7 @@ public class LoginActivity extends BaseActivity implements LoginFragment.OnFragm
             fragment = LoginFragment.newInstance("", "");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.activity_login, fragment);
-            ft.commit();
+            ft.commitAllowingStateLoss();
         }
         new LoginPresenter(fragment);
     }

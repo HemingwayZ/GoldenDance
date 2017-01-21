@@ -1,8 +1,11 @@
 package com.goldendance.client.userinfo;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -10,8 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.User;
+import com.goldendance.client.utils.GDImageUtils;
+import com.goldendance.client.utils.GDLogUtils;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +35,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_ACTION = "action";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = UpdateUserInfoFragment.class.getSimpleName();
     private IUpdateUserInfoContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
     private String action;
@@ -33,6 +43,9 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     private OnFragmentInteractionListener mListener;
     private EditText etUser;
+    private AlertDialog pdLoading;
+    private TextView tvChoice1;
+    private TextView tvChoice2;
 
     public UpdateUserInfoFragment() {
         // Required empty public constructor
@@ -75,6 +88,9 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void initView(View view) {
+        //进度条
+        pdLoading = new AlertDialog.Builder(getActivity()).create();
+        pdLoading.setMessage("修改中...");
         view.findViewById(R.id.llCancel).setOnClickListener(this);
         view.findViewById(R.id.cancel).setOnClickListener(this);
 
@@ -98,11 +114,49 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     private void initChoiceIcon(View view) {
         initTitle(view, "选择头像");
         view.findViewById(R.id.llEdit).setVisibility(View.GONE);
+        view.findViewById(R.id.llEdit).setVisibility(View.GONE);
+
+        view.findViewById(R.id.llOption1).setOnClickListener(this);
+        view.findViewById(R.id.llOption2).setOnClickListener(this);
+
+        view.findViewById(R.id.llCancel).setOnClickListener(this);
+
+        tvChoice1 = (TextView) view.findViewById(R.id.tvChoice1);
+        tvChoice2 = (TextView) view.findViewById(R.id.tvChoice2);
+        tvChoice1.setText("相册");
+        tvChoice2.setText("拍照");
     }
 
     private void initChoiceGender(View view) {
         initTitle(view, "选择性别");
         view.findViewById(R.id.llEdit).setVisibility(View.GONE);
+
+        view.findViewById(R.id.llOption1).setOnClickListener(this);
+        view.findViewById(R.id.llOption2).setOnClickListener(this);
+
+        tvChoice1 = (TextView) view.findViewById(R.id.tvChoice1);
+        tvChoice2 = (TextView) view.findViewById(R.id.tvChoice2);
+        tvChoice1.setText("男");
+        tvChoice2.setText("女");
+        setGender();
+    }
+
+    private void setGender() {
+        String gender = User.gender;
+//        0 男 1 女
+        switch (gender) {
+            case "0":
+                tvChoice1.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvChoice2.setTextColor(0xff333333);
+                break;
+            case "1":
+                tvChoice1.setTextColor(0xff333333);
+                tvChoice2.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+            default:
+                tvChoice1.setTextColor(0xff333333);
+                tvChoice2.setTextColor(0xff333333);
+        }
     }
 
     private void initEditPSW(View view) {
@@ -110,7 +164,8 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         view.findViewById(R.id.llOption1).setVisibility(View.GONE);
         view.findViewById(R.id.llOption2).setVisibility(View.GONE);
         etUser = (EditText) view.findViewById(R.id.etUser);
-        etUser.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        //一起用才有效
+        etUser.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
 
     /**
@@ -123,6 +178,10 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         view.findViewById(R.id.llOption1).setVisibility(View.GONE);
         view.findViewById(R.id.llOption2).setVisibility(View.GONE);
         etUser = (EditText) view.findViewById(R.id.etUser);
+
+        TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
+        tvCancel.setText(getString(R.string.confirm));
+
     }
 
 
@@ -163,21 +222,91 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     @Override
     public void showProgress() {
+        pdLoading.show();
     }
 
     @Override
     public void hideProgress() {
-
+        pdLoading.dismiss();
     }
+
+    private String gender = "-1";
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llCancel:
+                if (UserInfoActivity.ACTION_USERNAME.equals(action)) {
+                    //修改用户名
+                    mPresenter.confirm();
+                } else if (UserInfoActivity.ACTION_ICON.equals(action)) {
+                    getActivity().onBackPressed();
+                }
+                break;
             case R.id.cancel:
                 getActivity().onBackPressed();
                 break;
+            case R.id.llOption1:
+                if (UserInfoActivity.ACTION_GENDER.equals(action)) {
+                    gender = "0";
+                    mPresenter.confirm();
+                } else if (UserInfoActivity.ACTION_ICON.equals(action)) {
+
+                    getIconByGallery();
+                }
+                break;
+            case R.id.llOption2:
+                if (UserInfoActivity.ACTION_GENDER.equals(action)) {
+                    gender = "1";
+                    mPresenter.confirm();
+                } else if (UserInfoActivity.ACTION_ICON.equals(action)) {
+                    getIconByCamera();
+                }
+                break;
         }
+    }
+
+    private static final int REQUEST_GALLERY = 10000;
+    private static final int REQUEST_CAMERA = 10001;
+
+    private void getIconByGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_GALLERY);
+    }
+
+    private void getIconByCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    @Override
+    public String getAction() {
+        return action;
+    }
+
+    @Override
+    public String getEditText() {
+        return etUser.getText().toString();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateSuccess(String key, String value) {
+        Intent intent = new Intent();
+        intent.putExtra("action", action);
+        intent.putExtra(key, value);
+        getActivity().setResult(RESULT_OK, intent);
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public String getGender() {
+        return gender;
     }
 
     /**
@@ -193,5 +322,25 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK || data == null) {
+            return;
+        }
+        switch (requestCode) {
+            case REQUEST_GALLERY:
+                Uri uri = data.getData();
+                String imagePath = GDImageUtils.getImageAbsolutePath(getActivity(), uri);
+                GDLogUtils.i(TAG, "imagePath:" + imagePath);
+//                updateSuccess(UserInfoActivity.ACTION_ICON, uri.getPath());
+                data.putExtra("action", action);
+                getActivity().setResult(RESULT_OK, data);
+                getActivity().onBackPressed();
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

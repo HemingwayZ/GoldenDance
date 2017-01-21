@@ -14,4 +14,9 @@ public interface IUserModel {
     void getToken(String tel, String password, GDOnResponseHandler handler);
 
     void getUserInfo(String userId, String tokenid, GDOnResponseHandler handler);
+
+    void updateUsername(String userId, String username, GDOnResponseHandler handler);
+
+    void updateGender(String userId, String gender, GDOnResponseHandler handler);
+
 }

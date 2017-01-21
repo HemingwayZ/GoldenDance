@@ -1,8 +1,10 @@
 package com.goldendance.client.userinfo;
 
+import android.animation.Animator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -32,28 +34,30 @@ public class UpdateUserInfoActivity extends BaseActivity implements UpdateUserIn
 
     @Override
     public void onBackPressed() {
-//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.top_down);
-//        findViewById(R.id.flBottom).setAnimation(animation);
-//        animation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                finish();
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
-//        animation.start();
-        super.onBackPressed();
-        overridePendingTransition(0, R.anim.top_down);
+        View flBottom = findViewById(R.id.flBottom);
+        flBottom.animate().translationY(flBottom.getHeight()).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                finish();
+                overridePendingTransition(0, android.R.anim.fade_out);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+//        super.onBackPressed();
     }
 
     @Override

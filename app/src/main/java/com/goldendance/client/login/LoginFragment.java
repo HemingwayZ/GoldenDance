@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.User;
 import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.register.RegisterActivity;
 import com.goldendance.client.utils.GDLogUtils;
@@ -176,10 +177,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
     }
 
     @Override
-    public void loginSuccess(String tokens) {
-        GDLogUtils.i(TAG, "tokens:" + tokens);
+    public void loginSuccess(String tokenid) {
+        GDLogUtils.i(TAG, "tokens:" + tokenid);
         Map<String, Object> map = new HashMap<>();
-        map.put(GDSharedPreference.KEY_TOKEN, tokens);
+        map.put(GDSharedPreference.KEY_TOKEN, tokenid);
+        User.tokenid = tokenid;
         boolean b = GDSharedPreference.storeValue(getActivity(), map);
         if (!b) {
             Toast.makeText(getActivity(), "save token failed", Toast.LENGTH_SHORT).show();

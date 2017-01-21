@@ -52,7 +52,30 @@ public class UserModel implements IUserModel {
             //获取用户个人资料
             params.put("userid", userId);
         }
-        params.put("tokenid", tokenid);
+        GDHttpManager.doGet(url, params, handler);
+    }
+
+    @Override
+    public void updateUsername(String userId, String nickname, GDOnResponseHandler handler) {
+        String url = "updateName";
+        Map<String, String> params = new HashMap<>();
+        if (userId != null) {
+            //获取用户个人资料
+            params.put("userid", userId);
+        }
+        params.put("name", nickname);
+        GDHttpManager.doGet(url, params, handler);
+    }
+
+    @Override
+    public void updateGender(String userId, String gender, GDOnResponseHandler handler) {
+        String url = "updateSex";
+        Map<String, String> params = new HashMap<>();
+        if (userId != null) {
+            //获取用户个人资料
+            params.put("userid", userId);
+        }
+        params.put("sex", gender);
         GDHttpManager.doGet(url, params, handler);
     }
 }

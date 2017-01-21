@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -94,6 +95,10 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
     public void getUserInfo() {
         IUserModel user = new UserModel();
         String token = (String) GDSharedPreference.get(this, GDSharedPreference.KEY_TOKEN, "");
+        if (TextUtils.isEmpty(token)) {
+            Toast.makeText(this, "用户未登录", Toast.LENGTH_LONG).show();
+            return;
+        }
         GDLogUtils.i(TAG, "token:" + token);
         User.tokenid = token;
         user.getUserInfo(null, token, new GDOnResponseHandler() {

@@ -1,6 +1,7 @@
 package com.goldendance.client.http;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -33,7 +34,7 @@ public class GDImageLoader {
         load(context, imgUrl, imageView, listener);
     }
 
-    public static void load(Context context, String imgUrl, ImageView imageView, final GDImageLoaderListener listener) {
+    private static void load(Context context, String imgUrl, ImageView imageView, final GDImageLoaderListener listener) {
         Glide.with(context).load(imgUrl)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -52,6 +53,28 @@ public class GDImageLoader {
                         return false;
                     }
                 })
+                .into(imageView);
+
+    }
+    public static void load2(Context context, Uri uri, ImageView imageView, final GDImageLoaderListener listener) {
+        Glide.with(context).load(uri)
+//                .listener(new RequestListener<String, GlideDrawable>() {
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        if (listener != null) {
+//                            listener.onLoadFailed(e);
+//                        }
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                        if (listener != null) {
+//                            listener.onLoadSuccess(target, resource);
+//                        }
+//                        return false;
+//                    }
+//                })
                 .into(imageView);
 
     }

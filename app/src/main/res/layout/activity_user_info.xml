@@ -40,6 +40,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
+                    android:id="@+id/ivIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -65,9 +66,12 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvNickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="100dp"
+                    android:maxLines="1"
                     android:text="用户名"
                     android:textColor="#bababa"
                     android:textSize="18sp" />
@@ -87,14 +91,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+
                     android:text="性别"
                     android:textColor="@color/title_color"
                     android:textSize="18sp" />
-
+                <!--0 男；1 女-->
                 <TextView
+
+                    android:id="@+id/tvSex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="100dp"
+                    android:maxLines="1"
                     android:text="男"
                     android:textColor="#bababa"
                     android:textSize="18sp" />
@@ -121,6 +130,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="100dp"
+                    android:maxLines="1"
                     android:text="188****115"
                     android:textColor="#bababa"
                     android:textSize="18sp" />
@@ -148,6 +159,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="100dp"
+                    android:maxLines="1"
                     android:text="修改"
                     android:textColor="#bababa"
                     android:textSize="18sp" />
