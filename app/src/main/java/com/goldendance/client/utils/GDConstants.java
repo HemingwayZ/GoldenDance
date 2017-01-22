@@ -5,5 +5,6 @@ package com.goldendance.client.utils;
  */
 
 public class GDConstants {
+
     public static final String JSON_PARSE_ERROR = "数据解析异常";
 }

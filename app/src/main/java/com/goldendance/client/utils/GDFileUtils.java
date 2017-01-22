@@ -9,12 +9,34 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by hemingway on 2017/1/21.
  */
 
-public class GDImageUtils {
-    private static final Object TAG = GDImageUtils.class.getSimpleName();
+public class GDFileUtils {
+    private static final Object TAG = GDFileUtils.class.getSimpleName();
+    public static final String PROVIDER_AUTHORITY = "com.goldendance.client.fileprovider";
+    public static final String LOCAL_FLIE = "jinwutuan";
+
+    public static File getStorgeFile(String _newFile) {
+        String externalStorageState = Environment.getExternalStorageState();
+        if (!Environment.MEDIA_MOUNTED.equals(externalStorageState)) {
+            //没有内存卡
+            return null;
+        }
+        File file = new File(Environment.getExternalStorageDirectory(), LOCAL_FLIE);
+        if (file.exists()) {
+            if (!file.mkdir()) {
+                return null;
+            }
+        }
+        //创建本地文件
+        return new File(file, _newFile);
+    }
+
 
     /**
      * 根据Uri获取图片绝对路径，解决Android4.4以上版本Uri转换

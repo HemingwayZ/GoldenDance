@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--配合manifest中的provider-是撇Android N 应用间文件共享-->
+    <path>
+        <external-path
+            name="jinwutuan"
+            path="jinwutuan" />
+    </path>
+</resources>

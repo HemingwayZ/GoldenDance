@@ -124,10 +124,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 break;
             case ACTION_ICON:
                 String icon = data.getStringExtra(ACTION_ICON);
-
-                Uri uri = data.getData();
-                GDLogUtils.i(TAG, "uri:" + uri.toString());
-                GDImageLoader.load2(this, uri, ivIcon, null);
+//                Uri uri = data.getData();
+//                GDLogUtils.i(TAG, "uri:" + icon);
+                GDImageLoader.setImageView(this, icon, ivIcon);
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

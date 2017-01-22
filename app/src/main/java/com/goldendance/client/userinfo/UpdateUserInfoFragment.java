@@ -3,11 +3,14 @@ package com.goldendance.client.userinfo;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +20,10 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.User;
-import com.goldendance.client.utils.GDImageUtils;
+import com.goldendance.client.utils.GDFileUtils;
 import com.goldendance.client.utils.GDLogUtils;
+
+import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -46,6 +51,10 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     private AlertDialog pdLoading;
     private TextView tvChoice1;
     private TextView tvChoice2;
+
+
+    private static final String ICON_FILE_NAME = "icon.jpg";
+    private Uri cropUri;
 
     public UpdateUserInfoFragment() {
         // Required empty public constructor
@@ -268,6 +277,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     private static final int REQUEST_GALLERY = 10000;
     private static final int REQUEST_CAMERA = 10001;
+    private static final int REQUEST_CROP = 10002;
 
     private void getIconByGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -332,15 +342,65 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         switch (requestCode) {
             case REQUEST_GALLERY:
                 Uri uri = data.getData();
-                String imagePath = GDImageUtils.getImageAbsolutePath(getActivity(), uri);
+                if (uri == null) {
+                    Toast.makeText(getActivity(), "can find image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String imagePath = GDFileUtils.getImageAbsolutePath(getActivity(), uri);
                 GDLogUtils.i(TAG, "imagePath:" + imagePath);
-//                updateSuccess(UserInfoActivity.ACTION_ICON, uri.getPath());
-                data.putExtra("action", action);
-                getActivity().setResult(RESULT_OK, data);
-                getActivity().onBackPressed();
+//                updateSuccess(UserInfoActivity.ACTION_ICON, imagePath);
+                toCrop(uri);
+//                data.putExtra("action", action);
+//                getActivity().setResult(RESULT_OK, data);
+//                getActivity().onBackPressed();
+                break;
+            case REQUEST_CROP:
+//                Uri cropUri = data.getData();
+//                GDLogUtils.i(TAG, cropUri.getPath());
+//                File storgeFile = GDFileUtils.getStorgeFile(ICON_FILE_NAME);
+//                if (storgeFile == null || !storgeFile.exists()) {
+//                    Toast.makeText(getActivity(), "image is not exist!!!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                if (cropUri == null) {
+                    return;
+                }
+                updateSuccess(UserInfoActivity.ACTION_ICON, cropUri.getPath());
                 break;
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void toCrop(Uri uri) {
+
+
+        File file = new File(GDFileUtils.getImageAbsolutePath(getActivity(), uri));
+        if (!file.exists()) {
+            Toast.makeText(getActivity(), "file is not exist!!!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        File storgeFile = GDFileUtils.getStorgeFile(ICON_FILE_NAME);
+        if (storgeFile == null) {
+            Toast.makeText(getActivity(), "file create failed!!!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        //本地图片存储 android N适配
+        //Uri cropUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, storgeFile);
+        cropUri = Uri.fromFile(storgeFile);
+        GDLogUtils.i(TAG, cropUri.getPath());
+        //
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 100);
+        intent.putExtra("outputY", 100);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", false);
+        startActivityForResult(intent, REQUEST_CROP);
     }
 }

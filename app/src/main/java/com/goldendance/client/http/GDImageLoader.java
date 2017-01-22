@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.goldendance.client.R;
 
 /**
  * Created by Hemingway1014@gmail.com on 2016/12/13.
@@ -53,9 +54,11 @@ public class GDImageLoader {
                         return false;
                     }
                 })
+                .error(R.mipmap.logo_square)
                 .into(imageView);
 
     }
+
     public static void load2(Context context, Uri uri, ImageView imageView, final GDImageLoaderListener listener) {
         Glide.with(context).load(uri)
 //                .listener(new RequestListener<String, GlideDrawable>() {
