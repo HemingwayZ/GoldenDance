@@ -128,8 +128,9 @@ public class GDHttpManager {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        handler.onFailed(e);
                         handler.onEnd();
+                        handler.onFailed(e);
+
                     }
                 });
             }
@@ -149,9 +150,9 @@ public class GDHttpManager {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-
-                        handler.onSuccess(code, result);
                         handler.onEnd();
+                        handler.onSuccess(code, result);
+
                     }
                 });
             }

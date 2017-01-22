@@ -1,6 +1,7 @@
 package com.goldendance.client.userinfo;
 
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.MessageBean;
@@ -9,9 +10,13 @@ import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.IUserModel;
 import com.goldendance.client.model.UserModel;
+import com.goldendance.client.utils.GDFileUtils;
 import com.goldendance.client.utils.GDLogUtils;
+import com.goldendance.client.utils.GDTextUtils;
 import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
 
 /**
  * Created by hemingway on 2017/1/17.
@@ -45,15 +50,78 @@ public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresent
                 updateGender();
                 break;
             case UserInfoActivity.ACTION_ICON:
+                updateIcon();
                 break;
             case UserInfoActivity.ACTION_PSW:
-
+                updatePsw();
                 break;
             case UserInfoActivity.ACTION_USERNAME:
                 updateUsername();
                 break;
         }
     }
+
+    private void updatePsw() {
+        String password = mView.getEditText();
+        if (TextUtils.isEmpty(password) || password.length() < 6) {
+            mView.showMsg("请输入不小于六位数的密码");
+            return;
+        }
+        password = GDTextUtils.getMD5(password);
+        if (!password.equals(mView.getPsw())) {
+            mView.showMsg("密码错误，请重新输入");
+            return;
+        }
+        mView.showProgress();
+        final String finalPassword = password;
+        mModel.updatePsw(User.userid, password, new GDOnResponseHandler() {
+            @Override
+            public void onEnd() {
+                mView.hideProgress();
+                super.onEnd();
+            }
+
+            @Override
+            public void onSuccess(int code, String json) {
+                DataResultBean data = processJson(code, json);
+                if (data == null) {
+                    return;
+                }
+                mView.updateSuccess(UserInfoActivity.ACTION_PSW, finalPassword);
+                super.onSuccess(code, json);
+            }
+        });
+    }
+
+    private void updateIcon() {
+        final File storageFile = GDFileUtils.getStorageFile(UpdateUserInfoFragment.ICON_FILE_NAME);
+        GDLogUtils.i(TAG, "storgeFile:" + storageFile);
+        if (storageFile == null || !storageFile.exists()) {
+            mView.showMsg("image is not exist!!!");
+            return;
+        }
+        mView.showProgress();
+        String iconString = GDFileUtils.base64File(storageFile.getAbsolutePath());
+        mModel.updateIcon(User.userid, iconString, new GDOnResponseHandler() {
+            @Override
+            public void onEnd() {
+                mView.hideProgress();
+                super.onEnd();
+            }
+
+            @Override
+            public void onSuccess(int code, String json) {
+                DataResultBean data = processJson(code, json);
+                if (data == null) {
+                    return;
+                }
+                mView.updateSuccess(UserInfoActivity.ACTION_ICON, storageFile.getPath());
+                super.onSuccess(code, json);
+            }
+        });
+
+    }
+
 
     private void updateGender() {
         final String gender = mView.getGender();

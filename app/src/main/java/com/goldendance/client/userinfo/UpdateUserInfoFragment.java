@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,12 @@ import com.goldendance.client.R;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.utils.GDFileUtils;
 import com.goldendance.client.utils.GDLogUtils;
+import com.goldendance.client.utils.GDSharedPreference;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -53,8 +56,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     private TextView tvChoice2;
 
 
-    private static final String ICON_FILE_NAME = "icon.jpg";
-    private Uri cropUri;
+    public static final String ICON_FILE_NAME = "icon.jpg";
 
     public UpdateUserInfoFragment() {
         // Required empty public constructor
@@ -169,12 +171,15 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void initEditPSW(View view) {
-        initTitle(view, "修改密码");
+        initTitle(view, "请输入原密码");
         view.findViewById(R.id.llOption1).setVisibility(View.GONE);
         view.findViewById(R.id.llOption2).setVisibility(View.GONE);
         etUser = (EditText) view.findViewById(R.id.etUser);
         //一起用才有效
         etUser.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
+        tvCancel.setText(getString(R.string.next));
     }
 
     /**
@@ -190,7 +195,6 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
         TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
         tvCancel.setText(getString(R.string.confirm));
-
     }
 
 
@@ -250,6 +254,8 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
                     mPresenter.confirm();
                 } else if (UserInfoActivity.ACTION_ICON.equals(action)) {
                     getActivity().onBackPressed();
+                } else if (UserInfoActivity.ACTION_PSW.equals(action)) {
+                    mPresenter.confirm();
                 }
                 break;
             case R.id.cancel:
@@ -307,16 +313,29 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     @Override
     public void updateSuccess(String key, String value) {
-        Intent intent = new Intent();
-        intent.putExtra("action", action);
-        intent.putExtra(key, value);
-        getActivity().setResult(RESULT_OK, intent);
-        getActivity().onBackPressed();
+        if (UserInfoActivity.ACTION_PSW.equals(key)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put(GDSharedPreference.KEY_PASSWORD, value);
+            GDSharedPreference.storeValue(getActivity(), map);
+            getActivity().onBackPressed();
+        } else {
+            Intent intent = new Intent();
+            intent.putExtra("action", action);
+            intent.putExtra(key, value);
+            getActivity().setResult(RESULT_OK, intent);
+            getActivity().onBackPressed();
+        }
     }
 
     @Override
     public String getGender() {
         return gender;
+    }
+
+    @Override
+    public String getPsw() {
+        String psw = (String) GDSharedPreference.get(getActivity(), GDSharedPreference.KEY_PASSWORD, "");
+        return psw;
     }
 
     /**
@@ -346,26 +365,12 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
                     Toast.makeText(getActivity(), "can find image", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String imagePath = GDFileUtils.getImageAbsolutePath(getActivity(), uri);
-                GDLogUtils.i(TAG, "imagePath:" + imagePath);
-//                updateSuccess(UserInfoActivity.ACTION_ICON, imagePath);
                 toCrop(uri);
-//                data.putExtra("action", action);
-//                getActivity().setResult(RESULT_OK, data);
-//                getActivity().onBackPressed();
                 break;
             case REQUEST_CROP:
-//                Uri cropUri = data.getData();
-//                GDLogUtils.i(TAG, cropUri.getPath());
-//                File storgeFile = GDFileUtils.getStorgeFile(ICON_FILE_NAME);
-//                if (storgeFile == null || !storgeFile.exists()) {
-//                    Toast.makeText(getActivity(), "image is not exist!!!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-                if (cropUri == null) {
-                    return;
-                }
-                updateSuccess(UserInfoActivity.ACTION_ICON, cropUri.getPath());
+
+                mPresenter.confirm();
+
                 break;
         }
 
@@ -373,29 +378,27 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void toCrop(Uri uri) {
-
-
         File file = new File(GDFileUtils.getImageAbsolutePath(getActivity(), uri));
         if (!file.exists()) {
             Toast.makeText(getActivity(), "file is not exist!!!", Toast.LENGTH_LONG).show();
             return;
         }
-        File storgeFile = GDFileUtils.getStorgeFile(ICON_FILE_NAME);
-        if (storgeFile == null) {
+        File cropFile = GDFileUtils.getStorageFile(ICON_FILE_NAME);
+        if (cropFile == null) {
             Toast.makeText(getActivity(), "file create failed!!!", Toast.LENGTH_LONG).show();
             return;
         }
         //本地图片存储 android N适配
         //Uri cropUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, storgeFile);
-        cropUri = Uri.fromFile(storgeFile);
+        Uri cropUri = Uri.fromFile(cropFile);
         GDLogUtils.i(TAG, cropUri.getPath());
         //
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 100);
-        intent.putExtra("outputY", 100);
+        intent.putExtra("outputX", 200);
+        intent.putExtra("outputY", 200);
         intent.putExtra("scale", true);
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);

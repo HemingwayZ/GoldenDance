@@ -19,4 +19,7 @@ public interface IUserModel {
 
     void updateGender(String userId, String gender, GDOnResponseHandler handler);
 
+    void updateIcon(String userId, String base64Icon, GDOnResponseHandler handler);
+
+    void updatePsw(String userId, String password, GDOnResponseHandler handler);
 }

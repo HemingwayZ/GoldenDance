@@ -177,10 +177,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
     }
 
     @Override
-    public void loginSuccess(String tokenid) {
+    public void loginSuccess(String tokenid, String finalPsw) {
         GDLogUtils.i(TAG, "tokens:" + tokenid);
         Map<String, Object> map = new HashMap<>();
         map.put(GDSharedPreference.KEY_TOKEN, tokenid);
+        map.put(GDSharedPreference.KEY_PASSWORD,finalPsw);
         User.tokenid = tokenid;
         boolean b = GDSharedPreference.storeValue(getActivity(), map);
         if (!b) {

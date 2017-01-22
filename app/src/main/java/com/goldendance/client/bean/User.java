@@ -8,18 +8,19 @@ import com.goldendance.client.http.GDHttpManager;
  */
 
 public class User {
-    public static String tel;
-    public static String icon;//头像
-    public static String defoulttime;
-    public static int points;
-    public static String cardname;
-    public static String tokenid;
-    public static String tokenovertime;
-    public static String signature;
-    public static String name;
-    public static String inserttime;
-    public static String gender;
-    public static String userid;
+    //
+    public static String tel = "";
+    public static String icon = "";//头像
+    public static String defoulttime = "";
+    public static int points = -1;
+    public static String cardname = "";
+    public static String tokenid = "";
+    public static String tokenovertime = "";
+    public static String signature = "";
+    public static String name = "";
+    public static String inserttime = "";
+    public static String gender = "";
+    public static String userid = "";
 
     public static void setUser(UserBean userBean) {
         if (userBean == null) {

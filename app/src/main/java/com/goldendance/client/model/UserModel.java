@@ -78,4 +78,28 @@ public class UserModel implements IUserModel {
         params.put("sex", gender);
         GDHttpManager.doGet(url, params, handler);
     }
+
+    @Override
+    public void updateIcon(String userId, String base64Icon, GDOnResponseHandler handler) {
+        String url = "updateIcon";
+        Map<String, String> params = new HashMap<>();
+        if (userId != null) {
+            //获取用户个人资料
+            params.put("userid", userId);
+        }
+        params.put("icon", base64Icon);
+        GDHttpManager.doPost(url, params, handler);
+    }
+
+    @Override
+    public void updatePsw(String userId, String password, GDOnResponseHandler handler) {
+        String url = "updatePassword";
+        Map<String, String> params = new HashMap<>();
+        if (userId != null) {
+            //获取用户个人资料
+            params.put("userid", userId);
+        }
+        params.put("password", password);
+        GDHttpManager.doGet(url, params, handler);
+    }
 }

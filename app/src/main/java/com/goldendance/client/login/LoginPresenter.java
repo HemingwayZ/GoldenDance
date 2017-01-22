@@ -40,8 +40,9 @@ public class LoginPresenter implements ILoginContract.IPresenter {
     @Override
     public void getToken() {
         String mobile = mView.getMobile();
-        String password = mView.getPassword();
+        String  password = mView.getPassword();
         password = GDTextUtils.getMD5(password);
+        final String finalPsw = password;
         mView.showProgress();
         mModel.getToken(mobile, password, new GDOnResponseHandler() {
             @Override
@@ -77,7 +78,7 @@ public class LoginPresenter implements ILoginContract.IPresenter {
                     return;
                 }
                 mView.showToast(R.string.empty_msg, tokenid);
-                mView.loginSuccess(tokenid);
+                mView.loginSuccess(tokenid,finalPsw);
                 super.onSuccess(code, json);
             }
         });

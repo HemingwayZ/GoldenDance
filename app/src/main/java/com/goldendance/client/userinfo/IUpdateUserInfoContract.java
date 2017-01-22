@@ -25,5 +25,7 @@ public interface IUpdateUserInfoContract {
         void updateSuccess(String key, String value);
 
         String getGender();
+
+        String getPsw();
     }
 }

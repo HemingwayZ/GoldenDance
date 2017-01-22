@@ -1,6 +1,8 @@
 package com.goldendance.client.userinfo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -126,7 +128,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 String icon = data.getStringExtra(ACTION_ICON);
 //                Uri uri = data.getData();
 //                GDLogUtils.i(TAG, "uri:" + icon);
-                GDImageLoader.setImageView(this, icon, ivIcon);
+                Bitmap bitmap = BitmapFactory.decodeFile(icon);
+                ivIcon.setImageBitmap(bitmap);
+//                GDImageLoader.setImageView(this, icon, ivIcon);
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

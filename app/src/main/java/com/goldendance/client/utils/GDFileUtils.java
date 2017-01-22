@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,14 +25,20 @@ public class GDFileUtils {
     public static final String PROVIDER_AUTHORITY = "com.goldendance.client.fileprovider";
     public static final String LOCAL_FLIE = "jinwutuan";
 
-    public static File getStorgeFile(String _newFile) {
+    /**
+     * 存图
+     *
+     * @param _newFile
+     * @return
+     */
+    public static File getStorageFile(String _newFile) {
         String externalStorageState = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(externalStorageState)) {
             //没有内存卡
             return null;
         }
         File file = new File(Environment.getExternalStorageDirectory(), LOCAL_FLIE);
-        if (file.exists()) {
+        if (!file.exists()) {
             if (!file.mkdir()) {
                 return null;
             }
@@ -37,6 +47,21 @@ public class GDFileUtils {
         return new File(file, _newFile);
     }
 
+    public static String base64File(String fileName) {
+        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
+        byte[] bytes = bitmap2Bytes(bitmap);
+        if (!bitmap.isRecycled()) {
+            //资源释放
+            bitmap.recycle();
+        }
+        return Base64.encodeToString(bytes, Base64.NO_WRAP);
+    }
+
+    private static byte[] bitmap2Bytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
 
     /**
      * 根据Uri获取图片绝对路径，解决Android4.4以上版本Uri转换

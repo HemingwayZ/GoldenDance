@@ -16,6 +16,7 @@ import java.util.Map;
 public class GDSharedPreference {
     private static final String GD_SETTING = "gd_setting";
     public static final String KEY_TOKEN = "user_token";
+    public static final String KEY_PASSWORD = "password";
     //常数
 
     /**
