@@ -39,4 +39,5 @@ dependencies {
     compile 'com.baidu.mobstat:mtj-sdk:latest.integration'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.1.0'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }
