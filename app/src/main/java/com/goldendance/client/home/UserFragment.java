@@ -1,5 +1,6 @@
 package com.goldendance.client.home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +11,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
+import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.userinfo.UserInfoActivity;
 import com.goldendance.client.utils.GDSharedPreference;
 
@@ -82,6 +85,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.llVip).setOnClickListener(this);
         view.findViewById(R.id.llUserInfo).setOnClickListener(this);
         view.findViewById(R.id.llLogOut).setOnClickListener(this);
+
+        //清除缓存
+        view.findViewById(R.id.llClearCache).setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -123,7 +129,41 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             case R.id.llLogOut:
                 logOut();
                 break;
+            case R.id.llClearCache:
+                clearCache();
+                break;
         }
+    }
+
+    private void clearCache() {
+        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+        ab.setMessage("是否要清除图片缓存？");
+        ab.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                final ProgressDialog show = ProgressDialog.show(getActivity(), null, "清除图片缓存中...");
+                show.show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GDImageLoader.clearCache(getActivity());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                show.hide();
+                                Toast.makeText(getActivity(), "清除完毕", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }).start();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     private void logOut() {

@@ -41,6 +41,20 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
     private RadioButton menuHome;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            String action = intent.getStringExtra("action");
+            if (TextUtils.isEmpty(action)) {
+                return;
+            }
+            if ("loginSuccess".equals(action)) {
+                getUserInfo();
+            }
+        }
+    }
+
+    @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_home);
         getUserInfo();

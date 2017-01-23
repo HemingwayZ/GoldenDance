@@ -1,5 +1,6 @@
 package com.goldendance.client.http;
 
+import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -80,5 +81,9 @@ public class GDImageLoader {
 //                })
                 .into(imageView);
 
+    }
+
+    public static void clearCache(Context context) {
+        Glide.get(context).clearDiskCache();
     }
 }

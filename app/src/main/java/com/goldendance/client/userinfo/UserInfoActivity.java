@@ -78,22 +78,30 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, UpdateUserInfoActivity.class);
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.flIcon:
+                intent.setClass(this, UpdateUserInfoActivity.class);
                 intent.putExtra("action", ACTION_ICON);
+                startActivityForResult(intent, REQUEST_USERINFO);
                 break;
             case R.id.flGender:
+                intent.setClass(this, UpdateUserInfoActivity.class);
                 intent.putExtra("action", ACTION_GENDER);
+                startActivityForResult(intent, REQUEST_USERINFO);
                 break;
             case R.id.flPsw:
+                intent.setClass(this, UpdatePasswordActivity.class);
                 intent.putExtra("action", ACTION_PSW);
+                startActivityForResult(intent, REQUEST_USERINFO);
                 break;
             case R.id.flUsername:
+                intent.setClass(this, UpdateUserInfoActivity.class);
                 intent.putExtra("action", ACTION_USERNAME);
+                startActivityForResult(intent, REQUEST_USERINFO);
                 break;
         }
-        startActivityForResult(intent, REQUEST_USERINFO);
+
     }
 
     @Override

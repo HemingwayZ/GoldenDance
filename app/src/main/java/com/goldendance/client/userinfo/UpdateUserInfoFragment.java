@@ -334,8 +334,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     @Override
     public String getPsw() {
-        String psw = (String) GDSharedPreference.get(getActivity(), GDSharedPreference.KEY_PASSWORD, "");
-        return psw;
+        return (String) GDSharedPreference.get(getActivity(), GDSharedPreference.KEY_PASSWORD, "");
     }
 
     /**
@@ -368,9 +367,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
                 toCrop(uri);
                 break;
             case REQUEST_CROP:
-
                 mPresenter.confirm();
-
                 break;
         }
 

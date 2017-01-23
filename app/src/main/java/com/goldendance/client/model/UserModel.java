@@ -100,6 +100,6 @@ public class UserModel implements IUserModel {
             params.put("userid", userId);
         }
         params.put("password", password);
-        GDHttpManager.doGet(url, params, handler);
+        GDHttpManager.doPost(url, params, handler);
     }
 }

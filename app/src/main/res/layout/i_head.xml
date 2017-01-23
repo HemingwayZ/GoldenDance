@@ -16,6 +16,7 @@
         android:src="@mipmap/i_back" />
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -27,10 +28,11 @@
         android:textSize="20sp" />
 
     <ImageView
+        android:id="@+id/ivMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="right|center_vertical"
         android:padding="16dp"
-        android:src="@mipmap/i_more_white" />
+        android:src="@mipmap/i_more_white"
+        android:visibility="gone" />
 </FrameLayout>

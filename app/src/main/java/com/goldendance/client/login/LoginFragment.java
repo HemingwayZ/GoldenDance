@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.User;
+import com.goldendance.client.home.HomeActivity;
 import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.register.RegisterActivity;
 import com.goldendance.client.utils.GDLogUtils;
@@ -181,15 +182,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
         GDLogUtils.i(TAG, "tokens:" + tokenid);
         Map<String, Object> map = new HashMap<>();
         map.put(GDSharedPreference.KEY_TOKEN, tokenid);
-        map.put(GDSharedPreference.KEY_PASSWORD,finalPsw);
+        map.put(GDSharedPreference.KEY_PASSWORD, finalPsw);
         User.tokenid = tokenid;
         boolean b = GDSharedPreference.storeValue(getActivity(), map);
         if (!b) {
             Toast.makeText(getActivity(), "save token failed", Toast.LENGTH_SHORT).show();
             return;
         }
-        getActivity().setResult(Activity.RESULT_OK);
-        getActivity().onBackPressed();
+//        getActivity().setResult(Activity.RESULT_OK);
+//        getActivity().onBackPressed();
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("action", "loginSuccess");
+        startActivity(intent);
     }
 
 

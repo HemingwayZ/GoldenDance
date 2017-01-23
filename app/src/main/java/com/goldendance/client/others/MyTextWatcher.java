@@ -10,6 +10,7 @@ public class MyTextWatcher implements TextWatcher {
     private View clearView;
 
     public MyTextWatcher(final EditText editText, View clearView) {
+        clearView.setVisibility(View.GONE);
         clearView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,7 +27,7 @@ public class MyTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+        
     }
 
     @Override

@@ -198,6 +198,7 @@
             android:textSize="15sp" />
 
         <LinearLayout
+            android:id="@+id/llClearCache"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#FFFFFF"
@@ -228,6 +229,7 @@
             android:layout_marginTop="0.5dp"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:paddingLeft="50dp"
             android:paddingRight="16dp">

@@ -90,7 +90,6 @@
             android:name=".userinfo.UpdateUserInfoActivity"
             android:theme="@style/BottomDialog" />
 
-
         <!-- 20161205 Android N适配 exported必须要求为false，为true则会报安全异常。grantUriPermissions为true，表示授予URI临时访问权限。 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -101,6 +100,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
+
+        <activity android:name=".userinfo.UpdatePasswordActivity"></activity>
     </application>
 
 </manifest>
