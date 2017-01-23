@@ -192,11 +192,10 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         view.findViewById(R.id.llOption1).setVisibility(View.GONE);
         view.findViewById(R.id.llOption2).setVisibility(View.GONE);
         etUser = (EditText) view.findViewById(R.id.etUser);
-
+        etUser.setText(User.name);
         TextView tvCancel = (TextView) view.findViewById(R.id.tvCancel);
         tvCancel.setText(getString(R.string.confirm));
     }
-
 
     private void initTitle(View view, String title) {
         TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);

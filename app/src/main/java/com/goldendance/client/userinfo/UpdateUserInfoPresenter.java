@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.MessageBean;
+import com.goldendance.client.bean.UploadBean;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
@@ -102,6 +103,7 @@ public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresent
         }
         mView.showProgress();
         String iconString = GDFileUtils.base64File(storageFile.getAbsolutePath());
+        GDLogUtils.i(TAG, "iconString:" + iconString);
         mModel.updateIcon(User.userid, iconString, new GDOnResponseHandler() {
             @Override
             public void onEnd() {
@@ -111,10 +113,26 @@ public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresent
 
             @Override
             public void onSuccess(int code, String json) {
-                DataResultBean data = processJson(code, json);
-                if (data == null) {
+                if (GDHttpManager.CODE200 != code) {
+                    mView.showMsg("code:" + code);
                     return;
                 }
+                DataResultBean<UploadBean> data = JsonUtils.fromJson(json, new TypeToken<DataResultBean<UploadBean>>() {
+                });
+                if (data == null) {
+                    mView.showMsg("data parse error");
+                    return;
+                }
+                if (GDHttpManager.CODE200 != data.getCode()) {
+                    mView.showMsg("error:" + data.getMessage());
+                    return;
+                }
+                UploadBean result = data.getData();
+                if (result != null) {
+                    mView.showMsg(result.getUrl());
+                }
+                //设置头像
+                User.icon = result.getUrl();
                 mView.updateSuccess(UserInfoActivity.ACTION_ICON, storageFile.getPath());
                 super.onSuccess(code, json);
             }

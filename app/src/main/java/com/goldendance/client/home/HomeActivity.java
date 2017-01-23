@@ -39,6 +39,7 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
     private ViewPager vpBody;
     private RadioButton menuUser;
     private RadioButton menuHome;
+    private UserFragment userFragment;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -59,7 +60,7 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         setContentView(R.layout.activity_home);
         getUserInfo();
         //用户页面
-        UserFragment userFragment = UserFragment.newInstance("", "");
+        userFragment = UserFragment.newInstance("", "");
         //首页
         HomeFragment homeFragment = HomeFragment.newInstance("", "");
 
@@ -141,6 +142,9 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                 UserBean user = data.getData();
                 User.setUser(user);
                 Toast.makeText(HomeActivity.this, User.name + " 登录成功", Toast.LENGTH_LONG).show();
+                if (userFragment != null) {
+                    userFragment.setUserInfo();
+                }
                 super.onSuccess(code, json);
             }
         });

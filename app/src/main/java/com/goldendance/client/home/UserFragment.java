@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
@@ -39,6 +41,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ImageView ivGender;
+    private TextView tvUserName;
+    private ImageView ivAvatar;
 
     public UserFragment() {
         // Required empty public constructor
@@ -82,12 +87,30 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
+
+
         view.findViewById(R.id.llVip).setOnClickListener(this);
         view.findViewById(R.id.llUserInfo).setOnClickListener(this);
         view.findViewById(R.id.llLogOut).setOnClickListener(this);
-
         //清除缓存
         view.findViewById(R.id.llClearCache).setOnClickListener(this);
+
+        //用户信息
+        ivGender = (ImageView) view.findViewById(R.id.ivGender);
+        tvUserName = (TextView) view.findViewById(R.id.tvUserName);
+        ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
+        setUserInfo();
+    }
+
+    public void setUserInfo() {
+        if (User.tokenid == null) {
+            //未登录
+            return;
+        }
+        String gender = User.gender;
+//        if("0".equals()gender)
+        tvUserName.setText(User.name);
+        GDImageLoader.setCircleView(getActivity(), User.icon, ivAvatar);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

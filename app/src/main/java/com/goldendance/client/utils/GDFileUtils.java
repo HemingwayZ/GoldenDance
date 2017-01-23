@@ -54,7 +54,7 @@ public class GDFileUtils {
             //资源释放
             bitmap.recycle();
         }
-        return Base64.encodeToString(bytes, Base64.NO_WRAP);
+        return "data:image/png;base64," + Base64.encodeToString(bytes, Base64.NO_WRAP);
     }
 
     private static byte[] bitmap2Bytes(Bitmap bm) {

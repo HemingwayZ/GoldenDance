@@ -38,6 +38,7 @@ public class GDHttpManager {
     private static final String PORT = "80";
     private Handler mainHandler;
     private static String BASE_URL = "http://120.77.206.145:8080/JinWuTuan/";
+    //    private static String BASE_URL = "http://192.168.1.107:8080/FirstBlood/";
     private static GDHttpManager mInstance;
     private static OkHttpClient mOkHttpClient;
 

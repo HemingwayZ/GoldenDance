@@ -52,7 +52,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 onBackPressed();
             }
         });
-
+        GDImageLoader.setImageView(this, User.icon, ivIcon);
     }
 
     private void setUserinfo() {

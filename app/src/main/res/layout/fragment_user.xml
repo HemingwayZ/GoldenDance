@@ -31,24 +31,37 @@
                 android:layout_marginTop="35dp"
                 android:src="@mipmap/i_vip_small" />
 
-            <TextView
-                android:id="@+id/tvUserName"
+            <LinearLayout
+                android:id="@+id/llUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivAvatar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:drawableLeft="@mipmap/i_gender_female"
-                android:drawablePadding="10dp"
-                android:text="庄建成"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/i_gender_female" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="庄建成"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvUserName"
+                android:layout_below="@+id/llUser"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="2017-01入团"
@@ -229,10 +242,10 @@
             android:layout_marginTop="0.5dp"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:orientation="horizontal"
             android:paddingLeft="50dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -254,7 +267,7 @@
             android:id="@+id/llLogOut"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="81dp"
             android:layout_marginTop="0.5dp"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
