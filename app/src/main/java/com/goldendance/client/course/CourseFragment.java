@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.goldendance.client.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +35,8 @@ public class CourseFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private int[] ivIdres;
+    private View view;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -67,24 +73,87 @@ public class CourseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_course, container, false);
+        view = inflater.inflate(R.layout.fragment_course, container, false);
         initView(view);
         return view;
     }
 
-    private void initView(View view) {
-        RecyclerView rvList = (RecyclerView) view.findViewById(R.id.rvList);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvList.setLayoutManager(manager);
+    private void initView(final View view) {
+//        RecyclerView rvList = (RecyclerView) view.findViewById(R.id.rvList);
+//        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+//        manager.setOrientation(LinearLayoutManager.VERTICAL);
+//        rvList.setLayoutManager(manager);
+//        view.findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().onBackPressed();
+//            }
+//        });
+//        CourseAdapter adapter = new CourseAdapter(getActivity());
+//        rvList.setAdapter(adapter);
+
+        initHead(view);
+
+        ViewPager vpBody = (ViewPager) view.findViewById(R.id.vpBody);
+        List<Fragment> list = new ArrayList<>();
+        CourseListFragment fragment1 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment2 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment3 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment4 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment5 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment6 = CourseListFragment.newInstance("", "");
+        CourseListFragment fragment7 = CourseListFragment.newInstance("", "");
+        list.add(fragment1);
+        list.add(fragment2);
+        list.add(fragment3);
+        list.add(fragment4);
+        list.add(fragment5);
+        list.add(fragment6);
+        list.add(fragment7);
+        CoursePagerAdapter adapter = new CoursePagerAdapter(getActivity().getSupportFragmentManager(), list);
+        vpBody.setAdapter(adapter);
+        vpBody.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int pos) {
+//                view.findViewById(ivIdres[pos]).setVisibility(View.VISIBLE);
+                for (int i = 0; i < ivIdres.length; i++) {
+                    if (i == pos) {
+                        view.findViewById(ivIdres[pos]).setVisibility(View.VISIBLE);
+                    } else {
+                        view.findViewById(ivIdres[i]).setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+    }
+
+    private void initHead(View view) {
         view.findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
             }
         });
-        CourseAdapter adapter = new CourseAdapter(getActivity());
-        rvList.setAdapter(adapter);
+
+        ivIdres = new int[]{
+                R.id.ivPoint1,
+                R.id.ivPoint2,
+                R.id.ivPoint3,
+                R.id.ivPoint4,
+                R.id.ivPoint5,
+                R.id.ivPoint6,
+                R.id.ivPoint7
+        };
     }
 
 

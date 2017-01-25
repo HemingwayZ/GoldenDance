@@ -19,6 +19,15 @@ public class UserBean implements Serializable {
     private String signature;
     private String name;
     private String inserttime;
+    private String coursenum="";
+
+    public String getCoursenum() {
+        return coursenum;
+    }
+
+    public void setCoursenum(String coursenum) {
+        this.coursenum = coursenum;
+    }
 
     public String getUserid() {
         return userid;

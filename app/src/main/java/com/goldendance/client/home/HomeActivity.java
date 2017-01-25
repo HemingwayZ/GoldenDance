@@ -40,6 +40,7 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
     private RadioButton menuUser;
     private RadioButton menuHome;
     private UserFragment userFragment;
+    private HomeFragment homeFragment;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -62,7 +63,7 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         //用户页面
         userFragment = UserFragment.newInstance("", "");
         //首页
-        HomeFragment homeFragment = HomeFragment.newInstance("", "");
+        homeFragment = HomeFragment.newInstance("", "");
 
         List<Fragment> mList = new ArrayList<>();
         mList.add(homeFragment);
@@ -144,6 +145,9 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                 Toast.makeText(HomeActivity.this, User.name + " 登录成功", Toast.LENGTH_LONG).show();
                 if (userFragment != null) {
                     userFragment.setUserInfo();
+                }
+                if (homeFragment != null) {
+                    homeFragment.setUserInfo();
                 }
                 super.onSuccess(code, json);
             }

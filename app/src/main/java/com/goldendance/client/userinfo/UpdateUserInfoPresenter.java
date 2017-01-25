@@ -1,7 +1,6 @@
 package com.goldendance.client.userinfo;
 
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.MessageBean;
@@ -102,7 +101,7 @@ public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresent
             return;
         }
         mView.showProgress();
-        String iconString = GDFileUtils.base64File(storageFile.getAbsolutePath());
+        String iconString = GDFileUtils.base64Image(storageFile.getAbsolutePath());
         GDLogUtils.i(TAG, "iconString:" + iconString);
         mModel.updateIcon(User.userid, iconString, new GDOnResponseHandler() {
             @Override

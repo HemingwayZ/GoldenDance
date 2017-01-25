@@ -1,8 +1,16 @@
 package com.goldendance.client.base;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import com.goldendance.client.bean.User;
+import com.goldendance.client.login.LoginActivity;
 
 /**
  * Created by Hemingway1014@gmail.com on 2016/12/10.
@@ -30,10 +38,31 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initView(Bundle savedInstanceState);
 
+    public void toLogin() {
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onDestroy() {
         ((BaseApplication) getApplication()).removeActivity(this);
         super.onDestroy();
+    }
+
+    protected void showToast(String msg) {
+        if (TextUtils.isEmpty(msg)) {
+            msg = "msg is null";
+        }
+        final AlertDialog ad = new AlertDialog.Builder(this).create();
+        ad.setMessage(msg);
+        ad.setButton(AlertDialog.BUTTON_NEGATIVE, "确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ad.dismiss();
+                onBackPressed();
+            }
+        });
+        ad.show();
     }
 }

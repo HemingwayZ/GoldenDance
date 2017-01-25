@@ -29,4 +29,6 @@
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="next">下一步</string>
+    <!--<string name="pay_notice">需要支付<font color="fa02c8">%1$s</font>元</string>-->
+    <string name="pay_notice"><Data><![CDATA[需要支付 <font color="#fa02c8">%1$s</font> 元，可获得<font color="#fa02c8">%2$s</font>积分]]></Data></string>
 </resources>

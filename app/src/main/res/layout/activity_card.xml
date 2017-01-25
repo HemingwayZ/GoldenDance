@@ -9,21 +9,22 @@
 
     <include layout="@layout/i_head" />
 
-    <FrameLayout
+    <include layout="@layout/card_item" />
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/card_head_temp">
+        android:src="@mipmap/item_bottom_line" />
 
-        <TextView
-            android:id="@+id/tvSubmit"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="250dp"
-            android:background="@drawable/bg_submit"
-            android:gravity="center"
-            android:text="充值"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/tvSubmit"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="66dp"
+        android:background="@drawable/bg_submit"
+        android:gravity="center"
+        android:text="充值"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
 </LinearLayout>

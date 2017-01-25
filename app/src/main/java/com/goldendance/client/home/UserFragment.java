@@ -110,7 +110,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         String gender = User.gender;
 //        if("0".equals()gender)
         tvUserName.setText(User.name);
-        GDImageLoader.setCircleView(getActivity(), User.icon, ivAvatar);
+        GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

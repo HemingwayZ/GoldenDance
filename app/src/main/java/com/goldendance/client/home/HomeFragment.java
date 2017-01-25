@@ -15,6 +15,7 @@ import com.goldendance.client.R;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
 import com.goldendance.client.course.CourseActivity;
+import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.userinfo.UserInfoActivity;
 
@@ -91,6 +92,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.tvClass).setOnClickListener(this);
         view.findViewById(R.id.tvVIP).setOnClickListener(this);
         view.findViewById(R.id.tvOneToOne).setOnClickListener(this);
+
+        setUserInfo();
+    }
+
+    public void setUserInfo() {
+        GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

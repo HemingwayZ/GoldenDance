@@ -47,7 +47,7 @@ public class GDFileUtils {
         return new File(file, _newFile);
     }
 
-    public static String base64File(String fileName) {
+    public static String base64Image(String fileName) {
         Bitmap bitmap = BitmapFactory.decodeFile(fileName);
         byte[] bytes = bitmap2Bytes(bitmap);
         if (!bitmap.isRecycled()) {

@@ -13,7 +13,6 @@ public class User {
     public static String icon = "";//头像
     public static String defoulttime = "";
     public static int points = -1;
-    public static String cardname = "";
     public static String tokenid = "";
     public static String tokenovertime = "";
     public static String signature = "";
@@ -21,11 +20,13 @@ public class User {
     public static String inserttime = "";
     public static String gender = "";
     public static String userid = "";
-
+    public static String cardname="";
+    public static String coursenum;
     public static void setUser(UserBean userBean) {
         if (userBean == null) {
             return;
         }
+        coursenum = userBean.getCoursenum();
         tel = userBean.getTel();
         inserttime = userBean.getInserttime();
         gender = userBean.getGender();

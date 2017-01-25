@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context="com.goldendance.client.course.CourseFragment">
 
@@ -128,6 +128,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -159,6 +160,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -190,6 +192,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -220,6 +223,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -251,6 +255,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -282,6 +287,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -313,6 +319,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/ivPoint7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
@@ -321,8 +328,8 @@
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvList"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpBody"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
