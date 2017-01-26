@@ -56,7 +56,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         final AlertDialog ad = new AlertDialog.Builder(this).create();
         ad.setMessage(msg);
-        ad.setButton(AlertDialog.BUTTON_NEGATIVE, "确认", new DialogInterface.OnClickListener() {
+        ad.setButton(AlertDialog.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ad.dismiss();
+            }
+        });
+        ad.setButton(AlertDialog.BUTTON_POSITIVE, "返回", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ad.dismiss();

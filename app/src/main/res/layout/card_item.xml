@@ -10,27 +10,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textSize="16sp"
         android:text="VIP"
-        android:textColor="#dadada" />
+        android:textColor="#dadada"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_alignParentRight="true"
         android:layout_margin="20dp"
         android:layout_toRightOf="@+id/tvVIP"
-        android:visibility="invisible"
         android:gravity="right"
         android:text="2017-07~2017-08"
-        android:textColor="#dadada" />
+        android:textColor="#dadada"
+        android:textSize="16sp"
+        android:visibility="invisible" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvVIP"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_vertical"
@@ -46,6 +46,17 @@
             android:textColor="#fa02a8"
             android:textSize="50sp" />
 
+        <TextView
+            android:id="@+id/tvCardHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvVIP"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:text="购卡历史"
+            android:textColor="#dadada"
+            android:textSize="16sp" />
 
     </FrameLayout>
 

@@ -10,10 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.goldendance.client.R;
+import com.goldendance.client.utils.GDLogUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -29,6 +32,7 @@ public class CourseFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = CourseFragment.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,7 +97,7 @@ public class CourseFragment extends Fragment {
 //        rvList.setAdapter(adapter);
 
         initHead(view);
-
+        initHead2(view);
         ViewPager vpBody = (ViewPager) view.findViewById(R.id.vpBody);
         List<Fragment> list = new ArrayList<>();
         CourseListFragment fragment1 = CourseListFragment.newInstance("", "");
@@ -135,6 +139,58 @@ public class CourseFragment extends Fragment {
 
             }
         });
+    }
+
+    private void initHead2(View view) {
+        int[] head2Ids = new int[]{
+                R.id.tvDay1,
+                R.id.tvDay2,
+                R.id.tvDay3,
+                R.id.tvDay4,
+                R.id.tvDay5,
+                R.id.tvDay6,
+                R.id.tvDay7
+        };
+
+        //获取当前时间
+        Calendar c = Calendar.getInstance();
+        int monthOfYear = c.get(Calendar.MONTH) + 1;
+        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        int week = c.get(Calendar.DAY_OF_WEEK);
+        GDLogUtils.i(TAG, "monthOfYear:" + monthOfYear);
+        GDLogUtils.i(TAG, "dayOfMonth:" + dayOfMonth);
+        GDLogUtils.i(TAG, "week:" + week);
+
+        switch (week) {
+            case Calendar.SUNDAY:
+                week = 7;
+                break;
+            case Calendar.MONDAY:
+                week = 1;
+                break;
+            case Calendar.TUESDAY:
+                week = 2;
+                break;
+            case Calendar.WEDNESDAY:
+                week = 3;
+                break;
+            case Calendar.THURSDAY:
+                week = 4;
+                break;
+            case Calendar.FRIDAY:
+                week = 5;
+                break;
+            case Calendar.SATURDAY:
+                week = 6;
+                break;
+        }
+        for (int i = 0; i < head2Ids.length; i++) {
+            if (week == i + 1) {
+                int head2Id = head2Ids[i];
+                TextView tvDay = (TextView) view.findViewById(head2Id);
+                tvDay.setText(monthOfYear + "." + dayOfMonth);
+            }
+        }
     }
 
     private void initHead(View view) {

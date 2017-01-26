@@ -101,10 +101,9 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-        <activity android:name=".userinfo.UpdatePasswordActivity"></activity>
+        <activity android:name=".userinfo.UpdatePasswordActivity" />
 
-
-        <!--zhifubao start-->
+        <!-- zhifubao start -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -116,7 +115,8 @@
             android:exported="false"
             android:screenOrientation="behind" />
 
-        <!--zhifubao end-->
+        <!-- zhifubao end -->
+        <activity android:name=".card.CardHistoryActivity"></activity>
     </application>
 
 </manifest>

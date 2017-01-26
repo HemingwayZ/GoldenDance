@@ -48,7 +48,8 @@
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -105,6 +106,7 @@
         android:paddingTop="5dp">
 
         <LinearLayout
+            android:id="@+id/llDay1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -112,6 +114,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvWeek1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -120,6 +123,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -133,10 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
                 android:src="@mipmap/i_course_loc"
-                android:visibility="invisible" />
+                android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llDay2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -144,14 +149,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvWeek2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周二"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -169,6 +176,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llDay3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -176,14 +184,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvWeek3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周三"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -196,10 +206,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/i_course_loc" />
+                android:src="@mipmap/i_course_loc"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llDay4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -210,11 +222,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周四"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -232,6 +245,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llDay5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -239,14 +253,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvWeek5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周五"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -274,11 +290,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周六"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -306,11 +323,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="周一"
+                android:text="周日"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvDay7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

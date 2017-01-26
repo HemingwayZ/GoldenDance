@@ -21,13 +21,21 @@ public class CardModel {
     }
 
     public void buyCard(String tel, String cardId, GDOnResponseHandler handler) {
-        String url = "buyCards";
+        String url = "buyCard";
 
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(tel)) {
             params.put("tel", tel);
         }
         params.put("cardid", cardId);
-        GDHttpManager.doPost(url, params, handler);
+        GDHttpManager.doGet(url, params, handler);
     }
+
+    public void getCardRecord(GDOnResponseHandler handler) {
+        String url = "getCardRecord";
+
+        Map<String, String> params = new HashMap<>();
+        GDHttpManager.doGet(url, params, handler);
+    }
+
 }

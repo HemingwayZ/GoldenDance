@@ -27,7 +27,8 @@ public class CardActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-
+        TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+        tvTitle.setText("我的会员卡");
         findViewById(R.id.tvSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,5 +39,18 @@ public class CardActivity extends BaseActivity {
 
         TextView tvCardType = (TextView) findViewById(R.id.tvCardType);
         tvCardType.setText(User.cardname);
+
+
+        findViewById(R.id.tvCardHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toHistory();
+            }
+        });
+    }
+
+    private void toHistory() {
+        Intent intent = new Intent(this, CardHistoryActivity.class);
+        startActivity(intent);
     }
 }

@@ -126,9 +126,19 @@ public class PayActivity extends BaseActivity {
             tag = rbSeason.getTag();
         }
         CardBean card;
+
         if (tag instanceof CardBean) {
             card = (CardBean) tag;
+            final ProgressDialog pd = new ProgressDialog(this);
+            pd.setMessage("加载中...");
+            pd.show();
             new CardModel().buyCard(tel, card.getCardid(), new GDOnResponseHandler() {
+                @Override
+                public void onEnd() {
+                    pd.dismiss();
+                    super.onEnd();
+                }
+
                 @Override
                 public void onSuccess(int code, String json) {
                     super.onSuccess(code, json);
@@ -147,7 +157,8 @@ public class PayActivity extends BaseActivity {
                         showToast(da.getCode() + ":" + da.getMessage());
                         return;
                     }
-                    showToast(da.getMessage());
+                    Toast.makeText(PayActivity.this, da.getMessage(), Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }
             });
         }
