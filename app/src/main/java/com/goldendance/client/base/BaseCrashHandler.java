@@ -14,7 +14,6 @@ import com.goldendance.client.utils.GDLogUtils;
 
 /**
  * 在Application中统一捕获异常，保存到文件中下次再打开时上传
- *
  */
 public class BaseCrashHandler implements UncaughtExceptionHandler {
 

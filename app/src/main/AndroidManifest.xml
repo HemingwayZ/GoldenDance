@@ -24,44 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 百度移动统计 begin -->
-        <!-- 您从百度网站获取的APP KEY -->
-        <meta-data
-            android:name="BaiduMobAd_STAT_ID"
-            android:value="534ab842b4" /> <!-- abcd1234 -->
-        <!-- 渠道商编号 -->
-        <meta-data
-            android:name="BaiduMobAd_CHANNEL"
-            android:value="Baidu Market" />
-
-        <!-- 是否开启错误日志统计，默认为false -->
-        <meta-data
-            android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
-        <!-- 日志发送策略，可选值：APP_START、ONCE_A_DAY、SET_TIME_INTERVAL，默认为APP_START -->
-        <meta-data
-            android:name="BaiduMobAd_SEND_STRATEGY"
-            android:value="APP_START" />
-        <!-- 日志发送策略 为SET_TIME_INTERVAL时，需设定时间间隔(取消下行注释)。取值为1-24的整数，默认为1 -->
-        <!-- <meta-data android:name="BaiduMobAd_TIME_INTERVAL" android:value="2" /> -->
-        <!-- 日志仅在wifi网络下发送，默认为false -->
-        <meta-data
-            android:name="BaiduMobAd_ONLY_WIFI"
-            android:value="false" />
-        <!-- 是否获取基站位置信息 ,默认为true -->
-        <meta-data
-            android:name="BaiduMobAd_CELL_LOCATION"
-            android:value="true" />
-        <!-- 是否获取GPS位置信息，默认为true -->
-        <meta-data
-            android:name="BaiduMobAd_GPS_LOCATION"
-            android:value="true" />
-        <!-- 是否获取WIFI位置信息，默认为true -->
-        <meta-data
-            android:name="BaiduMobAd_WIFI_LOCATION"
-            android:value="true" />
-
-        <!-- 百度移动统计 finish -->
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="stateHidden">
@@ -116,7 +78,18 @@
             android:screenOrientation="behind" />
 
         <!-- zhifubao end -->
-        <activity android:name=".card.CardHistoryActivity"></activity>
+        <activity android:name=".card.CardHistoryActivity" />
+
+        <!--TalkingData start-->
+
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="A569BCED7D174E2F8A63BADDAB7CB748" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="TestMode" />
+
+        <!--TalkingData end-->
     </application>
 
 </manifest>

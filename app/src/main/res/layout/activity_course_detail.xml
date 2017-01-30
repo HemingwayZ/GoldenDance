@@ -4,25 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context="com.goldendance.client.course.DetailCourseActivity">
 
     <include layout="@layout/i_head" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/temp_course_detail" />
-        </LinearLayout>
-    </ScrollView>
+    <include layout="@layout/i_detail_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,13 +20,24 @@
         android:gravity="right"
         android:orientation="vertical">
 
-        <ImageView
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-
             android:layout_marginRight="15dp"
-            android:src="@mipmap/detail_course_notice" />
+            android:background="@mipmap/detail_course_notice">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="1.如不能按时参加课程请在开课2小时前取消预约，否则将全额扣除课时费或抵用券\n2.课前刷教师门禁可增加1点信用分，旷课扣除3点信用分"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/ivAddCourse"

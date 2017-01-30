@@ -16,13 +16,13 @@
 #   public *;
 #}
 
-#Eventbus
+#Eventbus start
 -keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
 *;
 }
+#EventBus end
 
-
-#zhifubao
+#zhifubao start
 -libraryjars libs/alipaySdk-20161222.jar
 
 -keep class com.alipay.android.app.IAlixPay{*;}
@@ -31,3 +31,16 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+#zhifubao end
+
+
+#TalkingData start
+-dontwarn com.tendcloud.tenddata.**
+-keep class com.tendcloud.** {*;}
+-keep public class com.tendcloud.tenddata.** { public protected *;}
+-keepclassmembers class com.tendcloud.tenddata.**{
+public void *(***);
+}
+-keep class com.talkingdata.sdk.TalkingDataSDK {public *;}
+-keep class com.apptalkingdata.** {*;}
+#TalkingData end

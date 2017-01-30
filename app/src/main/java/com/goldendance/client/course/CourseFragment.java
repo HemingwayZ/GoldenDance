@@ -17,6 +17,7 @@ import com.goldendance.client.utils.GDLogUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ import java.util.List;
  * Use the {@link CourseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CourseFragment extends Fragment {
+public class CourseFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,6 +42,7 @@ public class CourseFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private int[] ivIdres;
     private View view;
+    private ViewPager vpBody;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -98,7 +100,7 @@ public class CourseFragment extends Fragment {
 
         initHead(view);
         initHead2(view);
-        ViewPager vpBody = (ViewPager) view.findViewById(R.id.vpBody);
+        vpBody = (ViewPager) view.findViewById(R.id.vpBody);
         List<Fragment> list = new ArrayList<>();
         CourseListFragment fragment1 = CourseListFragment.newInstance("", "");
         CourseListFragment fragment2 = CourseListFragment.newInstance("", "");
@@ -142,6 +144,16 @@ public class CourseFragment extends Fragment {
     }
 
     private void initHead2(View view) {
+        int[] head2WeekIds = new int[]{
+                R.id.tvWeek1,
+                R.id.tvWeek2,
+                R.id.tvWeek3,
+                R.id.tvWeek4,
+                R.id.tvWeek5,
+                R.id.tvWeek6,
+                R.id.tvWeek7,
+        };
+
         int[] head2Ids = new int[]{
                 R.id.tvDay1,
                 R.id.tvDay2,
@@ -151,45 +163,46 @@ public class CourseFragment extends Fragment {
                 R.id.tvDay6,
                 R.id.tvDay7
         };
+        String[] weeks = new String[]{
+                "周日",
+                "周一",
+                "周二",
+                "周三",
+                "周四",
+                "周五",
+                "周六"
+        };
 
+        //        头部点击事件
+        int[] head2Ids2 = new int[]{
+                R.id.llDay1,
+                R.id.llDay2,
+                R.id.llDay3,
+                R.id.llDay4,
+                R.id.llDay5,
+                R.id.llDay6,
+                R.id.llDay7
+        };
         //获取当前时间
-        Calendar c = Calendar.getInstance();
-        int monthOfYear = c.get(Calendar.MONTH) + 1;
-        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        int week = c.get(Calendar.DAY_OF_WEEK);
-        GDLogUtils.i(TAG, "monthOfYear:" + monthOfYear);
-        GDLogUtils.i(TAG, "dayOfMonth:" + dayOfMonth);
-        GDLogUtils.i(TAG, "week:" + week);
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            Calendar c = Calendar.getInstance();
+            //最近一周
+            c.set(Calendar.DATE, calendar.get(Calendar.DATE) + i);
+            int monthOfYear = c.get(Calendar.MONTH) + 1;
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            int week = c.get(Calendar.DAY_OF_WEEK);
 
-        switch (week) {
-            case Calendar.SUNDAY:
-                week = 7;
-                break;
-            case Calendar.MONDAY:
-                week = 1;
-                break;
-            case Calendar.TUESDAY:
-                week = 2;
-                break;
-            case Calendar.WEDNESDAY:
-                week = 3;
-                break;
-            case Calendar.THURSDAY:
-                week = 4;
-                break;
-            case Calendar.FRIDAY:
-                week = 5;
-                break;
-            case Calendar.SATURDAY:
-                week = 6;
-                break;
-        }
-        for (int i = 0; i < head2Ids.length; i++) {
-            if (week == i + 1) {
-                int head2Id = head2Ids[i];
-                TextView tvDay = (TextView) view.findViewById(head2Id);
-                tvDay.setText(monthOfYear + "." + dayOfMonth);
-            }
+//            GDLogUtils.i(TAG, "日期:" + monthOfYear + "月" + dayOfMonth + "日  星期：" + week);
+//            设置星期
+            TextView tvWeek = (TextView) view.findViewById(head2WeekIds[i]);
+            tvWeek.setText(weeks[week - 1]);
+//            月份
+            TextView tvDay = (TextView) view.findViewById(head2Ids[i]);
+            tvDay.setText(monthOfYear + "." + dayOfMonth);
+
+//            按鈕
+            view.findViewById(head2Ids2[i]).setOnClickListener(this);
         }
     }
 
@@ -200,7 +213,6 @@ public class CourseFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
         ivIdres = new int[]{
                 R.id.ivPoint1,
                 R.id.ivPoint2,
@@ -235,6 +247,33 @@ public class CourseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.llDay1:
+                vpBody.setCurrentItem(0);
+                break;
+            case R.id.llDay2:
+                vpBody.setCurrentItem(1);
+                break;
+            case R.id.llDay3:
+                vpBody.setCurrentItem(2);
+                break;
+            case R.id.llDay4:
+                vpBody.setCurrentItem(3);
+                break;
+            case R.id.llDay5:
+                vpBody.setCurrentItem(4);
+                break;
+            case R.id.llDay6:
+                vpBody.setCurrentItem(5);
+                break;
+            case R.id.llDay7:
+                vpBody.setCurrentItem(6);
+                break;
+        }
     }
 
     /**

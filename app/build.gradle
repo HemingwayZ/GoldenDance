@@ -37,9 +37,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'org.apache.logging.log4j:log4j:2.7'
-    compile 'com.baidu.mobstat:mtj-sdk:latest.integration'
     compile 'com.android.support:design:25.1.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.makeramen:roundedimageview:2.3.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/TalkingData_AppAnalytics_Android_SDK_V2.3.50.jar')
 }
