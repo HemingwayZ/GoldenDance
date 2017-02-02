@@ -1,13 +1,22 @@
+<!-- TODO: Update blank fragment layout -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.goldendance.client.course.CourseListFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvList"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context="com.goldendance.client.course.CourseListFragment">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/empty_view" />
 </FrameLayout>

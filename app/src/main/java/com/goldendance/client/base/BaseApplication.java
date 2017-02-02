@@ -24,8 +24,10 @@ public class BaseApplication extends Application {
         // 程序异常关闭1s之后重新启动
 //        new RebootThreadExceptionHandler(getBaseContext());
         super.onCreate();
+        TCAgent.init(this);
         /*TalkingData start*/
         TCAgent.LOG_ON = true;
+
         // App ID: 在TalkingData创建应用后，进入数据报表页中，在“系统设置”-“编辑应用”页面里查看App ID。
         // 渠道 ID: 是渠道标识符，可通过不同渠道单独追踪数据。
 //        http://doc.talkingdata.com/posts/21

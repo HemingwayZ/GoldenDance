@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout
+        android:id="@+id/flHead1"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/colorAccent">
@@ -22,6 +23,7 @@
             android:src="@mipmap/i_back" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -43,8 +45,10 @@
 
     <!--一级导航-->
     <LinearLayout
+        android:id="@+id/head2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_below="@+id/flHead1"
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:gravity="center"
@@ -97,8 +101,10 @@
     </LinearLayout>
     <!--一级导航-->
     <LinearLayout
+        android:id="@+id/head3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@+id/head2"
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:gravity="center"
@@ -354,5 +360,16 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vpBody"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head3" />
+
+
+    <include
+        layout="@layout/store_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:maxHeight="300dp"
+        android:visibility="visible" />
+</RelativeLayout>

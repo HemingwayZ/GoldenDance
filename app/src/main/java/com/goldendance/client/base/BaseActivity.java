@@ -24,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication application = (BaseApplication) getApplication();
         application.addActivity(this);

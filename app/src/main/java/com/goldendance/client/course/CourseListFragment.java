@@ -1,16 +1,30 @@
 package com.goldendance.client.course;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.CourseListBean;
+import com.goldendance.client.bean.DataResultBean;
+import com.goldendance.client.http.GDHttpManager;
+import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.model.CourseModel;
+import com.goldendance.client.utils.JsonUtils;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,14 +37,19 @@ import com.goldendance.client.R;
 public class CourseListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_DATE = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public static String storeId = "";
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String date;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private View empty_view;
+    private TextView tvEmpty;
+    private CourseAdapter adapter;
+    private SwipeRefreshLayout refreshView;
+    private LinearLayoutManager manager;
 
     public CourseListFragment() {
         // Required empty public constructor
@@ -48,7 +67,7 @@ public class CourseListFragment extends Fragment {
     public static CourseListFragment newInstance(String param1, String param2) {
         CourseListFragment fragment = new CourseListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_DATE, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -58,7 +77,7 @@ public class CourseListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            date = getArguments().getString(ARG_DATE);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -69,16 +88,128 @@ public class CourseListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_course_list, container, false);
         initView(view);
+        onrefresh();
         return view;
     }
 
+    public void onrefresh() {
+        hasMoreData = true;
+        page = 1;
+        initData();
+    }
+    public void onrefresh2() {
+        adapter.setmData(null);
+        adapter.notifyDataSetChanged();
+        onrefresh();
+    }
+    private static int ROWS = 20;
+    private int page = 1;
+
+    private void initData() {
+        refreshView.setRefreshing(true);
+        new CourseModel().getListCourse(date, storeId, page, ROWS, new GDOnResponseHandler() {
+            @Override
+            public void onEnd() {
+                super.onEnd();
+                refreshView.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(IOException e) {
+                super.onFailed(e);
+                if (adapter.getItemCount() < 1) {
+                    showEmptyView("网络请求超时");
+                }
+            }
+
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+
+                if (GDHttpManager.CODE200 != code) {
+                    showEmptyView("newwork error " + code);
+                    return;
+                }
+                DataResultBean<CourseListBean> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<CourseListBean>>() {
+                });
+                if (base == null) {
+                    showEmptyView("data parse error");
+                    return;
+                }
+                if (GDHttpManager.CODE200 != base.getCode()) {
+                    showEmptyView(base.getMessage());
+                    return;
+                }
+                CourseListBean data = base.getData();
+                if (data == null) {
+                    showEmptyView("data is null");
+                    return;
+                }
+
+                if (data.getList() == null || data.getList().size() < 1) {
+                    hasMoreData = false;
+//                    Toast.makeText(getActivity(), "没有更多课程了", Toast.LENGTH_SHORT).show();
+                }
+                page++;
+                adapter.addData(data.getList());
+                adapter.notifyDataSetChanged();
+                if (adapter.getItemCount() < 1) {
+                    showEmptyView("暂无课程信息");
+                }
+            }
+        });
+    }
+
+    void showEmptyView(String msg) {
+        empty_view.setVisibility(View.VISIBLE);
+        tvEmpty.setText(msg);
+    }
+
+    private boolean hasMoreData = true;
+
     private void initView(View view) {
         RecyclerView rvList = (RecyclerView) view.findViewById(R.id.rvList);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvList.setLayoutManager(manager);
-        CourseAdapter adapter = new CourseAdapter(getActivity());
+        adapter = new CourseAdapter(getActivity());
         rvList.setAdapter(adapter);
+        rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (RecyclerView.SCROLL_STATE_IDLE == newState && hasMoreData) {
+                    if (manager.findLastVisibleItemPosition() >= adapter.getItemCount() - 1) {
+                        initData();
+                    }
+                }
+            }
+        });
+
+        empty_view = view.findViewById(R.id.empty_view);
+        empty_view.setVisibility(View.GONE);
+        tvEmpty = (TextView) empty_view.findViewById(R.id.tvEmpty);
+        tvEmpty.setText("暂无课程");
+
+
+        //刷新
+        refreshView = (SwipeRefreshLayout) view.findViewById(R.id.refreshView);
+        //设置刷新时动画的颜色，可以设置4个
+        refreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        refreshView.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        refreshView.setProgressViewOffset(false, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                        .getDisplayMetrics()));
+        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.setmData(null);
+                adapter.notifyDataSetChanged();
+                onrefresh();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

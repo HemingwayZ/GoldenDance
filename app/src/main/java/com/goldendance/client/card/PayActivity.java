@@ -125,12 +125,12 @@ public class PayActivity extends BaseActivity {
         } else {
             tag = rbSeason.getTag();
         }
-        CardBean card;
+        final CardBean card;
 
         if (tag instanceof CardBean) {
             card = (CardBean) tag;
             final ProgressDialog pd = new ProgressDialog(this);
-            pd.setMessage("加载中...");
+            pd.setMessage("付款中...");
             pd.show();
             new CardModel().buyCard(tel, card.getCardid(), new GDOnResponseHandler() {
                 @Override
@@ -158,6 +158,7 @@ public class PayActivity extends BaseActivity {
                         return;
                     }
                     Toast.makeText(PayActivity.this, da.getMessage(), Toast.LENGTH_SHORT).show();
+                    User.cardname = card.getCardname();
                     onBackPressed();
                 }
             });

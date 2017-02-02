@@ -31,4 +31,7 @@
     <string name="next">下一步</string>
     <!--<string name="pay_notice">需要支付<font color="fa02c8">%1$s</font>元</string>-->
     <string name="pay_notice"><Data><![CDATA[需要支付 <font color="#fa02c8">%1$s</font> 元，可获得<font color="#fa02c8">%2$s</font>积分]]></Data></string>
+
+    <string name="course_price">￥%1$d/课</string>
+    <string name="order_number">（%1$d/%2$d人）</string>
 </resources>

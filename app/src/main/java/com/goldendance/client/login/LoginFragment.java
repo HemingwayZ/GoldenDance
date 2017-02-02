@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
         etMobile.addTextChangedListener(new MyTextWatcher(etMobile, view.findViewById(R.id.ivClearMobile)));
-        etPassword.addTextChangedListener(new MyTextWatcher(etMobile, view.findViewById(R.id.ivClearPassword)));
+        etPassword.addTextChangedListener(new MyTextWatcher(etPassword, view.findViewById(R.id.ivClearPassword)));
         view.findViewById(R.id.tvSubmit).setOnClickListener(this);
 
         //

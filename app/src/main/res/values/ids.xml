@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <item name="object" type="id">id_object</item>
+    <item name="pos" type="id">position</item>
+</resources>

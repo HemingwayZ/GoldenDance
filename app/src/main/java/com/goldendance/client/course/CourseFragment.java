@@ -1,5 +1,6 @@
 package com.goldendance.client.course;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.DataResultBean;
+import com.goldendance.client.bean.StoreBean;
+import com.goldendance.client.http.GDHttpManager;
+import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.model.CourseModel;
 import com.goldendance.client.utils.GDLogUtils;
+import com.goldendance.client.utils.JsonUtils;
+import com.google.gson.reflect.TypeToken;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -43,6 +58,11 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     private int[] ivIdres;
     private View view;
     private ViewPager vpBody;
+    private StoreListAdapter adapter;
+    private RecyclerView storeList;
+    private TextView tvTitle;
+    private ArrayList<String> dateList;
+    private List<Fragment> fragmentList;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -66,13 +86,39 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setTitle(StoreBean bean) {
+        showOrHideStoreList();
+        if (bean == null) {
+            return;
+        }
+        if (tvTitle.getText().toString().equals(bean.getText())) {
+            return;
+        }
+        tvTitle.setText(bean.getText());
+        int currentItem = vpBody.getCurrentItem();
+        CourseListFragment.storeId = bean.getValue();
+        CourseListFragment courseListFragment = (CourseListFragment) fragmentList.get(currentItem);
+        if (courseListFragment != null) {
+            courseListFragment.onrefresh2();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -81,7 +127,65 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_course, container, false);
         initView(view);
+
+        getStore();
         return view;
+    }
+
+    /**
+     * 获取门店
+     */
+    private void getStore() {
+        final ProgressDialog show = ProgressDialog.show(getActivity(), null, "加载中...");
+        new CourseModel().getStore(new GDOnResponseHandler() {
+            @Override
+            public void onEnd() {
+                super.onEnd();
+                show.dismiss();
+            }
+
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+                if (GDHttpManager.CODE200 != code) {
+                    Toast.makeText(getActivity(), "network error:" + code, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DataResultBean<ArrayList<StoreBean>> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<ArrayList<StoreBean>>>() {
+                });
+                if (base == null) {
+                    Toast.makeText(getActivity(), "data parse error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int code1 = base.getCode();
+                if (GDHttpManager.CODE200 != code1) {
+                    Toast.makeText(getActivity(), "error：" + code1, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ArrayList<StoreBean> data = base.getData();
+                adapter.setmData(data);
+                adapter.notifyDataSetChanged();
+                if (data != null && data.size() > 0) {
+                    StoreBean storeBean = data.get(0);
+                    CourseListFragment.storeId = storeBean.getValue();
+                    tvTitle.setText(storeBean.getText());
+                    initBody();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView(final View view) {
@@ -97,26 +201,19 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 //        });
 //        CourseAdapter adapter = new CourseAdapter(getActivity());
 //        rvList.setAdapter(adapter);
-
         initHead(view);
         initHead2(view);
+
+        initStoreView(view);
+    }
+
+    private void initBody() {
         vpBody = (ViewPager) view.findViewById(R.id.vpBody);
-        List<Fragment> list = new ArrayList<>();
-        CourseListFragment fragment1 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment2 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment3 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment4 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment5 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment6 = CourseListFragment.newInstance("", "");
-        CourseListFragment fragment7 = CourseListFragment.newInstance("", "");
-        list.add(fragment1);
-        list.add(fragment2);
-        list.add(fragment3);
-        list.add(fragment4);
-        list.add(fragment5);
-        list.add(fragment6);
-        list.add(fragment7);
-        CoursePagerAdapter adapter = new CoursePagerAdapter(getActivity().getSupportFragmentManager(), list);
+        fragmentList = new ArrayList<>();
+        for (String date : dateList) {
+            fragmentList.add(CourseListFragment.newInstance(date, ""));
+        }
+        CoursePagerAdapter adapter = new CoursePagerAdapter(getActivity().getSupportFragmentManager(), fragmentList);
         vpBody.setAdapter(adapter);
         vpBody.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -142,6 +239,21 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    private void initStoreView(View view) {
+        storeList = (RecyclerView) view.findViewById(R.id.rvList);
+        storeList.setVisibility(View.GONE);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        storeList.setLayoutManager(manager);
+
+        adapter = new StoreListAdapter(getActivity());
+
+        storeList.setAdapter(adapter);
+
+
+    }
+
 
     private void initHead2(View view) {
         int[] head2WeekIds = new int[]{
@@ -183,16 +295,22 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 R.id.llDay6,
                 R.id.llDay7
         };
+        SimpleDateFormat myFmt = new SimpleDateFormat("yyyy-MM-dd");
+        dateList = new ArrayList<>();
         //获取当前时间
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < 7; i++) {
             Calendar c = Calendar.getInstance();
             //最近一周
             c.set(Calendar.DATE, calendar.get(Calendar.DATE) + i);
+
+            //设置时间
+            Date time = c.getTime();
+            String format = myFmt.format(time);
+            dateList.add(format);
             int monthOfYear = c.get(Calendar.MONTH) + 1;
             int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
             int week = c.get(Calendar.DAY_OF_WEEK);
-
 //            GDLogUtils.i(TAG, "日期:" + monthOfYear + "月" + dayOfMonth + "日  星期：" + week);
 //            设置星期
             TextView tvWeek = (TextView) view.findViewById(head2WeekIds[i]);
@@ -200,7 +318,6 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 //            月份
             TextView tvDay = (TextView) view.findViewById(head2Ids[i]);
             tvDay.setText(monthOfYear + "." + dayOfMonth);
-
 //            按鈕
             view.findViewById(head2Ids2[i]).setOnClickListener(this);
         }
@@ -222,8 +339,10 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 R.id.ivPoint6,
                 R.id.ivPoint7
         };
-    }
 
+        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setOnClickListener(this);
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -273,6 +392,17 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
             case R.id.llDay7:
                 vpBody.setCurrentItem(6);
                 break;
+            case R.id.tvTitle:
+                showOrHideStoreList();
+                break;
+        }
+    }
+
+    private void showOrHideStoreList() {
+        if (storeList.getVisibility() == View.VISIBLE) {
+            storeList.setVisibility(View.GONE);
+        } else {
+            storeList.setVisibility(View.VISIBLE);
         }
     }
 
