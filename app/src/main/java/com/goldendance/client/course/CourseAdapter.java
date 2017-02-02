@@ -2,8 +2,6 @@ package com.goldendance.client.course;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,34 +13,18 @@ import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.view.BaseViewHolder;
 import com.goldendance.client.view.FooterRecyclerViewAdapter;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
  * Created by hemingway on 2017/1/15.
  */
 
-public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.CourseViewHolder> {
-    private ArrayList<CourseBean> mData;
+public class CourseAdapter extends FooterRecyclerViewAdapter<CourseBean> {
 
-    public ArrayList<CourseBean> getmData() {
-        return mData;
-    }
-
-    public void setmData(ArrayList<CourseBean> mData) {
-        this.mData = mData;
-    }
-
-    public void addData(ArrayList<CourseBean> mData) {
-        if (mData == null) {
-            return;
-        }
-        if (this.mData == null) {
-            this.mData = mData;
-            return;
-        }
-        this.mData.addAll(mData);
-    }
 
     public CourseAdapter(Context mContext) {
         super(mContext);
@@ -62,11 +44,15 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.Cours
         return super.onCreateViewHolder(parent, viewType);
     }
 
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+
     @Override
     public void onBindViewHolder(BaseViewHolder baseHolder, int position) {
         if (getItemViewType(position) == TYPE_CONTENT) {
+
             CourseViewHolder holder = (CourseViewHolder) baseHolder;
-            CourseBean item = mData.get(position);
+            holder.itemView.setTag(R.id.pos, position);
+            CourseBean item = mList.get(position);
             if (item == null) {
                 return;
             }
@@ -76,6 +62,28 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.Cours
 
             holder.tvCoachName.setText(item.getCoachname());
             holder.tvCoursePrice.setText(String.format(Locale.getDefault(), mContext.getString(R.string.course_price), item.getPrice()));
+
+            Date date = null;
+            try {
+                date = format.parse(item.getStarttime());
+                long startTime = date.getTime();
+                Date endDate = format.parse(item.getEndtime());
+                long endTime = endDate.getTime();
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis < startTime) {
+                    holder.tvCourseStatus.setText("未开始");
+                    holder.tvCourseStatus.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                } else if (currentTimeMillis > startTime) {
+                    holder.tvCourseStatus.setText("已结束");
+                    holder.tvCourseStatus.setTextColor(0xffcdcdcd);
+                } else {
+                    holder.tvCourseStatus.setText("进行中...");
+                    holder.tvCourseStatus.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+
+            }
             holder.tvTime.setText(item.getStarttime());
             //数量设置
             holder.tvCourseNum.setText(String.format(Locale.getDefault(), mContext.getString(R.string.order_number), item.getOrdernum(), item.getTotalnum()));
@@ -84,12 +92,7 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.Cours
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return mData == null ? 0 : mData.size();
-    }
-
-    class CourseViewHolder extends BaseViewHolder {
+    private class CourseViewHolder extends BaseViewHolder {
 
         private final ImageView ivCourseCover;
         private final TextView tvCourseTitle;
@@ -97,14 +100,22 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.Cours
         private final TextView tvCoursePrice;
         private final TextView tvTime;
         private final TextView tvCourseNum;
+        private final TextView tvCourseStatus;
 
         public CourseViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, DetailCourseActivity.class);
-                    mContext.startActivity(intent);
+                    Object tag = v.getTag(R.id.pos);
+                    if (tag instanceof Integer) {
+                        int pos = (int) tag;
+                        CourseBean courseBean = mList.get(pos);
+                        Intent intent = new Intent(mContext, DetailCourseActivity.class);
+                        intent.putExtra("course", courseBean);
+                        mContext.startActivity(intent);
+                    }
+
                 }
             });
 
@@ -119,6 +130,8 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseAdapter.Cours
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
 
             tvCourseNum = (TextView) itemView.findViewById(R.id.tvCourseNum);
+
+            tvCourseStatus = (TextView) itemView.findViewById(R.id.tvCourseStatus);
         }
     }
 }

@@ -1,10 +1,12 @@
 package com.goldendance.client.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by hemingway on 2017/2/2.
  */
 
-public class CourseBean {
+public class CourseBean implements Serializable {
     //           "introduce": "简介",
 //                   "coachid": "COA20170113165208488050421",
 //                   "price": 100,

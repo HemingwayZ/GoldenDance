@@ -274,7 +274,7 @@
             android:id="@+id/llLogOut"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginBottom="81dp"
+            android:layout_marginBottom="82dp"
             android:layout_marginTop="0.5dp"
             android:background="#FFFFFF"
             android:gravity="center_vertical"

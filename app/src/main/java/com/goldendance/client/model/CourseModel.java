@@ -30,10 +30,22 @@ public class CourseModel {
     public void getListCourse(String date, String storeid, int page, int rows, GDOnResponseHandler handler) {
         String url = "getListCourse";
         Map<String, String> params = new HashMap<>();
-//        params.put("starttime", date);
-        params.put("storied",storeid);
+        params.put("starttime", date);
+        params.put("storied", storeid);
         params.put("rows", String.valueOf(rows));
         params.put("page", String.valueOf(page));
         GDHttpManager.doGet(url, params, handler);
+    }
+
+    /**
+     * 预约
+     *
+     * @param handler
+     */
+    public void orderCourse(String courseid, GDOnResponseHandler handler) {
+        String url = "orderCourse";
+        Map<String, String> params = new HashMap<>();
+        params.put("courseid", courseid);
+        GDHttpManager.doPost(url, params, handler);
     }
 }

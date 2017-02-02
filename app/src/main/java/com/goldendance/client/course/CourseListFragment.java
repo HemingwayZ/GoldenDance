@@ -93,15 +93,18 @@ public class CourseListFragment extends Fragment {
     }
 
     public void onrefresh() {
+        adapter.setLoadText("加载中...");
         hasMoreData = true;
         page = 1;
         initData();
     }
+
     public void onrefresh2() {
-        adapter.setmData(null);
+        adapter.setmList(null);
         adapter.notifyDataSetChanged();
         onrefresh();
     }
+
     private static int ROWS = 20;
     private int page = 1;
 
@@ -146,14 +149,17 @@ public class CourseListFragment extends Fragment {
                     return;
                 }
 
-                if (data.getList() == null || data.getList().size() < 1) {
+                if (data.getList() == null || data.getList().size() < ROWS) {
                     hasMoreData = false;
+                    adapter.setHasNoData(true);
+                    adapter.setLoadText("没有更多课程了");
 //                    Toast.makeText(getActivity(), "没有更多课程了", Toast.LENGTH_SHORT).show();
                 }
                 page++;
-                adapter.addData(data.getList());
+                adapter.addMoreList(data.getList());
                 adapter.notifyDataSetChanged();
-                if (adapter.getItemCount() < 1) {
+                if (adapter.getItemCount() < 2) {
+                    adapter.setLoadText("");
                     showEmptyView("暂无课程信息");
                 }
             }
@@ -173,6 +179,7 @@ public class CourseListFragment extends Fragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvList.setLayoutManager(manager);
         adapter = new CourseAdapter(getActivity());
+
         rvList.setAdapter(adapter);
         rvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -205,7 +212,7 @@ public class CourseListFragment extends Fragment {
         refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.setmData(null);
+                adapter.setmList(null);
                 adapter.notifyDataSetChanged();
                 onrefresh();
             }

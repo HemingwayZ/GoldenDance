@@ -63,6 +63,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     private TextView tvTitle;
     private ArrayList<String> dateList;
     private List<Fragment> fragmentList;
+    private View llStoreList;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -242,7 +243,6 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 
     private void initStoreView(View view) {
         storeList = (RecyclerView) view.findViewById(R.id.rvList);
-        storeList.setVisibility(View.GONE);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         storeList.setLayoutManager(manager);
@@ -251,6 +251,9 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 
         storeList.setAdapter(adapter);
 
+        llStoreList = view.findViewById(R.id.llStoreList);
+        llStoreList.setVisibility(View.GONE);
+        llStoreList.setOnClickListener(this);
 
     }
 
@@ -395,14 +398,19 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
             case R.id.tvTitle:
                 showOrHideStoreList();
                 break;
+            case R.id.llStoreList:
+                if (llStoreList.getVisibility() == View.VISIBLE) {
+                    llStoreList.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
     private void showOrHideStoreList() {
-        if (storeList.getVisibility() == View.VISIBLE) {
-            storeList.setVisibility(View.GONE);
+        if (llStoreList.getVisibility() == View.VISIBLE) {
+            llStoreList.setVisibility(View.GONE);
         } else {
-            storeList.setVisibility(View.VISIBLE);
+            llStoreList.setVisibility(View.VISIBLE);
         }
     }
 

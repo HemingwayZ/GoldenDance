@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         }
         String gender = User.gender;
 //        if("0".equals()gender)
-        tvUserName.setText(User.name);
+        if (!TextUtils.isEmpty(User.name))
+            tvUserName.setText(User.name);
         GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
     }
 
