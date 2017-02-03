@@ -29,6 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.util.TextUtils;
 
 
 /**
@@ -45,7 +46,7 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     private static final String ARG_ACTION = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String ACTION_REGISTER = "doRegister";
-    public static final String ACTION_RESET_PEW = "reset_psw";
+    public static final String ACTION_RESET_PSW = "reset_psw";
     private static final String TAG = RegisterFragment.class.getSimpleName();
     private IRegisterContract.IPresenter mPresenter;
     // TODO: Rename and change types of parameters
@@ -152,7 +153,9 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
 //    }
 
     private void initView(View view) {
-        view.findViewById(R.id.tvSubmit).setOnClickListener(this);
+        TextView tvSubmit = (TextView) view.findViewById(R.id.tvSubmit);
+
+        tvSubmit.setOnClickListener(this);
 
         //
         ivClearMobile = view.findViewById(R.id.ivClearMobile);
@@ -182,6 +185,23 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         view.findViewById(R.id.ivBack).setOnClickListener(this);
         view.findViewById(R.id.tvRegister).setOnClickListener(this);
 
+        //
+
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        switch (TextUtils.isEmpty(mAction) ? "" : mAction) {
+            case ACTION_REGISTER:
+                tvTitle.setText("注册");
+                tvSubmit.setText("注册");
+                break;
+            case ACTION_RESET_PSW:
+                tvTitle.setText("忘记密码");
+                tvSubmit.setText("重置密码");
+                view.findViewById(R.id.rlLogin).setVisibility(View.GONE);
+                break;
+            default:
+                tvTitle.setText("注册");
+                break;
+        }
 
     }
 
@@ -339,6 +359,16 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void retPswSucceed() {
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public String getAction() {
+        return mAction;
     }
 
     @Override

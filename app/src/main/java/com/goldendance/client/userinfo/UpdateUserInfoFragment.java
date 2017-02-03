@@ -57,6 +57,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
 
     public static final String ICON_FILE_NAME = "icon.jpg";
+    public static final String ICON_CAPTURE_FILE_NAME = "icon_capture.jpg";
 
     public UpdateUserInfoFragment() {
         // Required empty public constructor
@@ -291,7 +292,16 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void getIconByCamera() {
+        File captureFile = GDFileUtils.getStorageFile(ICON_CAPTURE_FILE_NAME);
+        if (captureFile == null) {
+            Toast.makeText(getActivity(), "file create failed!!!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        //本地图片存储 android N适配
+        //Uri cropUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, storgeFile);
+        Uri captureUri = Uri.fromFile(captureFile);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, captureUri);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -353,11 +363,14 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK || data == null) {
+        if (resultCode != RESULT_OK) {
             return;
         }
         switch (requestCode) {
             case REQUEST_GALLERY:
+                if (data == null) {
+                    return;
+                }
                 Uri uri = data.getData();
                 if (uri == null) {
                     Toast.makeText(getActivity(), "can find image", Toast.LENGTH_SHORT).show();
@@ -367,6 +380,16 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
                 break;
             case REQUEST_CROP:
                 mPresenter.confirm();
+                break;
+            case REQUEST_CAMERA:
+                File captureFile = GDFileUtils.getStorageFile(ICON_CAPTURE_FILE_NAME);
+                if (captureFile == null) {
+                    Toast.makeText(getActivity(), "can find image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Uri captureUri = Uri.fromFile(captureFile);
+                Toast.makeText(getActivity(), "data:" + captureUri, Toast.LENGTH_LONG).show();
+                toCrop(captureUri);
                 break;
         }
 

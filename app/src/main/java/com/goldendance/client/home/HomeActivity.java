@@ -1,10 +1,12 @@
 package com.goldendance.client.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
+import com.goldendance.client.base.BaseApplication;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.bean.UserBean;
@@ -54,6 +57,28 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                 getUserInfo();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+        ad.setMessage("是否退出金舞团");
+        ad.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logOut();
+            }
+        }).show();
+    }
+
+    private void logOut() {
+        BaseApplication application = (BaseApplication) getApplication();
+        application.exitApp();
     }
 
     @Override

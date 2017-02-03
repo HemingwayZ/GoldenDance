@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.about.AboutActivity;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
+import com.goldendance.client.course.history.CourseHistoryActivity;
 import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.userinfo.UserInfoActivity;
 import com.goldendance.client.utils.GDSharedPreference;
@@ -96,6 +98,10 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         //清除缓存
         view.findViewById(R.id.llClearCache).setOnClickListener(this);
 
+        //课程历史
+        view.findViewById(R.id.llCourseHistory).setOnClickListener(this);
+        //关于
+        view.findViewById(R.id.llAbout).setOnClickListener(this);
         //用户信息
         ivGender = (ImageView) view.findViewById(R.id.ivGender);
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
@@ -157,6 +163,14 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             case R.id.llClearCache:
                 clearCache();
                 break;
+            case R.id.llAbout:
+                intent.setClass(getActivity(), AboutActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.llCourseHistory:
+                intent.setClass(getActivity(), CourseHistoryActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -177,6 +191,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void run() {
                                 show.hide();
+                                GDImageLoader.clearMemoryCache(getActivity());
                                 Toast.makeText(getActivity(), "清除完毕", Toast.LENGTH_LONG).show();
                             }
                         });

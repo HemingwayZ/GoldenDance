@@ -9,7 +9,7 @@ import com.goldendance.client.http.GDOnResponseHandler;
 public interface IUserModel {
     void getCode(String mobile, String type, GDOnResponseHandler handler);
 
-    void doRegister(String mobile, String password, String code, GDOnResponseHandler handler);
+    void doRegister(String action, String mobile, String password, String code, GDOnResponseHandler handler);
 
     void getToken(String tel, String password, GDOnResponseHandler handler);
 

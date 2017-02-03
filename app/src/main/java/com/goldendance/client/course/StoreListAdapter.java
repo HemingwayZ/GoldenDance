@@ -41,7 +41,6 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     @Override
     public StoreViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.store_list_item, viewGroup, false);
-
         return new StoreViewHolder(view);
     }
 
@@ -49,7 +48,6 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     public void onBindViewHolder(StoreViewHolder storeViewHolder, int i) {
         StoreBean item = mData.get(i);
         storeViewHolder.tvStore.setText(item.getText());
-
         storeViewHolder.itemView.setTag(R.id.pos, i);
         storeViewHolder.itemView.setOnClickListener(onItemClickListener);
     }
@@ -58,6 +56,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
         @Override
         public void onClick(View v) {
             Object tag = v.getTag(R.id.pos);
+//            Toast.makeText(mContext, "pos:" + tag, Toast.LENGTH_LONG).show();
             if (tag instanceof Integer) {
                 int pos = (int) tag;
                 StoreBean storeBean = mData.get(pos);

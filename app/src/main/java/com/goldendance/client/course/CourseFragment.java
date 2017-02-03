@@ -2,6 +2,7 @@ package com.goldendance.client.course;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -186,6 +187,11 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
@@ -206,6 +212,9 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         initHead2(view);
 
         initStoreView(view);
+
+
+        view.findViewById(R.id.ivOpera).setOnClickListener(this);
     }
 
     private void initBody() {
@@ -403,7 +412,32 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                     llStoreList.setVisibility(View.GONE);
                 }
                 break;
+            case R.id.ivOpera:
+                openOpera();
+                break;
         }
+    }
+
+    private static final int REQUEST_OPTION = 100;
+
+    private void openOpera() {
+        Intent intent = new Intent(getActivity(), OptionsActivity.class);
+        startActivityForResult(intent, REQUEST_OPTION);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_OPTION:
+                if (resultCode == OptionsActivity.RESULT_OPTION1) {
+                    showOrHideStoreList();
+                }
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void showOrHideStoreList() {
@@ -411,6 +445,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
             llStoreList.setVisibility(View.GONE);
         } else {
             llStoreList.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
         }
     }
 

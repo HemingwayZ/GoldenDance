@@ -48,4 +48,29 @@ public class CourseModel {
         params.put("courseid", courseid);
         GDHttpManager.doPost(url, params, handler);
     }
+
+
+    /**
+     * 预约
+     *
+     * @param handler
+     */
+    public void getOrderedMember(String courseid, GDOnResponseHandler handler) {
+        String url = "getOrderedMember";
+        Map<String, String> params = new HashMap<>();
+        params.put("courseid", courseid);
+        GDHttpManager.doGet(url, params, handler);
+    }
+
+    /**
+     * 预约
+     *
+     * @param handler
+     */
+    public void getCourseRecord(GDOnResponseHandler handler) {
+        String url = "getCourseRecord";
+        Map<String, String> params = new HashMap<>();
+//        params.put("courseid", courseid);
+        GDHttpManager.doGet(url, params, handler);
+    }
 }

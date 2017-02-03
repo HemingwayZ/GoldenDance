@@ -7,7 +7,9 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -44,6 +46,7 @@ public class GDImageLoader {
 
     private static void load(Context context, String imgUrl, ImageView imageView, final GDImageLoaderListener listener) {
         Glide.with(context).load(imgUrl)
+//                .thumbnail(0.1f)
 
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -92,5 +95,13 @@ public class GDImageLoader {
 
     public static void clearCache(Context context) {
         Glide.get(context).clearDiskCache();
+    }
+
+    public static void clearMemoryCache(Context context) {
+        Glide.get(context).clearMemory();
+    }
+
+    public static void removeImage(Context context) {
+//        Glide.with(context).
     }
 }

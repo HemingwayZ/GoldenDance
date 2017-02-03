@@ -47,7 +47,12 @@ public class RegisterPresenter implements IRegisterContract.IPresenter {
         }
         //请求数据
         mView.showProgress();
-        mModel.getCode(mobile, "0", new GDOnResponseHandler() {
+        String action = mView.getAction();
+        String type = "0";
+        if (RegisterFragment.ACTION_RESET_PSW.equals(action)) {
+            type = "1";
+        }
+        mModel.getCode(mobile, type, new GDOnResponseHandler() {
 
             @Override
             public void onFailed(IOException e) {
@@ -106,7 +111,8 @@ public class RegisterPresenter implements IRegisterContract.IPresenter {
         }
         password = GDTextUtils.getMD5(password);
         mView.showProgress();
-        mModel.doRegister(mobile, password, code, new GDOnResponseHandler() {
+        final String action = mView.getAction();
+        mModel.doRegister(action, mobile, password, code, new GDOnResponseHandler() {
 
             @Override
             public void onFailed(IOException e) {
@@ -139,6 +145,12 @@ public class RegisterPresenter implements IRegisterContract.IPresenter {
 
                 if (GDHttpManager.CODE200 != data.getCode()) {
                     mView.showToast(R.string.empty_msg, String.valueOf(data.getCode()) + ":" + data.getMessage());
+                    return;
+                }
+
+                if (RegisterFragment.ACTION_RESET_PSW.equals(action)) {
+                    mView.showToast(R.string.empty_msg, data.getMessage());
+                    mView.retPswSucceed();
                     return;
                 }
                 UserBean user = data.getData();

@@ -20,6 +20,7 @@ import com.goldendance.client.bean.User;
 import com.goldendance.client.home.HomeActivity;
 import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.register.RegisterActivity;
+import com.goldendance.client.register.RegisterFragment;
 import com.goldendance.client.utils.GDLogUtils;
 import com.goldendance.client.utils.GDSharedPreference;
 
@@ -143,6 +144,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
                 break;
             case R.id.tvSubmit:
                 mPresenter.getToken();
+                break;
+            case R.id.tvForgetPsw:
+                Intent intent1 = new Intent(getActivity(), RegisterActivity.class);
+                intent1.putExtra("action", RegisterFragment.ACTION_RESET_PSW);
+                startActivity(intent1);
                 break;
         }
     }

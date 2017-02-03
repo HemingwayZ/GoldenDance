@@ -2,7 +2,7 @@ package com.goldendance.client.model;
 
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
-import com.goldendance.client.register.IRegisterContract;
+import com.goldendance.client.register.RegisterFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +26,11 @@ public class UserModel implements IUserModel {
     }
 
 
-    public void doRegister(String mobile, String password, String code, GDOnResponseHandler handler) {
+    public void doRegister(String action, String mobile, String password, String code, GDOnResponseHandler handler) {
         String url = "regist";
+        if (RegisterFragment.ACTION_RESET_PSW.equals(action)) {
+            url = "forgetPassword";
+        }
         Map<String, String> params = new HashMap<>();
         params.put("tel", mobile);
         params.put("telcode", code);

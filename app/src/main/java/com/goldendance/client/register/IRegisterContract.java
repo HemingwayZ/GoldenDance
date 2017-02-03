@@ -36,5 +36,9 @@ public interface IRegisterContract {
         String getMobileCode();
 
         void registSucceed();
+
+        void retPswSucceed();
+
+        String getAction();
     }
 }

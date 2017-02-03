@@ -24,17 +24,40 @@ public class CourseBean implements Serializable {
     private String introduce;
     private String coachid;
     private int price;
-    private String name;
+    private String coursename;
     private String starttime;
     private String endtime;
     private String ordertime;
     private int totalnum;
     private int ordernum;
-    private String storename;
-    private String coachname;
     private String picture;
-    private String storeid;
     private String courseid;
+    private Store2Bean store;
+    private CoachBean coach;
+
+    public String getCoursename() {
+        return coursename;
+    }
+
+    public void setCoursename(String coursename) {
+        this.coursename = coursename;
+    }
+
+    public Store2Bean getStore() {
+        return store;
+    }
+
+    public void setStore(Store2Bean store) {
+        this.store = store;
+    }
+
+    public CoachBean getCoach() {
+        return coach;
+    }
+
+    public void setCoach(CoachBean coach) {
+        this.coach = coach;
+    }
 
     public String getIntroduce() {
         return introduce;
@@ -60,13 +83,6 @@ public class CourseBean implements Serializable {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getStarttime() {
         return starttime;
@@ -108,21 +124,6 @@ public class CourseBean implements Serializable {
         this.ordernum = ordernum;
     }
 
-    public String getStorename() {
-        return storename;
-    }
-
-    public void setStorename(String storename) {
-        this.storename = storename;
-    }
-
-    public String getCoachname() {
-        return coachname;
-    }
-
-    public void setCoachname(String coachname) {
-        this.coachname = coachname;
-    }
 
     public String getPicture() {
         return picture;
@@ -130,14 +131,6 @@ public class CourseBean implements Serializable {
 
     public void setPicture(String picture) {
         this.picture = picture;
-    }
-
-    public String getStoreid() {
-        return storeid;
-    }
-
-    public void setStoreid(String storeid) {
-        this.storeid = storeid;
     }
 
     public String getCourseid() {
