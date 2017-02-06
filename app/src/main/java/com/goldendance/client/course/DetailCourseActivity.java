@@ -34,7 +34,6 @@ public class DetailCourseActivity extends BaseActivity {
     private CourseBean courseBean;
     private ImageView ivCoachPic;
     private AvatarAdapter avatarAdapter;
-
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_course_detail);
