@@ -94,6 +94,7 @@
             android:name=".course.OptionsActivity"
             android:theme="@style/BottomDialog" />
         <activity android:name=".course.history.CourseHistoryActivity"></activity>
+
     </application>
 
 </manifest>
