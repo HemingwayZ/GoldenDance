@@ -19,6 +19,7 @@ public class CardActivity extends BaseActivity {
         setContentView(R.layout.activity_card);
         if (TextUtils.isEmpty(User.tokenid)) {
             toLogin();
+            onBackPressed();
             return;
         }
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {

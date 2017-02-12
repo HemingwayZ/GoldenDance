@@ -12,12 +12,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
 import com.goldendance.client.course.CourseActivity;
+import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDImageLoader;
+import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.login.LoginActivity;
+import com.goldendance.client.model.SettingModel;
 import com.goldendance.client.userinfo.UserInfoActivity;
+import com.goldendance.client.utils.JsonUtils;
+import com.google.gson.reflect.TypeToken;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,6 +47,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     private ImageView ivAvatar;
+    private ImageView ivHead;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,7 +100,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.tvVIP).setOnClickListener(this);
         view.findViewById(R.id.tvOneToOne).setOnClickListener(this);
 
+
         setUserInfo();
+
+        ivHead = (ImageView) view.findViewById(R.id.ivHead);
+        getHomeHeadImage();
+    }
+
+    private void getHomeHeadImage() {
+        new SettingModel().getHomeHead(new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+                if (GDHttpManager.CODE200 != code) {
+                    return;
+                }
+                DataResultBean<String> resultBean = JsonUtils.fromJson(json, new TypeToken<DataResultBean<String>>() {
+                });
+                if (resultBean == null) {
+                    return;
+                }
+
+                int code1 = resultBean.getCode();
+                if (GDHttpManager.CODE200 != code1) {
+                    return;
+                }
+
+                String data = resultBean.getData();
+
+                if (!TextUtils.isEmpty(data))
+                    GDImageLoader.setImageView(getActivity(), data, ivHead);
+            }
+        });
     }
 
     public void setUserInfo() {
@@ -132,10 +170,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 gotoLogin();
                 break;
             case R.id.tvClass:
-                gotoCourse();
+                gotoCourse(CourseActivity.TYPE_COURSE_ADULT);
                 break;
             case R.id.tvOneToOne:
-                gotoCourse();
+                gotoCourse(CourseActivity.TYPE_COURSE_CHILD);
                 break;
             case R.id.tvVIP:
 //                gotoCourse();
@@ -143,7 +181,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tvMyCourse:
-                gotoCourse();
+                gotoCourse(CourseActivity.TYPE_COURSE_INTEREST);
                 break;
         }
     }
@@ -177,9 +215,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void gotoCourse() {
+    private void gotoCourse(String type) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), CourseActivity.class);
+        intent.putExtra("type",type);
         startActivity(intent);
     }
 

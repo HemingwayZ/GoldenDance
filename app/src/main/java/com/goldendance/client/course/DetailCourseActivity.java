@@ -34,6 +34,8 @@ public class DetailCourseActivity extends BaseActivity {
     private CourseBean courseBean;
     private ImageView ivCoachPic;
     private AvatarAdapter avatarAdapter;
+    private ImageView ivAddCourse;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_course_detail);
@@ -49,11 +51,16 @@ public class DetailCourseActivity extends BaseActivity {
             }
         });
 
-        View ivAddCourse = findViewById(R.id.ivAddCourse);
+        ivAddCourse = (ImageView) findViewById(R.id.ivAddCourse);
         ivAddCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doOrder();
+                if ("1".equals(courseBean.getIsordered())) {
+                    doUnOrder();
+                } else {
+                    doOrder();
+                }
+                ;
             }
         });
 
@@ -91,6 +98,74 @@ public class DetailCourseActivity extends BaseActivity {
         setStore();
 
         setOrderMembers();
+
+        initData();
+    }
+
+    private void doUnOrder() {
+        new CourseModel().unOrderCourse(courseBean.getCourseid(), new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+                if (GDHttpManager.CODE200 != code) {
+                    Toast.makeText(DetailCourseActivity.this, "网络请求异常 code" + code, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                MessageBean msg = JsonUtils.fromJson(json, new TypeToken<MessageBean>() {
+                });
+                if (msg == null) {
+                    Toast.makeText(DetailCourseActivity.this, "data parse error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(DetailCourseActivity.this, msg.getMessage(), Toast.LENGTH_LONG).show();
+                if (GDHttpManager.CODE200 == msg.getCode()) {
+                    courseBean.setIsordered("0");
+                    setCourseStatus();
+                    getOrderedMember();
+                }
+            }
+        });
+    }
+
+    private void initData() {
+        if (TextUtils.isEmpty(User.tokenid)) {
+            return;
+        }
+        String courseid = courseBean.getCourseid();
+        new CourseModel().findCourseMes(courseid, User.tel, new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+                if (GDHttpManager.CODE200 != code) {
+
+                    return;
+                }
+                DataResultBean<CourseBean> data = JsonUtils.fromJson(json, new TypeToken<DataResultBean<CourseBean>>() {
+                });
+                if (data == null) {
+                    Toast.makeText(DetailCourseActivity.this, "data parse error", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (GDHttpManager.CODE200 != data.getCode()) {
+                    Toast.makeText(DetailCourseActivity.this, "error" + data.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                CourseBean data1 = data.getData();
+                if (data1 != null) {
+                    courseBean = data.getData();
+//                    Toast.makeText(DetailCourseActivity.this, "getIsordered:" + courseBean.getIsordered(), Toast.LENGTH_LONG).show();
+                    setCourseStatus();
+                }
+            }
+        });
+    }
+
+    private void setCourseStatus() {
+        if ("1".equals(courseBean.getIsordered())) {
+            ivAddCourse.setImageResource(R.mipmap.detail_book_add_succcess);
+        } else {
+            ivAddCourse.setImageResource(R.mipmap.detail_book_add);
+        }
     }
 
     private void doOrder() {
@@ -121,6 +196,8 @@ public class DetailCourseActivity extends BaseActivity {
                     return;
                 }
                 getOrderedMember();
+                courseBean.setIsordered("1");
+                setCourseStatus();
                 Toast.makeText(DetailCourseActivity.this, messageBean.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

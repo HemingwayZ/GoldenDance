@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.goldendance.client.R;
+import com.goldendance.client.bean.CourseBean;
 import com.goldendance.client.bean.CourseListBean;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.course.CourseAdapter;
@@ -24,6 +25,7 @@ import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -132,7 +134,7 @@ public class CourseHistoryListFragment extends Fragment {
                     showEmptyView("newwork error " + code);
                     return;
                 }
-                DataResultBean<CourseListBean> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<CourseListBean>>() {
+                DataResultBean<ArrayList<CourseBean>> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<ArrayList<CourseBean>>>() {
                 });
                 if (base == null) {
                     showEmptyView("data parse error");
@@ -142,20 +144,20 @@ public class CourseHistoryListFragment extends Fragment {
                     showEmptyView(base.getMessage());
                     return;
                 }
-                CourseListBean data = base.getData();
+                ArrayList<CourseBean> data = base.getData();
                 if (data == null) {
                     showEmptyView("data is null");
                     return;
                 }
 
-                if (data.getList() == null || data.getList().size() < ROWS) {
+                if (data == null || data.size() < ROWS) {
                     hasMoreData = false;
                     adapter.setHasNoData(true);
                     adapter.setLoadText("没有更多课程了");
 //                    Toast.makeText(getActivity(), "没有更多课程了", Toast.LENGTH_SHORT).show();
                 }
                 page++;
-                adapter.addMoreList(data.getList());
+                adapter.addMoreList(data);
                 adapter.notifyDataSetChanged();
                 if (adapter.getItemCount() < 2) {
                     adapter.setLoadText("");

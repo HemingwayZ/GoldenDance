@@ -67,7 +67,7 @@ public class UserModel implements IUserModel {
             params.put("userid", userId);
         }
         params.put("name", nickname);
-        GDHttpManager.doGet(url, params, handler);
+        GDHttpManager.doPost(url, params, handler);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class UserModel implements IUserModel {
             params.put("userid", userId);
         }
         params.put("sex", gender);
-        GDHttpManager.doGet(url, params, handler);
+        GDHttpManager.doPost(url, params, handler);
     }
 
     @Override

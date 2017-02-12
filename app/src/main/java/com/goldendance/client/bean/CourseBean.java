@@ -35,6 +35,16 @@ public class CourseBean implements Serializable {
     private Store2Bean store;
     private CoachBean coach;
 
+    private String isordered;//用户是否预约该课程
+
+    public String getIsordered() {
+        return isordered;
+    }
+
+    public void setIsordered(String isordered) {
+        this.isordered = isordered;
+    }
+
     public String getCoursename() {
         return coursename;
     }

@@ -21,7 +21,6 @@ import com.goldendance.client.bean.StoreBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.CourseModel;
-import com.goldendance.client.utils.GDLogUtils;
 import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -52,7 +50,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = CourseFragment.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String type;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -112,7 +110,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            type = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -221,7 +219,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         vpBody = (ViewPager) view.findViewById(R.id.vpBody);
         fragmentList = new ArrayList<>();
         for (String date : dateList) {
-            fragmentList.add(CourseListFragment.newInstance(date, ""));
+            fragmentList.add(CourseListFragment.newInstance(date, type));
         }
         CoursePagerAdapter adapter = new CoursePagerAdapter(getActivity().getSupportFragmentManager(), fragmentList);
         vpBody.setAdapter(adapter);

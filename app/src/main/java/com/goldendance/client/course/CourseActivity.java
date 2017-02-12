@@ -11,13 +11,18 @@ import com.goldendance.client.base.BaseActivity;
 import org.greenrobot.eventbus.EventBus;
 
 public class CourseActivity extends BaseActivity implements CourseFragment.OnFragmentInteractionListener, CourseListFragment.OnFragmentInteractionListener {
+    public static final String TYPE_COURSE_ADULT = "1";
+    public static final String TYPE_COURSE_CHILD = "2";
+    public static final String TYPE_COURSE_INTEREST = "3";
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_course);
 //        EventBus.getDefault().register(this);
+        String type = getIntent().getStringExtra("type");
         CourseFragment fragment = (CourseFragment) getSupportFragmentManager().findFragmentById(R.id.activity_course);
         if (fragment == null) {
-            fragment = CourseFragment.newInstance("", "");
+            fragment = CourseFragment.newInstance(type, "");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.activity_course, fragment);
             ft.commit();

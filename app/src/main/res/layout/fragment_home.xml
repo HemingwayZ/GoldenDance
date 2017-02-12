@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/ivHead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/i_head"
@@ -52,11 +53,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:drawableLeft="@mipmap/i_my_course"
                                 android:drawablePadding="10dp"
+                                android:drawableTop="@mipmap/i_my_course"
                                 android:gravity="center"
-                                android:padding="10dp"
-                                android:text="我的课程"
+                                android:padding="15dp"
+                                android:text="成人课"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp" />
                         </FrameLayout>
@@ -79,11 +80,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right|center_vertical"
                                 android:layout_marginRight="16dp"
+                                android:layout_marginTop="14dp"
                                 android:drawablePadding="10dp"
-                                android:drawableRight="@mipmap/i_class"
+                                android:drawableTop="@mipmap/i_class"
                                 android:gravity="center"
-                                android:padding="10dp"
-                                android:text="班课"
+                                android:padding="15dp"
+                                android:text="幼儿课"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp" />
                         </FrameLayout>
@@ -116,7 +118,7 @@
                                 android:drawablePadding="10dp"
                                 android:drawableTop="@mipmap/i_vip"
                                 android:gravity="center"
-                                android:padding="10dp"
+                                android:padding="20dp"
                                 android:text="VIP"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp" />
@@ -134,11 +136,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginRight="16dp"
-                                android:drawableBottom="@mipmap/i_onetoone"
                                 android:drawablePadding="10dp"
+                                android:drawableTop="@mipmap/i_onetoone"
                                 android:gravity="center"
-                                android:padding="10dp"
-                                android:text="一对一"
+                                android:padding="15dp"
+                                android:text="兴趣课"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp" />
                         </FrameLayout>
@@ -146,11 +148,20 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@mipmap/bg_home_dancing" />
             </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/jinwutuan" />
         </LinearLayout>
 
     </ScrollView>

@@ -1,6 +1,5 @@
 package com.goldendance.client.course;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.CourseListBean;
@@ -42,7 +40,7 @@ public class CourseListFragment extends Fragment {
     public static String storeId = "";
     // TODO: Rename and change types of parameters
     private String date;
-    private String mParam2;
+    private String type;
 
     private OnFragmentInteractionListener mListener;
     private View empty_view;
@@ -78,7 +76,7 @@ public class CourseListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             date = getArguments().getString(ARG_DATE);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            type = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -93,6 +91,7 @@ public class CourseListFragment extends Fragment {
     }
 
     public void onrefresh() {
+        empty_view.setVisibility(View.GONE);
         adapter.setLoadText("加载中...");
         hasMoreData = true;
         page = 1;
@@ -100,6 +99,7 @@ public class CourseListFragment extends Fragment {
     }
 
     public void onrefresh2() {
+        empty_view.setVisibility(View.GONE);
         adapter.setmList(null);
         adapter.notifyDataSetChanged();
         onrefresh();
@@ -110,7 +110,7 @@ public class CourseListFragment extends Fragment {
 
     private void initData() {
         refreshView.setRefreshing(true);
-        new CourseModel().getListCourse(date, storeId, page, ROWS, new GDOnResponseHandler() {
+        new CourseModel().getListCourse(type, date, storeId, page, ROWS, new GDOnResponseHandler() {
             @Override
             public void onEnd() {
                 super.onEnd();
@@ -145,7 +145,7 @@ public class CourseListFragment extends Fragment {
                 }
                 CourseListBean data = base.getData();
                 if (data == null) {
-                    showEmptyView("data is null");
+                    showEmptyView("没有更多课程了");
                     return;
                 }
 

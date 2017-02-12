@@ -205,7 +205,7 @@ public class PayActivity extends BaseActivity {
      * 沙箱-金舞团 2016073000125585
      * 正式：2017021005616618
      */
-    public static final String APPID = "2016073000125585 ";
+    public static final String APPID = "2016073000125585";
 
     /**
      * 金舞团
