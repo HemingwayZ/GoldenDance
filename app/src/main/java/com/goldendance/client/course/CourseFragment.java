@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> dateList;
     private List<Fragment> fragmentList;
     private View llStoreList;
+    private StoreAdapter storeAdapter;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -126,11 +129,61 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_course, container, false);
+        view = inflater.inflate(R.layout.fragment_course_main, container, false);
         initView(view);
-
         getStore();
+        initDrawerMenu();
         return view;
+    }
+
+    private void initDrawerMenu() {
+        ListView left_drawer_store = (ListView) view.findViewById(R.id.left_drawer_store);
+        storeAdapter = new StoreAdapter(getActivity());
+
+        left_drawer_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == storeAdapter.getSelectedPos()) {
+                    return;
+                }
+                storeAdapter.setSelectedPos(position);
+                storeAdapter.notifyDataSetChanged();
+            }
+        });
+
+        left_drawer_store.setAdapter(storeAdapter);
+        ListView left_drawer_course = (ListView) view.findViewById(R.id.left_drawer_course);
+
+        final CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity());
+        categoryAdapter.setSelectedPos(Integer.valueOf(type));
+        left_drawer_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == categoryAdapter.getSelectedPos()) {
+                    return;
+                }
+                categoryAdapter.setSelectedPos(position);
+                categoryAdapter.notifyDataSetChanged();
+            }
+        });
+        ArrayList<StoreBean> category = new ArrayList<>();
+
+
+        String[] texts = new String[]{
+                "成人课",
+                "幼儿课",
+                "兴趣课"
+        };
+        for (int i = 0; i < texts.length; i++) {
+            StoreBean storeBean = new StoreBean();
+            storeBean.setValue(String.valueOf(i));
+            storeBean.setText(texts[i]);
+            category.add(storeBean);
+        }
+        categoryAdapter.setmData(category);
+        left_drawer_course.setAdapter(categoryAdapter);
+        categoryAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -168,6 +221,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 adapter.setmData(data);
                 adapter.notifyDataSetChanged();
                 if (data != null && data.size() > 0) {
+                    storeAdapter.setmData(data);
+                    storeAdapter.notifyDataSetChanged();
                     StoreBean storeBean = data.get(0);
                     CourseListFragment.storeId = storeBean.getValue();
                     tvTitle.setText(storeBean.getText());

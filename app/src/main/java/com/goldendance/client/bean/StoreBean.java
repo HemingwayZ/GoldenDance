@@ -9,6 +9,15 @@ import java.io.Serializable;
 public class StoreBean implements Serializable {
     String value;
     String text;
+    boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getValue() {
         return value;
