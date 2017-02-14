@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GoldenDance</string>
+    <string name="app_name">金舞团</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -35,4 +35,7 @@
     <string name="course_price">￥%1$d/课</string>
     <string name="order_number">（%1$d/%2$d人）</string>
     <string name="coach">教练：%1$s</string>
+
+    <string name="permisson_write_storage_notice">在设置-应用-金舞团-权限中开启存储空间权限，以正常拍照获取图片等功能</string>
+    <string name="permisson_camera_notice">在设置-应用-金舞团-权限中开启相机权限，以正常拍照获取图片等功能</string>
 </resources>

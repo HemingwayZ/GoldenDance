@@ -47,6 +47,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private ImageView ivGender;
     private TextView tvUserName;
     private ImageView ivAvatar;
+    private TextView tvCardName;
 
     public UserFragment() {
         // Required empty public constructor
@@ -106,7 +107,12 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         ivGender = (ImageView) view.findViewById(R.id.ivGender);
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
         ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
+        //月卡或者会员
+        tvCardName = (TextView) view.findViewById(R.id.tvCardName);
+        tvCardName.setText("");
         setUserInfo();
+
+
     }
 
     public void setUserInfo() {
@@ -119,6 +125,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(User.name))
             tvUserName.setText(User.name);
         GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
+        tvCardName.setText(User.cardname);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

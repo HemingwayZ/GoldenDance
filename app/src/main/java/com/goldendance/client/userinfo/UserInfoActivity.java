@@ -1,10 +1,12 @@
 package com.goldendance.client.userinfo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +45,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.flGender).setOnClickListener(this);
         findViewById(R.id.flUsername).setOnClickListener(this);
         findViewById(R.id.flPsw).setOnClickListener(this);
-
+        findViewById(R.id.flMobile).setOnClickListener(this);
         ivIcon = (ImageView) findViewById(R.id.ivIcon);
 
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
@@ -99,6 +101,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 intent.setClass(this, UpdateUserInfoActivity.class);
                 intent.putExtra("action", ACTION_USERNAME);
                 startActivityForResult(intent, REQUEST_USERINFO);
+                break;
+            case R.id.flMobile:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("换绑手机");
+                builder.setMessage("如需换绑手机号，请到各个门店进行操作");
+                builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
                 break;
         }
 

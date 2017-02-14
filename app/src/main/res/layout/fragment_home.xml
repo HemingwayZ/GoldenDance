@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/ivHead"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="194dp"
                 android:layout_below="@+id/i_head"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/temp_home_head" />

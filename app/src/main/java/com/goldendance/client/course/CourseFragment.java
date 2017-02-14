@@ -93,7 +93,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         if (bean == null) {
             return;
         }
-        if (tvTitle.getText().toString().equals(bean.getText())) {
+
+        if (tvTitle.getText().toString().contains(bean.getText())) {
             return;
         }
         tvTitle.setText(bean.getText());

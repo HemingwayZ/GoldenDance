@@ -1,14 +1,22 @@
 package com.goldendance.client.userinfo;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -286,23 +294,186 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     private static final int REQUEST_CROP = 10002;
 
     private void getIconByGallery() {
+        // 读写SD的权限
+        int checkSelfPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
+            // 未授予权限的时候
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                adb.setMessage(getString(R.string.permisson_write_storage_notice));
+                adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+
+                    @SuppressLint("InlinedApi")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE);
+                    }
+                });
+                adb.show();
+                return;
+            }
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE);
+            return;
+        }
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_GALLERY);
     }
 
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_CAMERA = 3;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE = 4;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE2 = 5;
+
     private void getIconByCamera() {
+
+        // 相机权限
+        int checkSelfPermission2 = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+        if (checkSelfPermission2 != PackageManager.PERMISSION_GRANTED) {
+            // 未授予权限的时候
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+                // 若用于被永久禁止该权限
+                android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                adb.setMessage(getString(R.string.permisson_camera_notice));
+                adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.CAMERA},
+                                MY_PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    }
+                });
+                adb.show();
+                return;
+            }
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_ACCESS_CAMERA);
+            return;
+        }
+
+        // 读写SD的权限
+        int checkSelfPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
+            // 未授予权限的时候
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                adb.setMessage(getString(R.string.permisson_write_storage_notice));
+                adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE2);
+                    }
+                });
+                adb.show();
+                return;
+            }
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE2);
+            return;
+        }
+
+
         File captureFile = GDFileUtils.getStorageFile(ICON_CAPTURE_FILE_NAME);
         if (captureFile == null) {
             Toast.makeText(getActivity(), "file create failed!!!", Toast.LENGTH_LONG).show();
             return;
         }
         //本地图片存储 android N适配
-        //Uri cropUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, storgeFile);
-        Uri captureUri = Uri.fromFile(captureFile);
+        Uri captureUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, captureFile);
+//        Uri captureUri = Uri.fromFile(captureFile);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, captureUri);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_CAMERA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getIconByCamera();
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    adb.setMessage(getString(R.string.permisson_camera_notice));
+                    adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.cancel();
+                        }
+                    });
+                    adb.show();
+                }
+
+                break;
+            case MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    getIconByGallery();
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    adb.setMessage(getString(R.string.permisson_write_storage_notice));
+                    adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.cancel();
+                        }
+                    });
+                    adb.show();
+                }
+                break;
+            case MY_PERMISSIONS_REQUEST_ACCESS_WRITE_STORAGE2:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    getIconByCamera();
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    adb.setMessage(getString(R.string.permisson_camera_notice));
+                    adb.setPositiveButton(getString(R.string.confirm), new android.support.v7.app.AlertDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.cancel();
+                        }
+                    });
+                    adb.show();
+                }
+                break;
+        }
     }
 
     @Override
@@ -385,10 +556,13 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
                 File captureFile = GDFileUtils.getStorageFile(ICON_CAPTURE_FILE_NAME);
                 if (captureFile == null) {
                     Toast.makeText(getActivity(), "can find image", Toast.LENGTH_SHORT).show();
+                    GDLogUtils.i(TAG, "captureUri can find image:");
                     return;
                 }
-                Uri captureUri = Uri.fromFile(captureFile);
+//                Uri captureUri = Uri.fromFile(captureFile);
+                Uri captureUri = FileProvider.getUriForFile(getActivity(), GDFileUtils.PROVIDER_AUTHORITY, captureFile);
                 Toast.makeText(getActivity(), "data:" + captureUri, Toast.LENGTH_LONG).show();
+                GDLogUtils.i(TAG, "captureUri success:" + captureUri);
                 toCrop(captureUri);
                 break;
         }
@@ -397,11 +571,12 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
     }
 
     private void toCrop(Uri uri) {
-        File file = new File(GDFileUtils.getImageAbsolutePath(getActivity(), uri));
-        if (!file.exists()) {
-            Toast.makeText(getActivity(), "file is not exist!!!", Toast.LENGTH_LONG).show();
-            return;
-        }
+        //不能添加一下代码，否则Android  N适配的时候会出现异常---Android N content
+//        File file = new File(GDFileUtils.getImageAbsolutePath(getActivity(), uri));
+//        if (!file.exists()) {
+//            Toast.makeText(getActivity(), "file is not exist!!!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         File cropFile = GDFileUtils.getStorageFile(ICON_FILE_NAME);
         if (cropFile == null) {
             Toast.makeText(getActivity(), "file create failed!!!", Toast.LENGTH_LONG).show();
@@ -413,6 +588,7 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         GDLogUtils.i(TAG, cropUri.getPath());
         //
         Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);

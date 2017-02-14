@@ -158,17 +158,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="我的VIP"
+                android:text="我的会员"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvCardName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/point_right_gray"
-                android:text="月卡"
-                android:textColor="#cdcdcd" />
+                android:text="会员"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
 
         <TextView

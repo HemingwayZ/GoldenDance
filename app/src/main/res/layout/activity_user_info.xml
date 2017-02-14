@@ -113,6 +113,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/flMobile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
@@ -125,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="绑定账号"
+                    android:text="绑定手机"
                     android:textColor="@color/title_color"
                     android:textSize="18sp" />
 
