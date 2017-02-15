@@ -16,11 +16,16 @@ import android.widget.TextView;
 import com.goldendance.client.R;
 import com.goldendance.client.bean.CourseListBean;
 import com.goldendance.client.bean.DataResultBean;
+import com.goldendance.client.bean.StoreBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.CourseModel;
 import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 
@@ -38,6 +43,7 @@ public class CourseListFragment extends Fragment {
     private static final String ARG_DATE = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static String storeId = "";
+    public static String courseType = "1";
     // TODO: Rename and change types of parameters
     private String date;
     private String type;
@@ -48,6 +54,18 @@ public class CourseListFragment extends Fragment {
     private CourseAdapter adapter;
     private SwipeRefreshLayout refreshView;
     private LinearLayoutManager manager;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     public CourseListFragment() {
         // Required empty public constructor
@@ -105,12 +123,20 @@ public class CourseListFragment extends Fragment {
         onrefresh();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusRefresh(StoreBean storeBean) {
+        empty_view.setVisibility(View.GONE);
+        adapter.setmList(null);
+        adapter.notifyDataSetChanged();
+        onrefresh();
+    }
+
     private static int ROWS = 20;
     private int page = 1;
 
     private void initData() {
         refreshView.setRefreshing(true);
-        new CourseModel().getListCourse(type, date, storeId, page, ROWS, new GDOnResponseHandler() {
+        new CourseModel().getListCourse(courseType, date, storeId, page, ROWS, new GDOnResponseHandler() {
             @Override
             public void onEnd() {
                 super.onEnd();

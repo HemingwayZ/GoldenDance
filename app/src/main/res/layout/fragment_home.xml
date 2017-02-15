@@ -49,7 +49,7 @@
                             android:background="#0090ff">
 
                             <TextView
-                                android:id="@+id/tvMyCourse"
+                                android:id="@+id/tvAdultCourse"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -75,7 +75,7 @@
                                 android:src="@mipmap/home_main_left" />
 
                             <TextView
-                                android:id="@+id/tvClass"
+                                android:id="@+id/tvChildClass"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right|center_vertical"
@@ -131,7 +131,7 @@
                             android:background="#1cde33">
 
                             <TextView
-                                android:id="@+id/tvOneToOne"
+                                android:id="@+id/tvFavirote"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"

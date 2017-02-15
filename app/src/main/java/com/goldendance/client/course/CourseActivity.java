@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
@@ -20,6 +21,8 @@ public class CourseActivity extends BaseActivity implements CourseFragment.OnFra
         setContentView(R.layout.activity_course);
 //        EventBus.getDefault().register(this);
         String type = getIntent().getStringExtra("type");
+
+        Toast.makeText(this, "type" + type, Toast.LENGTH_LONG).show();
         CourseFragment fragment = (CourseFragment) getSupportFragmentManager().findFragmentById(R.id.activity_course);
         if (fragment == null) {
             fragment = CourseFragment.newInstance(type, "");

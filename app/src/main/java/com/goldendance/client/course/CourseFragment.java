@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,6 +68,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     private List<Fragment> fragmentList;
     private View llStoreList;
     private StoreAdapter storeAdapter;
+    private CategoryAdapter categoryAdapter;
+    private TextView tvStore;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -89,24 +93,28 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void setTitle(StoreBean bean) {
+//        showOrHideStoreList();
+//        if (bean == null) {
+//            return;
+//        }
+//
+//        if (tvTitle.getText().toString().contains(bean.getText())) {
+//            return;
+//        }
+//        tvTitle.setText(bean.getText());
+//        int currentItem = vpBody.getCurrentItem();
+//        CourseListFragment.storeId = bean.getValue();
+//        CourseListFragment courseListFragment = (CourseListFragment) fragmentList.get(currentItem);
+//        if (courseListFragment != null) {
+//            courseListFragment.onrefresh2();
+//        }
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void setTitle(StoreBean bean) {
-        showOrHideStoreList();
-        if (bean == null) {
-            return;
-        }
-
-        if (tvTitle.getText().toString().contains(bean.getText())) {
-            return;
-        }
-        tvTitle.setText(bean.getText());
-        int currentItem = vpBody.getCurrentItem();
-        CourseListFragment.storeId = bean.getValue();
-        CourseListFragment courseListFragment = (CourseListFragment) fragmentList.get(currentItem);
-        if (courseListFragment != null) {
-            courseListFragment.onrefresh2();
-        }
+    public void setTitle(Integer integer) {
+        System.out.print(integer);
     }
 
     @Override
@@ -137,9 +145,27 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initDrawerMenu() {
+
+        final DrawerLayout drawer_layout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         ListView left_drawer_store = (ListView) view.findViewById(R.id.left_drawer_store);
         storeAdapter = new StoreAdapter(getActivity());
+        tvStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                    drawer_layout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
+        tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                    drawer_layout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
         left_drawer_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -148,22 +174,33 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 }
                 storeAdapter.setSelectedPos(position);
                 storeAdapter.notifyDataSetChanged();
+                StoreBean item = storeAdapter.getItem(position);
+                CourseListFragment.storeId = item.getValue();
+                EventBus.getDefault().post(item);
+                tvStore.setText(item.getText());
             }
         });
 
         left_drawer_store.setAdapter(storeAdapter);
         ListView left_drawer_course = (ListView) view.findViewById(R.id.left_drawer_course);
 
-        final CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity());
-        categoryAdapter.setSelectedPos(Integer.valueOf(type));
+        categoryAdapter = new CategoryAdapter(getActivity());
+//        type 和pos 索引差1
+        categoryAdapter.setSelectedPos(Integer.valueOf(type) - 1);
         left_drawer_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                drawer_layout.closeDrawers();
                 if (position == categoryAdapter.getSelectedPos()) {
                     return;
                 }
                 categoryAdapter.setSelectedPos(position);
                 categoryAdapter.notifyDataSetChanged();
+                CourseListFragment.courseType = String.valueOf(position + 1);
+                StoreBean item = categoryAdapter.getItem(position);
+                EventBus.getDefault().post(item);
+                tvTitle.setText(item.getText());
+
             }
         });
         ArrayList<StoreBean> category = new ArrayList<>();
@@ -225,7 +262,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                     storeAdapter.notifyDataSetChanged();
                     StoreBean storeBean = data.get(0);
                     CourseListFragment.storeId = storeBean.getValue();
-                    tvTitle.setText(storeBean.getText());
+                    tvStore.setText(storeBean.getText());
                     initBody();
                 }
             }
@@ -264,16 +301,17 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 //        rvList.setAdapter(adapter);
         initHead(view);
         initHead2(view);
-
         initStoreView(view);
-
 
         view.findViewById(R.id.ivOpera).setOnClickListener(this);
     }
 
     private void initBody() {
         vpBody = (ViewPager) view.findViewById(R.id.vpBody);
+//限制预加载的页数
+//        vpBody.setOffscreenPageLimit(1);
         fragmentList = new ArrayList<>();
+        CourseListFragment.courseType = type;
         for (String date : dateList) {
             fragmentList.add(CourseListFragment.newInstance(date, type));
         }
@@ -396,6 +434,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 getActivity().onBackPressed();
             }
         });
+
         ivIdres = new int[]{
                 R.id.ivPoint1,
                 R.id.ivPoint2,
@@ -407,7 +446,20 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         };
 
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvTitle.setOnClickListener(this);
+        tvStore = (TextView) view.findViewById(R.id.tvStore);
+        tvStore.setText("");
+        switch (type) {
+            case CourseActivity.TYPE_COURSE_ADULT:
+                tvTitle.setText("成人课");
+                break;
+            case CourseActivity.TYPE_COURSE_CHILD:
+                tvTitle.setText("幼儿课");
+                break;
+            case CourseActivity.TYPE_COURSE_INTEREST:
+                tvTitle.setText("兴趣课");
+                break;
+        }
+//        tvTitle.setOnClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -459,7 +511,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 vpBody.setCurrentItem(6);
                 break;
             case R.id.tvTitle:
-                showOrHideStoreList();
+//                showOrHideStoreList();
                 break;
             case R.id.llStoreList:
                 if (llStoreList.getVisibility() == View.VISIBLE) {
@@ -495,12 +547,12 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showOrHideStoreList() {
-        if (llStoreList.getVisibility() == View.VISIBLE) {
-            llStoreList.setVisibility(View.GONE);
-        } else {
-            llStoreList.setVisibility(View.VISIBLE);
-            adapter.notifyDataSetChanged();
-        }
+//        if (llStoreList.getVisibility() == View.VISIBLE) {
+//            llStoreList.setVisibility(View.GONE);
+//        } else {
+//            llStoreList.setVisibility(View.VISIBLE);
+//            adapter.notifyDataSetChanged();
+//        }
     }
 
     /**

@@ -23,6 +23,18 @@
             android:src="@mipmap/i_back" />
 
         <TextView
+            android:id="@+id/tvStore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:drawablePadding="10dp"
+            android:text="福州店"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,8 +42,7 @@
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
             android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/i_location"
-            android:text="福州金舞团店"
+            android:text="成人课"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 

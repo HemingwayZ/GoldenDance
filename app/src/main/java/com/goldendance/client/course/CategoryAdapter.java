@@ -45,8 +45,8 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public StoreBean getItem(int position) {
+        return mData.get(position);
     }
 
     @Override

@@ -95,10 +95,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         //四大板块
 
-        view.findViewById(R.id.tvMyCourse).setOnClickListener(this);
-        view.findViewById(R.id.tvClass).setOnClickListener(this);
+        view.findViewById(R.id.tvAdultCourse).setOnClickListener(this);
+        view.findViewById(R.id.tvChildClass).setOnClickListener(this);
         view.findViewById(R.id.tvVIP).setOnClickListener(this);
-        view.findViewById(R.id.tvOneToOne).setOnClickListener(this);
+        view.findViewById(R.id.tvFavirote).setOnClickListener(this);
 
 
         setUserInfo();
@@ -169,19 +169,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.ivAvatar:
                 gotoLogin();
                 break;
-            case R.id.tvClass:
-                gotoCourse(CourseActivity.TYPE_COURSE_ADULT);
-                break;
-            case R.id.tvOneToOne:
+            case R.id.tvChildClass:
                 gotoCourse(CourseActivity.TYPE_COURSE_CHILD);
+                break;
+            case R.id.tvFavirote:
+                gotoCourse(CourseActivity.TYPE_COURSE_INTEREST);
                 break;
             case R.id.tvVIP:
 //                gotoCourse();
                 Intent intent = new Intent(getActivity(), CardActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tvMyCourse:
-                gotoCourse(CourseActivity.TYPE_COURSE_INTEREST);
+            case R.id.tvAdultCourse:
+                gotoCourse(CourseActivity.TYPE_COURSE_ADULT);
                 break;
         }
     }
@@ -218,7 +218,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void gotoCourse(String type) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), CourseActivity.class);
-        intent.putExtra("type",type);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 
