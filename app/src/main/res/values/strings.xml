@@ -38,4 +38,93 @@
 
     <string name="permisson_write_storage_notice">在设置-应用-金舞团-权限中开启存储空间权限，以正常拍照获取图片等功能</string>
     <string name="permisson_camera_notice">在设置-应用-金舞团-权限中开启相机权限，以正常拍照获取图片等功能</string>
+
+    <!--用户协议-->
+
+    <string name="license_title1">一、用户资格</string>
+    <string name="license_title1_item1">1、金舞团运动健身采用用户制服务模式，只有注册成为用户方能享受金舞团提供的各项专业健身服务及相关配套服务。</string>
+    <string name="license_title1_item2">2、取得用户资格应办理相关入会手续，取得用户资格后，即代表已知晓金舞团有关健身的规则与警示，承诺遵守金舞团的相关规定。</string>
+    <string name="license_title1_item3">3、因经营管理需要，金舞团会针对不同用户办理不同类别的电子用户卡，但无论您持有何种电子用户卡，都将在享受用户权利的同时，受到本协议的约束。</string>
+    <string name="license_title1_item4">4、本协议所称“用户”，是指年满16周岁未满60周岁身体健康，并购买健身服务商品缴纳全部相关费用，能如实提供和陈述个人信息，取得金舞团发放的电子用户卡的人士。因此您有义务对入会时所提供资料的真实性、合法性负责。</string>
+
+    <string name="license_title2">二、用户资格的取得方式</string>
+    <string name="license_title2_item1">1、原始取得，指在微信公众账号“金舞团健身圈”或金舞团手机客户端注册、填写真实、有效、全面的个人资料，办理入会手续并交纳全部相关费用后取得用户资格。</string>
+    <string name="license_title2_item2">2、继受或转让取得，指在本协议约定的特殊事由出现时，通过办理一定的手续，由非用户的第三方取得用户资格，或获得由其他注册用户赠送的健身服务，原用户资格终止。</string>
+    <string name="license_title3">三、金舞团电子产品的管理</string>
+    <string name="license_title3_item1">1、购买的金舞团任何产品一经使用，或超过有效期未使用，概不退换。</string>
+    <string name="license_title3_item2">2、包月卡用户，开卡后不提供停卡服务。</string>
+    <string name="license_title3_item3">3、包月卡等一定时间段内提供服务的产品，从用户购买成功之日起即自动开卡开始计时，私教、小班课等按次提供服务的商品，订单生成付款后即视为已经生效，并通过订单上的时间凭二维码进店使用。</string>
+    <string name="license_title4">四、用户权利</string>
+    <string name="license_title4_item1">1、依照所持卡的类别享受相应的金舞团对该类别持卡用户作出的全部服务承诺。</string>
+    <string name="license_title4_item2">2、针对金舞团的服务，用户有提出批评、投诉及改进建议的权利。</string>
+    <string name="license_title4_item3">3、期满后用户有优先续约的权利。</string>
+
+    <string name="license_title5">五、用户义务</string>
+    <string name="license_title5_item1">1、如实向金舞团提供个人信息资料，并在资料发生变动后及时通知金舞团。</string>
+    <string name="license_title5_item2">2、进入金舞团线下门店时凭电子用户卡，并随时接受工作人员验证和抽查。</string>
+    <string name="license_title5_item3">3、严禁未预约课程，强行进入操房上操课。</string>
+    <string name="license_title5_item4">4、严禁携带十六周岁以下儿童进入健身区域，对于擅自进入健身区域造成伤害或损失的，金舞团概不负责。</string>
+    <string name="license_title5_item5">5、严禁在健身区内吸烟、进食。</string>
+    <string name="license_title5_item6">6、严禁携带宠物进入金舞团线下门店。</string>
+    <string name="license_title5_item7">7、严禁心肺功能疾病、颈椎病、皮肤病及一切传染病患者进入金舞团线下门店，有以上疾病的患者隐瞒病情取得用户资格的，金舞团有权终止其资格，并保留追究其法律责任的权利。</string>
+    <string name="license_title5_item8">8、为了您的健身安全，请穿着运动服饰、运动鞋参加运动，不得赤裸上身或穿着不得体的服饰进行运动。否则工作人员有权利劝离并取消当日运动权利。</string>
+    <string name="license_title5_item9">9、运动前严禁饮酒或饮用含酒精类饮料，因违反本条规定造成的人身伤害等意外情况，金舞团概不负责。</string>
+    <string name="license_title5_item10">10、禁止用户在金舞团线下门店内销售任何商品。健身用户不得参与任何盈利性健身指导，违反本条规定的，金舞团有权取消其用户资格。</string>
+    <string name="license_title5_item11">11、未征得金舞团运营部门负责人同意，禁止在场馆内拍照、摄像或录音。</string>
+    <string name="license_title5_item12">12、金舞团线下门店原则上不接受60周岁以上老年人入会，能出具真实有效的健康证明者除外，但因隐瞒或错报个人健康信息发生的一切责任都由其本人承担。</string>
+    <string name="license_title5_item13">13、用户在运动健身时必须正确使用各种健身器械，否则出现任何人身伤亡，金舞团概不负责。</string>
+    <string name="license_title5_item14">14、用户应自觉爱惜合理使用金舞团线下门店内各项设施、设备、器械，使用后须归放原位，如有损坏须照价赔偿。</string>
+    <string name="license_title5_item15">15、严禁在金舞团线下门店内大声喧哗，使用污秽语言以及进行一切违法活动。</string>
+    <string name="license_title5_item16">16、严禁在金舞团线下门店内吸烟、吐痰、乱丢垃圾，请自觉维护场馆内的环境卫生。</string>
+    <string name="license_title5_item17">17、请勿携带贵重物品或大量现金进入金舞团线下门店，如有丢失概不负责。</string>
+    <string name="license_title5_item18">18、请勿携带贵重物品或大量现金进入金舞团线下门店，如有丢失概不负责。</string>
+
+    <string name="license_title6">六、保留权利</string>
+    <string name="license_title6_item1">1、金舞团线下门店，营业时间原则上为9:00—22:00,营业时间如有变动，会在无线公众平台以及门店公式。</string>
+    <string name="license_title6_item2">2、因国家政策或法律法规的规定，金舞团有权合理修改营业时间，并在无线公众平台及线下门店内公式，怒不另行通知用户，该公示即视为通知。</string>
+    <string name="license_title6_item3">3、因经营管理需要，金舞团有权调整、增减部分项目，该行为不视为违约，且在门店内公示后即视为通知，无需另行报告给用户个人。</string>
+    <string name="license_title6_item4">4、因器械、设备（设施）检修、维护、金舞团有权在某一时间段内对某一项目或某类项目采取停用或限用措施。</string>
+    <string name="license_title6_item5">5、其他出于用户安全及集体利益的需要，金舞团有权采取必要措施以恢复经营次序。</string>
+
+    <string name="license_title7">七、免责条款</string>
+    <string name="license_title7_item0">出现下列情形的，金舞团不予承担任何责任</string>
+    <string name="license_title7_item1">1、遇不可抗力（如战争、自然灾害等）造成金舞团线下门店营业终止或用户会籍不能继续，致使用户遭受损失；</string>
+    <string name="license_title7_item2">2、用户所受损害是因为其自身故意或过失造成的；</string>
+    <string name="license_title7_item3">3、用户所受损害是金舞团工作人员以外的任何第三方故意或过失行为导致的；</string>
+    <string name="license_title7_item4">4、非用户不听劝阻，擅自进入或强行进入金舞团线下门店造成损害的，由其自身或致害方承担责任；</string>
+    <string name="license_title7_item5">5、受害方严重违反金舞团制定的规章制度视所以造成损害的；</string>
+    <string name="license_title7_item6">6、未交由金舞团线下门店工作人员保管，而由用户或用户随同人员个人保管的贵重物品发生损毁、灭失、遗失的；</string>
+    <string name="license_title7_item7">7、因用户资料或个人信息发生变动未及时通知中心，从而造成损失或用户权利受限的；</string>
+    <string name="license_title7_item8">8、未听从金舞团工作人员指导，擅自使用或违反操作规程使用器械、设备造成自身受伤的，由自身负责；造成他人受损或门店内财产损毁的，其本人应承担全部赔偿责任，对此金舞团不承担任何责任；</string>
+    <string name="license_title7_item9">9、因用户自身行为不当或用户之间的争议产生的人身和财产安损失，金舞团不承担责任；</string>
+    <string name="license_title7_item10">10、SmatrFit仅提供开放的运动健身服务平台及空间，线下门店的教练均为第三方合作教练或通过APP客户端自主注册成为教练的用户，因此教练在金舞团线下门店为健身用户提供服务的过程中，发生的任何危险及伤亡情况，金舞团均不承担任何责任；</string>
+    <string name="license_title7_item11">11、金舞团旨在提供一种新型的，方便运动健身服务供需双方，自主预约服务的平台，对于爽约行为不承担责任；对于不提前与对方沟通单方面爽约预约服务，金舞团有权采取处罚措施；</string>
+    <string name="license_title7_item12">12、在APP客户端及微信公众平台使用过程中，将产生通信数据流量费用，该服务与费用由您的通信运营商提供，金舞团不提供通信服务和流量费用的收取；</string>
+    <string name="license_title7_item13">13、金舞团线下门店的淋浴房是满足用户淋浴需求的自助空间，用户在使用过程中，故意或过失造成的任何伤亡，金舞团均不承担任何责任；</string>
+
+
+    <string name="license_title8">八、隐私条款</string>
+    <string name="license_title8_item1">1、您通过您的移动设备使用本APP应用程序时，可能会提示您输入您的地理位置，并实时地跟踪您的地理位置信息，以便我们为您提供增强的体验。例如，我们使用这些信息来允许您查看您所在地区离您最近的运动场地，有了这些技术数据我们的应用程序管理员可以管理应用程序，通过这种方式，我们可以确保您可以（持续）以快速和简单的方式获得服务信息。</string>
+    <string name="license_title8_item2">2、当您在注册成为用户或购买产品过程中，我们将收集您的手机号码信息。我们将使用您的手机号码用于发送短信验证码，以确认您的手机号和验证码。当您通过使用本APP应用程序发布或接受运动健身需求时，我们提供您的手机号码给接受您需求的健身用户或教练用户及金舞团工作人员，以便在需要时对方能够及时跟您联系。我们也会使用您的联系方式给您发送关于我们的新闻、产品和活动消息。</string>
+    <string name="license_title8_item3">3、我们会以汇总统计的方式使用您的个人资料，分析使用这些数据，以密切观察线上及线下的营运及服务情况，并确定在哪些地方我们应该优化或改变我们的服务，我们会分享这些信息与第三方做行业分析和统计。</string>
+    <string name="license_title8_item4">4、我们可能会聘请第三方公司和个人，代表我们提供客户支持。我们向第三方提供您的地理位置、联系方式等信息，进行线上相关的服务（例如：包括但不限于，维修服务、数据库管理、网络分析和改善APP客户端的功能），或协助我们分析如何使我们的服务更加完善。这些第三方仅会为完成前述工作访问您的个人信息且受到与我们的合同的约束不得披露或将信息用于任何其他目的。</string>
+    <string name="license_title8_item5">5、除非本隐私和Cookie政策规定，否则，我们将保留您的信息直到您取消帐户，或者直到您的帐户已闲置了一年。如果您希望取消帐户或要求我们不再使用您的信息，请联系我们的后台客服人员。</string>
+    <string name="license_title8_item6">6、我们已采取防止您个人资料丢失或被非法处理的适当的技术和安全措施。为了达到这个目的，您的个人资料被安全地储存在我们的数据库中。我们使用标准的、行业通行的、商业上合理的安全措施，如加密，防火墙和SSL（安全接字层），并在保存数据的地方加强安保工作。然而，没有安全系统是不能破解的。我们不能完全保证我们的数据库不会被攻破，我们也不能保证您提供的信息在互联网上转输时不会被拦截，任何您向我们传输个人信息的风险需要您自行承担。</string>
+    <string name="license_title8_item7">7、我们会更新本隐私政策，以反映我们变更后的信息操作。我们鼓励您定期查看本页以了解有关我们最新的有关隐私保护的操作。</string>
+
+    <string name="license_title9">九、安全提示</string>
+    <string name="license_title9_item1">1、用户在锻炼前，应先做必要的热身练习，以免受伤。</string>
+    <string name="license_title9_item2">2、过渡锻炼及违规锻炼均有受伤的可能，所以在锻炼前应对自身的身体状况进行判断，并保持运动强度和时间的适当控制。</string>
+    <string name="license_title9_item3">3、对违反本协议约定从而造成物品丢失及人员伤亡的，金舞团不承担任何法律责任。</string>
+    <string name="license_title9_item4">4、金舞团线下任何运动项目及器械设施均有严格的操作方法和程序，请务必在专业人员或者安全手册指导下进行操作，如有违背致使人员受损，金舞团不承担任何责任。</string>
+    <string name="license_title9_item5">5、用户进行任何单项或器械的操作均应在知晓操作方法及注意事项后进行，同时充分注意自身的身体状况及承受能力，否则因此发生的任何损害，金舞团均不承担任何责任。</string>
+
+    <string name="license_title10">十、特别声明</string>
+    <string name="license_title10_item1">在法律允许的范围内，金舞团对该协议约定的内容有最终解释权，同时为更好地服务用户之需要，金舞团有权对相关内容进行修改，且修改后的条款自在金舞团网站、手机客户端、微信公众平台或其他传播渠道显著位置公示后，即对全体用户产生约束力。</string>
+
+    <string name="license_title11">十一、用户承诺</string>
+    <string name="license_title11_item1">1、本人保证所有提供的入会资料及个人信息真实有效；</string>
+    <string name="license_title11_item2">2、本人身体健康且没有本协议中约定的不适合进行运动健身的疾病；</string>
+    <string name="license_title11_item3">3、本人已阅读、理解并同意上述条纹；</string>
+
 </resources>
