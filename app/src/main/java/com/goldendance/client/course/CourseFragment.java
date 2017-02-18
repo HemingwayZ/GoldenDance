@@ -488,6 +488,9 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if(vpBody==null){
+            return;
+        }
         switch (v.getId()) {
             case R.id.llDay1:
                 vpBody.setCurrentItem(0);
