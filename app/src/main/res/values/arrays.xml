@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="license_array_item1">
+        <item>@string/license_title1</item>
+        <item>@string/license_title1_item1</item>
+        <item>@string/license_title1_item2</item>
+        <item>@string/license_title1_item3</item>
+        <item>@string/license_title1_item4</item>
+    </array>
+
+    <array name="license_array_item2">
+        <item>@string/license_title2</item>
+        <item>@string/license_title2_item1</item>
+        <item>@string/license_title2_item2</item>
+    </array>
+
+    <array name="license_array_item3">
+        <item>@string/license_title3</item>
+        <item>@string/license_title3_item1</item>
+        <item>@string/license_title3_item2</item>
+        <item>@string/license_title3_item3</item>
+    </array>
+
+    <array name="license_array_item4">
+        <item>@string/license_title4</item>
+        <item>@string/license_title4_item1</item>
+        <item>@string/license_title4_item2</item>
+        <item>@string/license_title4_item3</item>
+    </array>
+
+    <array name="license_array_item5">
+        <item>@string/license_title5</item>
+        <item>@string/license_title5_item1</item>
+        <item>@string/license_title5_item2</item>
+        <item>@string/license_title5_item3</item>
+        <item>@string/license_title5_item4</item>
+        <item>@string/license_title5_item5</item>
+        <item>@string/license_title5_item6</item>
+        <item>@string/license_title5_item7</item>
+        <item>@string/license_title5_item8</item>
+        <item>@string/license_title5_item9</item>
+        <item>@string/license_title5_item10</item>
+        <item>@string/license_title5_item11</item>
+        <item>@string/license_title5_item12</item>
+        <item>@string/license_title5_item13</item>
+        <item>@string/license_title5_item14</item>
+        <item>@string/license_title5_item15</item>
+        <item>@string/license_title5_item16</item>
+        <item>@string/license_title5_item17</item>
+    </array>
+
+    <array name="license_array_item6">
+        <item>@string/license_title6</item>
+        <item>@string/license_title6_item1</item>
+        <item>@string/license_title6_item2</item>
+        <item>@string/license_title6_item3</item>
+        <item>@string/license_title6_item4</item>
+        <item>@string/license_title6_item5</item>
+    </array>
+
+    <array name="license_array_item7">
+        <item>@string/license_title7</item>
+        <item>@string/license_title7_item0</item>
+        <item>@string/license_title7_item1</item>
+        <item>@string/license_title7_item2</item>
+        <item>@string/license_title7_item3</item>
+        <item>@string/license_title7_item4</item>
+        <item>@string/license_title7_item5</item>
+        <item>@string/license_title7_item6</item>
+        <item>@string/license_title7_item7</item>
+        <item>@string/license_title7_item8</item>
+        <item>@string/license_title7_item9</item>
+        <item>@string/license_title7_item10</item>
+        <item>@string/license_title7_item11</item>
+        <item>@string/license_title7_item12</item>
+        <item>@string/license_title7_item13</item>
+
+
+    </array>
+
+    <array name="license_array_item8">
+        <item>@string/license_title8</item>
+        <item>@string/license_title8_item1</item>
+        <item>@string/license_title8_item2</item>
+        <item>@string/license_title8_item3</item>
+        <item>@string/license_title8_item4</item>
+        <item>@string/license_title8_item5</item>
+        <item>@string/license_title8_item6</item>
+        <item>@string/license_title8_item7</item>
+    </array>
+
+    <array name="license_array_item9">
+        <item>@string/license_title9</item>
+        <item>@string/license_title9_item1</item>
+        <item>@string/license_title9_item2</item>
+        <item>@string/license_title9_item3</item>
+        <item>@string/license_title9_item4</item>
+        <item>@string/license_title9_item5</item>
+
+    </array>
+
+    <array name="license_array_item10">
+        <item>@string/license_title10</item>
+        <item>@string/license_title10_item1</item>
+    </array>
+
+    <array name="license_array_item11">
+        <item>@string/license_title11</item>
+        <item>@string/license_title11_item1</item>
+        <item>@string/license_title11_item2</item>
+        <item>@string/license_title11_item3</item>
+    </array>
+
+</resources>

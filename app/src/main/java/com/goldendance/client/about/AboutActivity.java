@@ -1,5 +1,6 @@
 package com.goldendance.client.about;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,13 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         TextView tvSetting2 = (TextView) i_protocol.findViewById(R.id.tvSetting);
         tvSetting2.setText("用户协议");
         ((TextView) i_protocol.findViewById(R.id.tvSettingMore)).setText("");
-
+        i_protocol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AboutActivity.this, LicenseActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

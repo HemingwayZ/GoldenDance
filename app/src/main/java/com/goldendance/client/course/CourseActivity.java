@@ -22,7 +22,6 @@ public class CourseActivity extends BaseActivity implements CourseFragment.OnFra
 //        EventBus.getDefault().register(this);
         String type = getIntent().getStringExtra("type");
 
-        Toast.makeText(this, "type" + type, Toast.LENGTH_LONG).show();
         CourseFragment fragment = (CourseFragment) getSupportFragmentManager().findFragmentById(R.id.activity_course);
         if (fragment == null) {
             fragment = CourseFragment.newInstance(type, "");

@@ -32,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -166,6 +167,16 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
+        view.findViewById(R.id.ivOpenDrawer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                    drawer_layout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
         left_drawer_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -230,6 +241,12 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         final ProgressDialog show = ProgressDialog.show(getActivity(), null, "加载中...");
         new CourseModel().getStore(new GDOnResponseHandler() {
             @Override
+            public void onFailed(IOException e) {
+                super.onFailed(e);
+                Toast.makeText(getActivity(), "network error", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
             public void onEnd() {
                 super.onEnd();
                 show.dismiss();
@@ -267,6 +284,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
+
     }
 
     @Override
@@ -304,6 +323,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         initStoreView(view);
 
         view.findViewById(R.id.ivOpera).setOnClickListener(this);
+
     }
 
     private void initBody() {
@@ -488,7 +508,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(vpBody==null){
+        if (vpBody == null) {
             return;
         }
         switch (v.getId()) {
