@@ -11,10 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +24,13 @@ import android.widget.Toast;
 import com.goldendance.client.R;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.StoreBean;
+import com.goldendance.client.bean.User;
 import com.goldendance.client.http.GDHttpManager;
+import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.http.GDOnResponseHandler;
+import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.model.CourseModel;
+import com.goldendance.client.userinfo.UserInfoActivity;
 import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -183,6 +189,27 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 drawer_layout.closeDrawers();
             }
         });
+
+        TextView tvUserName = (TextView) view.findViewById(R.id.tvUserName);
+        ImageView ivAvatar = (ImageView) view.findViewById(R.id.ivAvatar);
+        tvUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLogin();
+            }
+        });
+        ivAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLogin();
+            }
+        });
+        if (TextUtils.isEmpty(User.tokenid)) {
+            tvUserName.setText("未登录，点我登录");
+        } else {
+            tvUserName.setText(User.name);
+            GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
+        }
         left_drawer_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,6 +265,16 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         left_drawer_course.setAdapter(categoryAdapter);
         categoryAdapter.notifyDataSetChanged();
 
+    }
+
+    private void isLogin() {
+        Intent intent = new Intent();
+        if (TextUtils.isEmpty(User.tokenid)) {
+            intent.setClass(getActivity(), LoginActivity.class);
+        } else {
+            intent.setClass(getActivity(), UserInfoActivity.class);
+        }
+        startActivity(intent);
     }
 
     /**

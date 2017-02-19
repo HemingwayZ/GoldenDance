@@ -126,4 +126,7 @@
     <string name="license_title11_item2">2、本人身体健康且没有本协议中约定的不适合进行运动健身的疾病；</string>
     <string name="license_title11_item3">3、本人已阅读、理解并同意上述条纹；</string>
 
+    <string name="agree_license"><![CDATA[
+    <font color="#909090">点击注册即表示同意</font><font color="#fa02c8">\"用户协议\"</font>
+    ]]></string>
 </resources>

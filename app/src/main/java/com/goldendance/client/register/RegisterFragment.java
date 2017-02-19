@@ -9,15 +9,18 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
+import com.goldendance.client.about.LicenseActivity;
 import com.goldendance.client.home.HomeActivity;
 import com.goldendance.client.others.MyTextWatcher;
 import com.goldendance.client.utils.GDLogUtils;
@@ -63,6 +66,7 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
     private View ivClearMobile;
     private View ivClearPassword;
     private View ivClearMobileCode;
+    private TextView tvLicense;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -186,17 +190,27 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
         view.findViewById(R.id.tvRegister).setOnClickListener(this);
 
         //
-
+        tvLicense = (TextView) view.findViewById(R.id.tvLicense);
+        tvLicense.setText(Html.fromHtml(getString(R.string.agree_license)));
+        tvLicense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LicenseActivity.class);
+                startActivity(intent);
+            }
+        });
         TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         switch (TextUtils.isEmpty(mAction) ? "" : mAction) {
             case ACTION_REGISTER:
                 tvTitle.setText("注册");
                 tvSubmit.setText("注册");
+                tvLicense.setVisibility(View.VISIBLE);
                 break;
             case ACTION_RESET_PSW:
                 tvTitle.setText("忘记密码");
                 tvSubmit.setText("重置密码");
                 view.findViewById(R.id.rlLogin).setVisibility(View.GONE);
+                tvLicense.setVisibility(View.GONE);
                 break;
             default:
                 tvTitle.setText("注册");

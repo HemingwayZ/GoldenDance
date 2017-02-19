@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldendance.client.R;
@@ -96,6 +97,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
 
         view.findViewById(R.id.ivBack).setOnClickListener(this);
 
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setText("登录");
         view.findViewById(R.id.tvForgetPsw).setOnClickListener(this);
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);

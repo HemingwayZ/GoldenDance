@@ -55,6 +55,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             }
         });
         GDImageLoader.setImageView(this, User.icon, ivIcon);
+
+        TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+        tvTitle.setText("我的资料");
     }
 
     private void setUserinfo() {
