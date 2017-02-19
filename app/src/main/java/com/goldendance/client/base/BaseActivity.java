@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initView(Bundle savedInstanceState);
 
-    public void toLogin() {
+    protected void toLogin() {
         Intent intent = new Intent();
         intent.setClass(this, LoginActivity.class);
         startActivity(intent);
@@ -71,4 +71,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
         ad.show();
     }
+
 }

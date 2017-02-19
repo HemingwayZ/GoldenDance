@@ -1,6 +1,7 @@
 package com.goldendance.client.course;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.CourseModel;
 import com.goldendance.client.utils.JsonUtils;
+import com.goldendance.client.view.MyScrollView;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -39,11 +42,20 @@ public class DetailCourseActivity extends BaseActivity {
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_course_detail);
+        final ImageView ivBack = (ImageView) findViewById(R.id.ivBack);
+        ivBack.setImageResource(R.mipmap.back_round);
         courseBean = (CourseBean) getIntent().getSerializableExtra("course");
         if (courseBean == null) {
             Toast.makeText(this, "params is error", Toast.LENGTH_SHORT).show();
             return;
         }
+        final View flHead = findViewById(R.id.flHead);
+        flHead.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        final TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+
+
+        tvTitle.setVisibility(View.INVISIBLE);
+        tvTitle.setText(courseBean.getCoursename());
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,10 +101,25 @@ public class DetailCourseActivity extends BaseActivity {
         tvTime2.setText(courseBean.getStarttime());
         View flNotice = findViewById(R.id.flNotice);
         if (TextUtils.isEmpty(User.tokenid)) {
-            ivAddCourse.setVisibility(View.GONE);
             flNotice.setVisibility(View.GONE);
         }
 
+        MyScrollView myScrollView = (MyScrollView) findViewById(R.id.myScrollView);
+        final int scrollSize = getResources().getDimensionPixelSize(R.dimen.detail_head_scroll_size);
+        myScrollView.setScrollViewListener(new MyScrollView.ScrollViewListener() {
+            @Override
+            public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+                if (y > scrollSize) {
+                    flHead.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    tvTitle.setVisibility(View.VISIBLE);
+                    ivBack.setImageResource(R.mipmap.i_back);
+                } else {
+                    flHead.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                    tvTitle.setVisibility(View.GONE);
+                    ivBack.setImageResource(R.mipmap.back_round);
+                }
+            }
+        });
         setCoach();
 
         setStore();
@@ -169,6 +196,10 @@ public class DetailCourseActivity extends BaseActivity {
     }
 
     private void doOrder() {
+        if (TextUtils.isEmpty(User.tokenid)) {
+            toLogin();
+            return;
+        }
         final ProgressDialog show = ProgressDialog.show(this, null, "预约中...");
         show.show();
         new CourseModel().orderCourse(courseBean.getCourseid(), new GDOnResponseHandler() {

@@ -21,6 +21,8 @@ import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.model.UserModel;
 import com.goldendance.client.others.MyTextWatcher;
+import com.goldendance.client.register.RegisterActivity;
+import com.goldendance.client.register.RegisterFragment;
 import com.goldendance.client.utils.GDSharedPreference;
 import com.goldendance.client.utils.GDTextUtils;
 import com.goldendance.client.utils.JsonUtils;
@@ -88,6 +90,15 @@ public class UpdatePasswordActivity extends BaseActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 doSubmit();
+            }
+        });
+
+        findViewById(R.id.tvForgetPsw).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(UpdatePasswordActivity.this, RegisterActivity.class);
+                intent1.putExtra("action", RegisterFragment.ACTION_RESET_PSW);
+                startActivity(intent1);
             }
         });
     }

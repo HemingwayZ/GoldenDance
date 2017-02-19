@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.goldendance.client.course.history.CourseHistoryActivity;
 import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.userinfo.UserInfoActivity;
 import com.goldendance.client.utils.GDSharedPreference;
+import com.goldendance.client.view.MyScrollView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +50,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private TextView tvUserName;
     private ImageView ivAvatar;
     private TextView tvCardName;
+    private TextView tvTitle;
 
     public UserFragment() {
         // Required empty public constructor
@@ -92,7 +95,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
 
-
+        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setVisibility(View.INVISIBLE);
         view.findViewById(R.id.llVip).setOnClickListener(this);
         view.findViewById(R.id.llUserInfo).setOnClickListener(this);
         view.findViewById(R.id.llLogOut).setOnClickListener(this);
@@ -111,8 +115,22 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         tvCardName = (TextView) view.findViewById(R.id.tvCardName);
         tvCardName.setText("");
         setUserInfo();
-
-
+//        MyScrollView myScrollView = (MyScrollView) view.findViewById(R.id.myScrollView);
+//        final int dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.fragment_user_head_scroll_size);
+//        myScrollView.setScrollViewListener(new MyScrollView.ScrollViewListener() {
+//            @Override
+//            public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+//                if (y > dimensionPixelSize) {
+//                    if (tvTitle.getVisibility() != View.VISIBLE) {
+//                        tvTitle.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    if (tvTitle.getVisibility() == View.VISIBLE) {
+//                        tvTitle.setVisibility(View.INVISIBLE);
+//                    }
+//                }
+//            }
+//        });
     }
 
     public void setUserInfo() {
@@ -126,7 +144,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             tvUserName.setText(User.name);
         GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
         tvCardName.setText(User.cardname);
-
+        tvTitle.setText(User.name);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

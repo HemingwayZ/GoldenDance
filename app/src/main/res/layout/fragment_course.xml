@@ -22,17 +22,6 @@
             android:paddingRight="16dp"
             android:src="@mipmap/i_back" />
 
-        <TextView
-            android:id="@+id/tvStore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:drawablePadding="10dp"
-            android:text="福州店"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -46,13 +35,26 @@
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/tvStore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="16dp"
+            android:drawablePadding="10dp"
+            android:text="福州店"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
         <ImageView
             android:id="@+id/ivOpera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:padding="16dp"
-            android:src="@mipmap/i_more_white" />
+            android:src="@mipmap/i_more_white"
+            android:visibility="gone" />
     </FrameLayout>
 
     <!--一级导航-->

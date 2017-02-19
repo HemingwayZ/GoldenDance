@@ -7,14 +7,13 @@
     <RadioGroup
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="3dp">
 
         <RadioButton
             android:id="@+id/rbMenuHome"
@@ -56,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_above="@+id/llBottom"
-        android:background="@color/gray_cd" />
+        android:background="#ededed" />
 
     <ImageView
         android:id="@+id/ivScan"
@@ -67,5 +66,6 @@
         android:layout_gravity="center"
         android:button="@null"
         android:gravity="center"
-        android:src="@drawable/menu_btn_scan" />
+        android:src="@drawable/menu_btn_scan"
+        android:visibility="gone" />
 </RelativeLayout>

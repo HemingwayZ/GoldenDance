@@ -177,6 +177,12 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        view.findViewById(R.id.tvClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer_layout.closeDrawers();
+            }
+        });
         left_drawer_store.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -322,7 +328,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         initHead2(view);
         initStoreView(view);
 
-        view.findViewById(R.id.ivOpera).setOnClickListener(this);
+//        view.findViewById(R.id.ivOpera).setOnClickListener(this);
 
     }
 

@@ -7,14 +7,16 @@
     android:background="#FFFFFF"
     tools:context="com.goldendance.client.course.DetailCourseActivity">
 
-    <include layout="@layout/i_head" />
 
     <include layout="@layout/i_detail_content" />
+
+    <include layout="@layout/i_head" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="right"
