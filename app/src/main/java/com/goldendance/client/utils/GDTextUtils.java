@@ -32,25 +32,28 @@ public class GDTextUtils {
      * @return
      */
     public static String getMD5(String realPsw) {
-        try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(realPsw.getBytes("UTF-8"));
-            byte[] encryption = md5.digest();
 
-            StringBuffer strBuf = new StringBuffer();
-            for (int i = 0; i < encryption.length; i++) {
-                if (Integer.toHexString(0xff & encryption[i]).length() == 1) {
-                    strBuf.append("0").append(Integer.toHexString(0xff & encryption[i]));
-                } else {
-                    strBuf.append(Integer.toHexString(0xff & encryption[i]));
-                }
-            }
-
-            return strBuf.toString();
-        } catch (NoSuchAlgorithmException e) {
-            return "";
-        } catch (UnsupportedEncodingException e) {
-            return "";
-        }
+        return realPsw;
+//
+//        try {
+//            MessageDigest md5 = MessageDigest.getInstance("MD5");
+//            md5.update(realPsw.getBytes("UTF-8"));
+//            byte[] encryption = md5.digest();
+//
+//            StringBuffer strBuf = new StringBuffer();
+//            for (int i = 0; i < encryption.length; i++) {
+//                if (Integer.toHexString(0xff & encryption[i]).length() == 1) {
+//                    strBuf.append("0").append(Integer.toHexString(0xff & encryption[i]));
+//                } else {
+//                    strBuf.append(Integer.toHexString(0xff & encryption[i]));
+//                }
+//            }
+//
+//            return strBuf.toString();
+//        } catch (NoSuchAlgorithmException e) {
+//            return "";
+//        } catch (UnsupportedEncodingException e) {
+//            return "";
+//        }
     }
 }

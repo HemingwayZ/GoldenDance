@@ -147,6 +147,7 @@ public class UpdatePasswordActivity extends BaseActivity implements View.OnClick
                 if (data == null) {
                     return;
                 }
+
                 showMsg(data.getMessage());
                 Map<String, Object> map = new HashMap<>();
                 map.put(GDSharedPreference.KEY_PASSWORD, md5Psw);
@@ -168,7 +169,11 @@ public class UpdatePasswordActivity extends BaseActivity implements View.OnClick
             return null;
         }
         if (GDHttpManager.CODE200 != data.getCode()) {
-            showMsg("error:" + data.getMessage());
+
+            if (reLogin(data.getCode())) {
+                return null;
+            }
+//            showMsg("error:" + data.getMessage());
             return null;
         }
         return data;

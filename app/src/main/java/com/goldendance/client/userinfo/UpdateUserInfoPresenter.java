@@ -131,7 +131,7 @@ public class UpdateUserInfoPresenter implements IUpdateUserInfoContract.IPresent
                     mView.showMsg(result.getUrl());
                 }
                 //设置头像
-                User.icon = result.getUrl();
+//                User.icon = result.getUrl();
                 mView.updateSuccess(UserInfoActivity.ACTION_ICON, storageFile.getPath());
                 super.onSuccess(code, json);
             }

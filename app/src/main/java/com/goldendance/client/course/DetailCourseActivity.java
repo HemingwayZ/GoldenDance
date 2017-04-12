@@ -19,6 +19,7 @@ import com.goldendance.client.bean.CoachBean;
 import com.goldendance.client.bean.CourseBean;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.MessageBean;
+import com.goldendance.client.bean.OrderMemberResultBean;
 import com.goldendance.client.bean.Store2Bean;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.bean.UserBean;
@@ -264,7 +265,7 @@ public class DetailCourseActivity extends BaseActivity {
                     Toast.makeText(DetailCourseActivity.this, "网络异常" + code, Toast.LENGTH_LONG).show();
                     return;
                 }
-                DataResultBean<ArrayList<UserBean>> messageBean = JsonUtils.fromJson(json, new TypeToken<DataResultBean<ArrayList<UserBean>>>() {
+                DataResultBean<OrderMemberResultBean> messageBean = JsonUtils.fromJson(json, new TypeToken<DataResultBean<OrderMemberResultBean>>() {
                 });
                 if (messageBean == null) {
                     Toast.makeText(DetailCourseActivity.this, "member data parse error" + code, Toast.LENGTH_LONG).show();
@@ -274,7 +275,7 @@ public class DetailCourseActivity extends BaseActivity {
                     Toast.makeText(DetailCourseActivity.this, messageBean.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                avatarAdapter.setmData(messageBean.getData());
+                avatarAdapter.setmData(messageBean.getData().getList());
                 avatarAdapter.notifyDataSetChanged();
             }
         });

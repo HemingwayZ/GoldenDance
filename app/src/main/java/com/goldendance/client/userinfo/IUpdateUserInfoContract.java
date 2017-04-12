@@ -27,5 +27,7 @@ public interface IUpdateUserInfoContract {
         String getGender();
 
         String getPsw();
+
+        boolean relogin();
     }
 }

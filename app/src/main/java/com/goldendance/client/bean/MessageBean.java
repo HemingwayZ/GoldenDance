@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 
 public class MessageBean implements Serializable {
+    public static final int CODE_TOKEN_OVERTIME = 999;
     private int code;
     private String message;
 

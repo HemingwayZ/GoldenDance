@@ -156,7 +156,11 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                     Toast.makeText(HomeActivity.this, "data parse error code:" + code, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (reLogin(data.getCode())) {
+                    return;
+                }
                 if (GDHttpManager.CODE200 != data.getCode()) {
+
                     Toast.makeText(HomeActivity.this, data.getCode() + ":" + data.getMessage(), Toast.LENGTH_SHORT).show();
                     if (500 == data.getCode()) {
                         //token错误

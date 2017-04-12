@@ -517,6 +517,11 @@ public class UpdateUserInfoFragment extends Fragment implements IUpdateUserInfoC
         return (String) GDSharedPreference.get(getActivity(), GDSharedPreference.KEY_PASSWORD, "");
     }
 
+    @Override
+    public boolean relogin() {
+        return false;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

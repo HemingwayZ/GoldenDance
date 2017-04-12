@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.goldendance.client.R;
 import com.goldendance.client.bean.CourseBean;
+import com.goldendance.client.bean.CourseHistoryBean;
 import com.goldendance.client.bean.CourseListBean;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.course.CourseAdapter;
@@ -134,7 +135,7 @@ public class CourseHistoryListFragment extends Fragment {
                     showEmptyView("newwork error " + code);
                     return;
                 }
-                DataResultBean<ArrayList<CourseBean>> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<ArrayList<CourseBean>>>() {
+                DataResultBean<CourseHistoryBean> base = JsonUtils.fromJson(json, new TypeToken<DataResultBean<CourseHistoryBean>>() {
                 });
                 if (base == null) {
                     showEmptyView("data parse error");
@@ -144,7 +145,7 @@ public class CourseHistoryListFragment extends Fragment {
                     showEmptyView(base.getMessage());
                     return;
                 }
-                ArrayList<CourseBean> data = base.getData();
+                ArrayList<CourseBean> data = base.getData().getList();
                 if (data == null) {
                     showEmptyView("data is null");
                     return;
