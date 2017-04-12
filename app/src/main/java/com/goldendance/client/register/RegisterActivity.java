@@ -5,8 +5,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.alipay.android.phone.mrpc.core.HttpManager;
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
+import com.goldendance.client.http.GDHttpManager;
 
 public class RegisterActivity extends BaseActivity implements RegisterFragment.OnFragmentInteractionListener {
 
@@ -30,6 +32,12 @@ public class RegisterActivity extends BaseActivity implements RegisterFragment.O
             ft.commit();
         }
         new RegisterPresenter(fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        GDHttpManager.closeHttp();
+        super.onBackPressed();
     }
 
     @Override

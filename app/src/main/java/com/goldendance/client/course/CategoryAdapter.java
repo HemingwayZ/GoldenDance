@@ -76,7 +76,7 @@ public class CategoryAdapter extends BaseAdapter {
             holder = (StoreViewHolder) convertView.getTag();
         }
         StoreBean storeBean = mData.get(position);
-        holder.tvStore.setText(storeBean.getText());
+        holder.tvStore.setText(storeBean.getNickname());
 
         if (getSelectedPos() == position) {
             holder.tvStore.setTextColor(0xff007733);

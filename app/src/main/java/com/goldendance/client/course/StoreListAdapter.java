@@ -47,7 +47,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.Stor
     @Override
     public void onBindViewHolder(StoreViewHolder storeViewHolder, int i) {
         StoreBean item = mData.get(i);
-        storeViewHolder.tvStore.setText(item.getText());
+        storeViewHolder.tvStore.setText(item.getNickname());
         storeViewHolder.itemView.setTag(R.id.pos, i);
         storeViewHolder.itemView.setOnClickListener(onItemClickListener);
     }

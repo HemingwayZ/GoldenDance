@@ -32,10 +32,82 @@ public class CourseBean implements Serializable {
     private int ordernum;
     private String picture;
     private String courseid;
-    private Store2Bean store;
-    private CoachBean coach;
 
-    private String isordered;//用户是否预约该课程
+    private String coachName;
+    private String coachSignature;
+    private String coachGender;
+    private String coachIcon;
+
+    private String storeid;
+    private String storeAddress;
+    private String storeNickname;
+    private String storePicture;
+
+    public String getCoachName() {
+        return coachName;
+    }
+
+    public void setCoachName(String coachName) {
+        this.coachName = coachName;
+    }
+
+    public String getCoachSignature() {
+        return coachSignature;
+    }
+
+    public void setCoachSignature(String coachSignature) {
+        this.coachSignature = coachSignature;
+    }
+
+    public String getCoachGender() {
+        return coachGender;
+    }
+
+    public void setCoachGender(String coachGender) {
+        this.coachGender = coachGender;
+    }
+
+    public String getCoachIcon() {
+        return coachIcon;
+    }
+
+    public void setCoachIcon(String coachIcon) {
+        this.coachIcon = coachIcon;
+    }
+
+    public String getStoreid() {
+        return storeid;
+    }
+
+    public void setStoreid(String storeid) {
+        this.storeid = storeid;
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress;
+    }
+
+    public String getStoreNickname() {
+        return storeNickname;
+    }
+
+    public void setStoreNickname(String storeNickname) {
+        this.storeNickname = storeNickname;
+    }
+
+    public String getStorePicture() {
+        return storePicture;
+    }
+
+    public void setStorePicture(String storePicture) {
+        this.storePicture = storePicture;
+    }
+
+    private String isordered;//用户是否预约该课程 isordered—0:未预约或（已预约且现已取消） 1:已预约
 
     public String getIsordered() {
         return isordered;
@@ -53,21 +125,6 @@ public class CourseBean implements Serializable {
         this.coursename = coursename;
     }
 
-    public Store2Bean getStore() {
-        return store;
-    }
-
-    public void setStore(Store2Bean store) {
-        this.store = store;
-    }
-
-    public CoachBean getCoach() {
-        return coach;
-    }
-
-    public void setCoach(CoachBean coach) {
-        this.coach = coach;
-    }
 
     public String getIntroduce() {
         return introduce;

@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 
 public class StoreBean implements Serializable {
-    String value;
-    String text;
+    String storeid;
+    String nickname;
     boolean isSelected;
 
     public boolean isSelected() {
@@ -19,19 +19,19 @@ public class StoreBean implements Serializable {
         isSelected = selected;
     }
 
-    public String getValue() {
-        return value;
+    public String getStoreid() {
+        return storeid;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setStoreid(String storeid) {
+        this.storeid = storeid;
     }
 
-    public String getText() {
-        return text;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

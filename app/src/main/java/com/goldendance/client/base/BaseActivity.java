@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.alipay.android.phone.mrpc.core.HttpManager;
 import com.goldendance.client.bean.User;
 import com.goldendance.client.login.LoginActivity;
 
@@ -72,4 +73,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         ad.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        HttpManager.getInstance(this).close();
+        super.onBackPressed();
+
+    }
 }

@@ -35,7 +35,7 @@ public class CourseModel {
         params.put("type", type);
         params.put("starttime", date);
         params.put("storeid", storeid);
-        params.put("rows", String.valueOf(rows));
+        params.put("pageSize", String.valueOf(rows));
         params.put("page", String.valueOf(page));
         GDHttpManager.doGet(url, params, handler);
     }

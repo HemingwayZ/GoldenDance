@@ -38,8 +38,8 @@ public class GDHttpManager {
 
     private static final String PORT = "80";
     private Handler mainHandler;
-//    private static String BASE_URL = "http://120.77.206.145:80/JinWuTuan/";
-private static String BASE_URL = "http://120.77.223.111/JinWuTuan/";
+    //    private static String BASE_URL = "http://120.77.206.145:80/JinWuTuan/";
+    private static String BASE_URL = "http://120.77.223.111/jwt/";
     //    private static String BASE_URL = "http://192.168.1.107:8080/FirstBlood/";
     private static GDHttpManager mInstance;
     private static OkHttpClient mOkHttpClient;
@@ -169,5 +169,9 @@ private static String BASE_URL = "http://120.77.223.111/JinWuTuan/";
 
     public static void doPost(String url, Map<String, String> params, final GDOnResponseHandler handler) {
         getInstance().post(url, params, handler);
+    }
+
+    public static void closeHttp() {
+        mOkHttpClient.dispatcher().cancelAll();
     }
 }

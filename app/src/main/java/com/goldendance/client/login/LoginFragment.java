@@ -109,6 +109,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ILo
 
         //
         pbLoading = new ProgressDialog(getActivity());
+        pbLoading.setMessage("努力登录中...");
     }
 
     // TODO: Rename method, update argument and hook method into UI event

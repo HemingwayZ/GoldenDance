@@ -60,7 +60,7 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseBean> {
             GDImageLoader.setImageView(mContext, picture, holder.ivCourseCover);
             holder.tvCourseTitle.setText(item.getCoursename());
 
-            holder.tvCoachName.setText(item.getCoach().getName());
+            holder.tvCoachName.setText(item.getCoursename());
             holder.tvCoursePrice.setText(String.format(Locale.getDefault(), mContext.getString(R.string.course_price), item.getPrice()));
 
             Date date = null;

@@ -83,7 +83,7 @@ public class DetailCourseActivity extends BaseActivity {
         tvCourseTitle.setText(courseBean.getCoursename());
 
         TextView tvCoachName = (TextView) findViewById(R.id.tvCoachName);
-        tvCoachName.setText(String.format(getString(R.string.coach), courseBean.getCoach().getName()));
+        tvCoachName.setText(String.format(getString(R.string.coach), courseBean.getCoachName()));
 
         TextView tvCoursePrice = (TextView) findViewById(R.id.tvCoursePrice);
         tvCoursePrice.setText(String.format(getString(R.string.course_price), courseBean.getPrice()));
@@ -281,34 +281,25 @@ public class DetailCourseActivity extends BaseActivity {
     }
 
     private void setStore() {
-        Store2Bean store = courseBean.getStore();
 
         TextView tvStoreName = (TextView) findViewById(R.id.tvStoreName);
-        if (store == null) {
-            tvStoreName.setText(getString(R.string.network_error));
-            return;
-        }
         ImageView ivStorePic = (ImageView) findViewById(R.id.ivStorePic);
-        GDImageLoader.setImageView(this, store.getPicture(), ivStorePic);
+        GDImageLoader.setImageView(this, courseBean.getStorePicture(), ivStorePic);
 
-        tvStoreName.setText(store.getNickname());
+        tvStoreName.setText(courseBean.getStoreNickname());
 
         TextView tvStoreDesc = (TextView) findViewById(R.id.tvStoreDesc);
-        tvStoreDesc.setText(store.getAddress());
+        tvStoreDesc.setText(courseBean.getStoreAddress());
     }
 
     private void setCoach() {
-        CoachBean coach = courseBean.getCoach();
-        if (coach == null) {
-            return;
-        }
         ImageView ivCoachPic = (ImageView) findViewById(R.id.ivCoachPic);
-        GDImageLoader.setImageView(this, coach.getIcon(), ivCoachPic);
+        GDImageLoader.setImageView(this, courseBean.getCoachIcon(), ivCoachPic);
 
         TextView tvCoachName2 = (TextView) findViewById(R.id.tvCoachName2);
-        tvCoachName2.setText(coach.getName());
+        tvCoachName2.setText(courseBean.getCoachName());
 
         TextView tvCoachDesc = (TextView) findViewById(R.id.tvCoachDesc);
-        tvCoachDesc.setText(coach.getSignature());
+        tvCoachDesc.setText(courseBean.getCoachName());
     }
 }

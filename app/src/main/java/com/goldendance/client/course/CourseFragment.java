@@ -107,12 +107,12 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
 //            return;
 //        }
 //
-//        if (tvTitle.getText().toString().contains(bean.getText())) {
+//        if (tvTitle.getNickname().toString().contains(bean.getNickname())) {
 //            return;
 //        }
-//        tvTitle.setText(bean.getText());
+//        tvTitle.setText(bean.getNickname());
 //        int currentItem = vpBody.getCurrentItem();
-//        CourseListFragment.storeId = bean.getValue();
+//        CourseListFragment.storeId = bean.getStoreid();
 //        CourseListFragment courseListFragment = (CourseListFragment) fragmentList.get(currentItem);
 //        if (courseListFragment != null) {
 //            courseListFragment.onrefresh2();
@@ -219,9 +219,9 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 storeAdapter.setSelectedPos(position);
                 storeAdapter.notifyDataSetChanged();
                 StoreBean item = storeAdapter.getItem(position);
-                CourseListFragment.storeId = item.getValue();
+                CourseListFragment.storeId = item.getStoreid();
                 EventBus.getDefault().post(item);
-                tvStore.setText(item.getText());
+                tvStore.setText(item.getNickname());
             }
         });
 
@@ -243,7 +243,7 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                 CourseListFragment.courseType = String.valueOf(position + 1);
                 StoreBean item = categoryAdapter.getItem(position);
                 EventBus.getDefault().post(item);
-                tvTitle.setText(item.getText());
+                tvTitle.setText(item.getNickname());
 
             }
         });
@@ -257,8 +257,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
         };
         for (int i = 0; i < texts.length; i++) {
             StoreBean storeBean = new StoreBean();
-            storeBean.setValue(String.valueOf(i));
-            storeBean.setText(texts[i]);
+            storeBean.setStoreid(String.valueOf(i));
+            storeBean.setNickname(texts[i]);
             category.add(storeBean);
         }
         categoryAdapter.setmData(category);
@@ -321,8 +321,8 @@ public class CourseFragment extends Fragment implements View.OnClickListener {
                     storeAdapter.setmData(data);
                     storeAdapter.notifyDataSetChanged();
                     StoreBean storeBean = data.get(0);
-                    CourseListFragment.storeId = storeBean.getValue();
-                    tvStore.setText(storeBean.getText());
+                    CourseListFragment.storeId = storeBean.getStoreid();
+                    tvStore.setText(storeBean.getNickname());
                     initBody();
                 }
             }

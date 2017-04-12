@@ -44,7 +44,7 @@ public class UserModel implements IUserModel {
         Map<String, String> params = new HashMap<>();
         params.put("tel", mobile);
         params.put("password", password);
-        GDHttpManager.doPost(url, params, handler);
+        GDHttpManager.doGet(url, params, handler);
     }
 
     @Override

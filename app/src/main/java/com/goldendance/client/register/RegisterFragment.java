@@ -318,7 +318,9 @@ public class RegisterFragment extends Fragment implements IRegisterContract.IVie
 
     @Override
     public void showToast(@StringRes int idStr, String msg) {
-        Toast.makeText(getActivity(), String.format(Locale.getDefault(), getString(idStr), msg), Toast.LENGTH_SHORT).show();
+        if (getAction() != null) {
+            Toast.makeText(getContext(), String.format(Locale.getDefault(), getString(idStr), msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private int timeCount = 60;

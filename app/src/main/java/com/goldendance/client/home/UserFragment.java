@@ -23,6 +23,7 @@ import com.goldendance.client.bean.User;
 import com.goldendance.client.card.CardActivity;
 import com.goldendance.client.course.history.CourseHistoryActivity;
 import com.goldendance.client.http.GDImageLoader;
+import com.goldendance.client.login.LoginActivity;
 import com.goldendance.client.userinfo.UserInfoActivity;
 import com.goldendance.client.utils.GDSharedPreference;
 import com.goldendance.client.view.MyScrollView;
@@ -51,6 +52,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private ImageView ivAvatar;
     private TextView tvCardName;
     private TextView tvTitle;
+    private TextView tvLoginOrOut;
 
     public UserFragment() {
         // Required empty public constructor
@@ -131,6 +133,18 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 //                }
 //            }
 //        });
+
+        tvLoginOrOut = (TextView) view.findViewById(R.id.tvLoginOrOut);
+        setLoginState();
+    }
+
+
+    private void setLoginState() {
+        if (TextUtils.isEmpty(User.tokenid)) {
+            tvLoginOrOut.setText("登录");
+        } else {
+            tvLoginOrOut.setText("注销");
+        }
     }
 
     public void setUserInfo() {
@@ -233,6 +247,12 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     }
 
     private void logOut() {
+        if (TextUtils.isEmpty(User.tokenid)) {
+            //未登录状态
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            return;
+        }
         AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
         ab.setMessage("是否要注销账号？");
         ab.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -241,6 +261,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 dialog.dismiss();
                 GDSharedPreference.remove(getActivity(), GDSharedPreference.KEY_TOKEN);
                 User.logOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                tvLoginOrOut.setText("注销");
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

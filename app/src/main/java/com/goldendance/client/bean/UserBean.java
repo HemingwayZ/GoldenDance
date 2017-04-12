@@ -13,13 +13,14 @@ public class UserBean implements Serializable {
     private String icon;//头像
     private String defoulttime;
     private int points;
-    private String cardname;
+    private String cardname;//会员名称
     private String tokenid;
     private String tokenovertime;
     private String signature;
     private String name;
     private String inserttime;
-    private String coursenum="";
+    private String coursenum = "";//当前已预约，未结束课程
+    private String cardovertime;//卡片超时时间
 
     public String getCoursenum() {
         return coursenum;
