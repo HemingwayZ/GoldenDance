@@ -25,6 +25,15 @@ import java.util.Locale;
 
 public class CourseAdapter extends FooterRecyclerViewAdapter<CourseBean> {
 
+    private String baseImageUri = "";
+
+    public String getBaseImageUri() {
+        return baseImageUri;
+    }
+
+    public void setBaseImageUri(String baseImageUri) {
+        this.baseImageUri = baseImageUri;
+    }
 
     public CourseAdapter(Context mContext) {
         super(mContext);
@@ -57,10 +66,13 @@ public class CourseAdapter extends FooterRecyclerViewAdapter<CourseBean> {
                 return;
             }
             String picture = item.getPicture();
-            GDImageLoader.setImageView(mContext, picture, holder.ivCourseCover);
-            holder.tvCourseTitle.setText(item.getCoursename());
+            if(!picture.contains(getBaseImageUri())){
+                item.setPicture(getBaseImageUri()+picture);
+            }
+            GDImageLoader.setImageView(mContext, item.getPicture(), holder.ivCourseCover);
+            holder.tvCourseTitle.setText(item.getName());
 
-            holder.tvCoachName.setText(item.getCoursename());
+            holder.tvCoachName.setText(item.getName());
             holder.tvCoursePrice.setText(String.format(Locale.getDefault(), mContext.getString(R.string.course_price), item.getPrice()));
 
             Date date = null;

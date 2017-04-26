@@ -1,8 +1,6 @@
 package com.goldendance.client.course;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,14 +13,11 @@ import android.widget.Toast;
 
 import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
-import com.goldendance.client.bean.CoachBean;
 import com.goldendance.client.bean.CourseBean;
 import com.goldendance.client.bean.DataResultBean;
 import com.goldendance.client.bean.MessageBean;
 import com.goldendance.client.bean.OrderMemberResultBean;
-import com.goldendance.client.bean.Store2Bean;
 import com.goldendance.client.bean.User;
-import com.goldendance.client.bean.UserBean;
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.http.GDOnResponseHandler;
@@ -30,8 +25,6 @@ import com.goldendance.client.model.CourseModel;
 import com.goldendance.client.utils.JsonUtils;
 import com.goldendance.client.view.MyScrollView;
 import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
 
 public class DetailCourseActivity extends BaseActivity {
 
@@ -56,7 +49,7 @@ public class DetailCourseActivity extends BaseActivity {
 
 
         tvTitle.setVisibility(View.INVISIBLE);
-        tvTitle.setText(courseBean.getCoursename());
+        tvTitle.setText(courseBean.getName());
         findViewById(R.id.ivBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +74,7 @@ public class DetailCourseActivity extends BaseActivity {
         GDImageLoader.setImageView(this, courseBean.getPicture(), ivCourseCover);
 
         TextView tvCourseTitle = (TextView) findViewById(R.id.tvCourseTitle);
-        tvCourseTitle.setText(courseBean.getCoursename());
+        tvCourseTitle.setText(courseBean.getName());
 
         TextView tvCoachName = (TextView) findViewById(R.id.tvCoachName);
         tvCoachName.setText(String.format(getString(R.string.coach), courseBean.getCoachName()));
@@ -183,6 +176,8 @@ public class DetailCourseActivity extends BaseActivity {
                     courseBean = data.getData();
 //                    Toast.makeText(DetailCourseActivity.this, "getIsordered:" + courseBean.getIsordered(), Toast.LENGTH_LONG).show();
                     setCourseStatus();
+                    setStore();
+                    setCoach();
                 }
             }
         });
@@ -275,6 +270,7 @@ public class DetailCourseActivity extends BaseActivity {
                     Toast.makeText(DetailCourseActivity.this, messageBean.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
+                avatarAdapter.setImgUrl(messageBean.getData().getImgUrl());
                 avatarAdapter.setmData(messageBean.getData().getList());
                 avatarAdapter.notifyDataSetChanged();
             }

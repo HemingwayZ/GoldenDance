@@ -11,7 +11,16 @@ public class CourseListBean implements Serializable {
     private int pageSize;
     private int pageNumber;
     private int totalCount;
+    private String imgUrl;
     ArrayList<CourseBean> list;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public int getPageSize() {
         return pageSize;

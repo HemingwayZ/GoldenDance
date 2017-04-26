@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class TokenBean implements Serializable {
     String tokenid;
-    String life;
+    String life;//life为TOKEN有效期
 
     public String getTokenid() {
         return tokenid;

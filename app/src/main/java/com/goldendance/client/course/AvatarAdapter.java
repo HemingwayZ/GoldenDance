@@ -23,6 +23,15 @@ public class AvatarAdapter extends RecyclerView.Adapter<AvatarAdapter.AvatarHold
     Context mContext;
     LayoutInflater mInflater;
     ArrayList<UserBean> mData;
+    private String imgUrl="";
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public AvatarAdapter(Context mContext) {
         this.mContext = mContext;
@@ -50,6 +59,9 @@ public class AvatarAdapter extends RecyclerView.Adapter<AvatarAdapter.AvatarHold
             return;
         }
         String icon = userBean.getIcon();
+        if(!icon.contains(getImgUrl())){
+            userBean.setIcon(getImgUrl()+icon);
+        }
         GDImageLoader.setCircleView(mContext, icon, holder.ivAvatar);
     }
 

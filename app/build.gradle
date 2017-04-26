@@ -41,4 +41,5 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.makeramen:roundedimageview:2.3.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/TalkingData_AppAnalytics_Android_SDK_V2.3.50.jar')
 }

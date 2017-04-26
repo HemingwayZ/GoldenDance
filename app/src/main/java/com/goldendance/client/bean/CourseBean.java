@@ -24,7 +24,7 @@ public class CourseBean implements Serializable {
     private String introduce;
     private String coachid;
     private int price;
-    private String coursename;
+    private String name;
     private String starttime;
     private String endtime;
     private String ordertime;
@@ -117,12 +117,12 @@ public class CourseBean implements Serializable {
         this.isordered = isordered;
     }
 
-    public String getCoursename() {
-        return coursename;
+    public String getName() {
+        return name;
     }
 
-    public void setCoursename(String coursename) {
-        this.coursename = coursename;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

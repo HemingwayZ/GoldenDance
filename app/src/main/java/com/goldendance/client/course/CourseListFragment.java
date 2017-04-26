@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -183,6 +184,9 @@ public class CourseListFragment extends Fragment {
                 }
                 page++;
                 adapter.addMoreList(data.getList());
+                if(TextUtils.isEmpty(adapter.getBaseImageUri())){
+                    adapter.setBaseImageUri(data.getImgUrl());
+                }
                 adapter.notifyDataSetChanged();
                 if (adapter.getItemCount() < 2) {
                     adapter.setLoadText("");
