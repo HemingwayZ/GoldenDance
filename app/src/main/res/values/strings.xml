@@ -129,4 +129,14 @@
     <string name="agree_license"><![CDATA[
     <font color="#909090">点击注册即表示同意</font><font color="#fa02c8">\"用户协议\"</font>
     ]]></string>
+
+
+
+    <!---->
+
+    <string name="vip_right">1、有效期365天，购卡后立即开卡；\n2、有效期内可扫描闸口二维码入场；\n3、每月兴趣班所有课程可无限次预约。
+    </string>
+    <string name="vip_desc">
+        1、预约课程：每天中午11点可预约后天课程，如遇特殊情况不能前往，请提前取消（注：上课前1小时不能取消课程）；\n2、关于旷课：旷课一次，三天内不能再约任何课程；\n3、停卡规则：年卡可停卡一次。月卡季度卡不停课。
+    </string>
 </resources>

@@ -66,6 +66,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         //性别   sex:0,（0:男 1:女）
         tvSex = (TextView) findViewById(R.id.tvSex);
         String gender = User.gender;
+
+        TextView tvMobile = (TextView) findViewById(R.id.tvMobile);
+        tvMobile.setText(User.tel);
         if (!TextUtils.isEmpty(gender)) {
             switch (gender) {
                 case "0":

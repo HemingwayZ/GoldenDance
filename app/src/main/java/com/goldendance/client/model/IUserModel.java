@@ -22,4 +22,6 @@ public interface IUserModel {
     void updateIcon(String userId, String base64Icon, GDOnResponseHandler handler);
 
     void updatePsw(String userId, String password, GDOnResponseHandler handler);
+
+    void getALiPayInfo(String cardid,String stel,GDOnResponseHandler handler);
 }

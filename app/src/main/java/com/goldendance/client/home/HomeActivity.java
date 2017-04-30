@@ -32,6 +32,7 @@ import com.goldendance.client.utils.GDSharedPreference;
 import com.goldendance.client.utils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +145,14 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         User.tokenid = token;
         user.getUserInfo(null, token, new GDOnResponseHandler() {
             @Override
+            public void onFailed(IOException e) {
+                super.onFailed(e);
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, User.name + " 登录失败", Toast.LENGTH_LONG).show();
+                reLogin(502);
+            }
+
+            @Override
             public void onSuccess(int code, String json) {
                 GDLogUtils.i(TAG, "json:" + json);
                 if (GDHttpManager.CODE200 != code) {
@@ -170,6 +179,11 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
                     return;
                 }
                 UserBean user = data.getData();
+                if (user == null) {
+                    Toast.makeText(HomeActivity.this, User.name + " 登录失败", Toast.LENGTH_LONG).show();
+                    reLogin(502);
+                    return;
+                }
                 User.setUser(user);
                 Toast.makeText(HomeActivity.this, User.name + " 登录成功", Toast.LENGTH_LONG).show();
                 if (userFragment != null) {

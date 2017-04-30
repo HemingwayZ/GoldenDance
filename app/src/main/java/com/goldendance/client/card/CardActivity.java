@@ -38,6 +38,8 @@ public class CardActivity extends BaseActivity {
             }
         });
 
+        TextView tvVIP = (TextView) findViewById(R.id.tvVIP);
+        tvVIP.setText("VIP");
         TextView tvCardType = (TextView) findViewById(R.id.tvCardType);
         tvCardType.setText(User.cardname);
 
@@ -48,6 +50,17 @@ public class CardActivity extends BaseActivity {
                 toHistory();
             }
         });
+
+        int cardnum = User.getCardnum();
+
+        TextView tvCardNum = (TextView) findViewById(R.id.tvCardNum);
+        tvCardNum.setText("持卡数:" + String.valueOf(cardnum));
+
+        TextView tvCardOverTime = (TextView) findViewById(R.id.tvCardOverTime);
+        tvCardOverTime.setText(User.cardovertime);
+        if (cardnum == 0) {
+            tvCardOverTime.setVisibility(View.GONE);
+        }
     }
 
     private void toHistory() {

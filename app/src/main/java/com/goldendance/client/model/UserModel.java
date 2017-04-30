@@ -1,5 +1,7 @@
 package com.goldendance.client.model;
 
+import android.text.TextUtils;
+
 import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.register.RegisterFragment;
@@ -104,5 +106,17 @@ public class UserModel implements IUserModel {
         }
         params.put("password", password);
         GDHttpManager.doPost(url, params, handler);
+    }
+
+    @Override
+    public void getALiPayInfo(String cardid, String stel,GDOnResponseHandler handler) {
+        String url = "alipay";
+        Map<String, String> params = new HashMap<>();
+        params.put("cardid",cardid);
+        if(!TextUtils.isEmpty(stel)){
+            params.put("tel",stel);
+        }
+
+        GDHttpManager.doPost(url,params,handler);
     }
 }

@@ -1,15 +1,12 @@
 package com.goldendance.client.card;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +25,10 @@ import com.goldendance.client.http.GDHttpManager;
 import com.goldendance.client.http.GDImageLoader;
 import com.goldendance.client.http.GDOnResponseHandler;
 import com.goldendance.client.model.CardModel;
+import com.goldendance.client.model.IUserModel;
+import com.goldendance.client.model.UserModel;
 import com.goldendance.client.utils.GDLogUtils;
 import com.goldendance.client.utils.JsonUtils;
-import com.goldendance.client.zhifubao.OrderInfoUtil2_0;
 import com.goldendance.client.zhifubao.PayResult;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,6 +45,10 @@ public class PayActivity extends BaseActivity {
     private RadioButton rbSeason;
     private View scrollView;
     private TextView tvPayNotice;
+    private EditText etInviteUser;
+    private ArrayList<CardBean> cardList;
+    private RadioButton rbYear;
+    private RadioButton rbOnce;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class PayActivity extends BaseActivity {
         findViewById(R.id.tvSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doPay2();
+
+                getPayInfo();
             }
         });
 
@@ -95,8 +98,58 @@ public class PayActivity extends BaseActivity {
 
             }
         });
+
+//        月卡
         rbSeason = (RadioButton) findViewById(R.id.rbSeason);
         rbSeason.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Object tag = buttonView.getTag();
+                if (tag instanceof CardBean) {
+                    CardBean card = (CardBean) tag;
+                    if (isChecked) {
+                        setPayNotice(card.getCardprice(), card.getPoint());
+                    }
+                }
+
+            }
+        });
+
+        //季卡
+        rbSeason = (RadioButton) findViewById(R.id.rbSeason);
+        rbSeason.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Object tag = buttonView.getTag();
+                if (tag instanceof CardBean) {
+                    CardBean card = (CardBean) tag;
+                    if (isChecked) {
+                        setPayNotice(card.getCardprice(), card.getPoint());
+                    }
+                }
+
+            }
+        });
+
+        //年卡
+        rbYear = (RadioButton) findViewById(R.id.rbYear);
+        rbYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Object tag = buttonView.getTag();
+                if (tag instanceof CardBean) {
+                    CardBean card = (CardBean) tag;
+                    if (isChecked) {
+                        setPayNotice(card.getCardprice(), card.getPoint());
+                    }
+                }
+
+            }
+        });
+
+        //一次卡
+        rbOnce = (RadioButton) findViewById(R.id.rbOnce);
+        rbOnce.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Object tag = buttonView.getTag();
@@ -112,6 +165,41 @@ public class PayActivity extends BaseActivity {
         tvPayNotice = (TextView) findViewById(R.id.tvPayNotice);
         setPayNotice("0.0", "0.0");
         getCardInfos();
+
+        etInviteUser = (EditText) findViewById(R.id.etInviteUser);
+    }
+
+    private void getPayInfo() {
+
+        if (cardList == null || cardList.size() < 2) {
+
+            Toast.makeText(this, "获取订单信息异常", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        IUserModel userModel = new UserModel();
+        boolean checked = rbMouth.isChecked();
+        String cardid = cardList.get(0).getCardid();
+        if (checked) {
+            cardid = cardList.get(0).getCardid();
+        } else {
+            cardid = cardList.get(1).getCardid();
+        }
+        userModel.getALiPayInfo(cardid, etInviteUser.getText().toString(), new GDOnResponseHandler() {
+            @Override
+            public void onSuccess(int code, String json) {
+                super.onSuccess(code, json);
+
+
+                DataResultBean<String> result = JsonUtils.fromJson(json, new TypeToken<DataResultBean<String>>() {
+                });
+                if (null == result) {
+                    return;
+                }
+                GDLogUtils.i("result:", result.getData());
+//                Toast.makeText(PayActivity.this,result.getData(),Toast.LENGTH_SHORT).show();
+                doPay2(result.getData());
+            }
+        });
 
 
     }
@@ -199,13 +287,13 @@ public class PayActivity extends BaseActivity {
     /**
      * me 沙箱
      */
-//    public static final String RSA2_PRIVATE = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCS5r+k0eLCnGLvrN29Hugj9xjR57AisTTXpjkuJ7bNlu8HjAry6C5k6LwKQjEDckE+WOKwJZ6qJCpzF+xnM0xg8PYyYL4Ar6AjNSx2gf2FranTGTnFl5werx6jMLIfKP/ToMXFQX0o14kIkFpBrBzuPt871fPc1eSbcJoGs3Ld9Ee+1r2ozESdPlngNk9grU1/g39vMwyfhEeYXjsGAiaqkuUv1FbeVFfdbmLzNzK+drRzRBIrhV0tZesu1kqG3V5tOdUX/Aw/9lxkRYmAmujYCEj4xZgnEOJ02eyia7ch6Q05HrI8ejjvBmNc2j0a/a5Do1QWQirMvCcZqKzdEy6XAgMBAAECggEAaH8iFkGDF8KdEjcaqLxCj8rm6fHwtkzt9PT2OeHgRJC4SdsRssb8saVolbeOHBB7Xrllz72DBy6gz6xV6vdvvonJ5/4vSlekB0d88HP5fs0RP+vyz57QXHdfyOAL5OSKTuVPqcizGolvnhrpSUwAbG1m6K6CQTYZ34SS3G9sJ3vYHLfgpbpvHRWF0UamWf0N78yPkqImih972QuYJca5ZRYZL2+LKJ6qmLJq2vNUNvAJojqr9SvXGWWwqHihw8mZJbvnjOnjtfb22LvVpUzSSqDf9kOQ5Czv9EF2nR8VwtfC44wnqWC1qguxBGxCS0+IXPO5CbG556mY7oDZosfz4QKBgQDK1MON4ysF51BZVNQvM+/I7fEgVt5a8CP+P3dSa89NurfR7ohfHbeuu4dVD5vwxoro5vVdKAL9vrz3GE+H1gF6lzPKfDjRcMbZ3KeT1AedmrNYd6OFC1HIH/hcsjJnxMSAMgELFsOJZHQEjCH8asigtHcAS2LELAcqNtgM1wsWBwKBgQC5aL+0m/jkkVfPOl4DxSe+DuAjNgpYmnLUtAL33FY6IQAaChamNfk10tlxl9BwtCEaC4or7d57lcD9GpahD0e+1AN0Fjd6RJHkui1ptH3FKTSGxKsBY6lsIn70jXxs9PxpKYprHP3JgXAPa89GHFDc4as4is/q5SdQXVJzP9R+8QKBgAWfmoBfkPzL6f1gDbX1UauXdTz5S5bn24ecCNnfJVM5XwlR/LPuZf5RMrJYCXHGf2lvpdPcXSDd3e1X3jSc6VOVx5jQkt6zqr+1j2vY0BE9jcVhI8Z3ht/uivs+8YjQ+sW3HTJKgkdX4qORowuVhlR2TGpUrLtVoSk5dgn9GFCXAoGAZcPDrRsK0lGgE6LipUkaViwOA+WOajFjo7GmC2tJfKBOUPyGj/YB8fPn23xLMQD9RjFdRl1KByUcBxAH6yDa7TerKZVkH9zxAszZTjJ98bB7HxllDt8nx61rZ0kdKSSSQhpF2iLQfUBpRF2VJ9M04veOJfuywSfDm02NiqpXNNECgYAQEcwUPhuC1LR6igii9rWi4qom0OB8EYupP6rp6j3/jjxh32ARSUxqepl58YaHc/sI6LCirhxpY9yQeHWY6eag/Oo9k/3+8DWt95xkChCmaSUThh6tFvNm+/TVNOLDc7ew+n+BpP2lwE+adWxoihMteZBbnnVl5giZkW44RP8Yxg==";
+//    public static final String RSA2_PRIVATE = "MI 45IEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCS5r+k0eLCnGLvrN29Hugj9xjR57AisTTXpjkuJ7bNlu8HjAry6C5k6LwKQjEDckE+WOKwJZ6qJCpzF+xnM0xg8PYyYL4Ar6AjNSx2gf2FranTGTnFl5werx6jMLIfKP/ToMXFQX0o14kIkFpBrBzuPt871fPc1eSbcJoGs3Ld9Ee+1r2ozESdPlngNk9grU1/g39vMwyfhEeYXjsGAiaqkuUv1FbeVFfdbmLzNzK+drRzRBIrhV0tZesu1kqG3V5tOdUX/Aw/9lxkRYmAmujYCEj4xZgnEOJ02eyia7ch6Q05HrI8ejjvBmNc2j0a/a5Do1QWQirMvCcZqKzdEy6XAgMBAAECggEAaH8iFkGDF8KdEjcaqLxCj8rm6fHwtkzt9PT2OeHgRJC4SdsRssb8saVolbeOHBB7Xrllz72DBy6gz6xV6vdvvonJ5/4vSlekB0d88HP5fs0RP+vyz57QXHdfyOAL5OSKTuVPqcizGolvnhrpSUwAbG1m6K6CQTYZ34SS3G9sJ3vYHLfgpbpvHRWF0UamWf0N78yPkqImih972QuYJca5ZRYZL2+LKJ6qmLJq2vNUNvAJojqr9SvXGWWwqHihw8mZJbvnjOnjtfb22LvVpUzSSqDf9kOQ5Czv9EF2nR8VwtfC44wnqWC1qguxBGxCS0+IXPO5CbG556mY7oDZosfz4QKBgQDK1MON4ysF51BZVNQvM+/I7fEgVt5a8CP+P3dSa89NurfR7ohfHbeuu4dVD5vwxoro5vVdKAL9vrz3GE+H1gF6lzPKfDjRcMbZ3KeT1AedmrNYd6OFC1HIH/hcsjJnxMSAMgELFsOJZHQEjCH8asigtHcAS2LELAcqNtgM1wsWBwKBgQC5aL+0m/jkkVfPOl4DxSe+DuAjNgpYmnLUtAL33FY6IQAaChamNfk10tlxl9BwtCEaC4or7d57lcD9GpahD0e+1AN0Fjd6RJHkui1ptH3FKTSGxKsBY6lsIn70jXxs9PxpKYprHP3JgXAPa89GHFDc4as4is/q5SdQXVJzP9R+8QKBgAWfmoBfkPzL6f1gDbX1UauXdTz5S5bn24ecCNnfJVM5XwlR/LPuZf5RMrJYCXHGf2lvpdPcXSDd3e1X3jSc6VOVx5jQkt6zqr+1j2vY0BE9jcVhI8Z3ht/uivs+8YjQ+sW3HTJKgkdX4qORowuVhlR2TGpUrLtVoSk5dgn9GFCXAoGAZcPDrRsK0lGgE6LipUkaViwOA+WOajFjo7GmC2tJfKBOUPyGj/YB8fPn23xLMQD9RjFdRl1KByUcBxAH6yDa7TerKZVkH9zxAszZTjJ98bB7HxllDt8nx61rZ0kdKSSSQhpF2iLQfUBpRF2VJ9M04veOJfuywSfDm02NiqpXNNECgYAQEcwUPhuC1LR6igii9rWi4qom0OB8EYupP6rp6j3/jjxh32ARSUxqepl58YaHc/sI6LCirhxpY9yQeHWY6eag/Oo9k/3+8DWt95xkChCmaSUThh6tFvNm+/TVNOLDc7ew+n+BpP2lwE+adWxoihMteZBbnnVl5giZkW44RP8Yxg==";
 
     /**
      * 沙箱-金舞团 2016073000125585
      * 正式：2017021005616618
      */
-    public static final String APPID = "2016073000125585";
+    public static final String APPID = "2017021005616618";
 
     /**
      * 金舞团
@@ -233,6 +321,8 @@ public class PayActivity extends BaseActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付成功" + resultInfo, Toast.LENGTH_SHORT).show();
+                        doPay();
+
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -246,17 +336,20 @@ public class PayActivity extends BaseActivity {
     };
 
     //app_id=2014072300007148&biz_content={"button":[{"actionParam":"ZFB_HFCZ","actionType":"out","name":"话费充值"},{"name":"查询","subButton":[{"actionParam":"ZFB_YECX","actionType":"out","name":"余额查询"},{"actionParam":"ZFB_LLCX","actionType":"out","name":"流量查询"},{"actionParam":"ZFB_HFCX","actionType":"out","name":"话费查询"}]},{"actionParam":"http://m.alipay.com","actionType":"link","name":"最新优惠"}]}&charset=GBK&method=alipay.mobile.public.menu.add&sign_type=RSA2&timestamp=2014-07-24 03:07:50&version=1.0
-    private void doPay2() {
-        if (TextUtils.isEmpty(APPID) || (TextUtils.isEmpty(RSA2_PRIVATE) && TextUtils.isEmpty(RSA_PRIVATE))) {
-            new AlertDialog.Builder(this).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialoginterface, int i) {
-                            //
-                            finish();
-                        }
-                    }).show();
+    private void doPay2(final String orderInfo) {
+        if (TextUtils.isEmpty(orderInfo)) {
             return;
         }
+//        if (TextUtils.isEmpty(APPID) || (TextUtils.isEmpty(RSA2_PRIVATE) && TextUtils.isEmpty(RSA_PRIVATE))) {
+//            new AlertDialog.Builder(this).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
+//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialoginterface, int i) {
+//                            //
+//                            finish();
+//                        }
+//                    }).show();
+//            return;
+//        }
 
         /**
          * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
@@ -265,24 +358,25 @@ public class PayActivity extends BaseActivity {
          *
          * orderInfo的获取必须来自服务端；
          */
-        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
-        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//
+//        String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
 
-        String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
-        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
-
-        final String orderInfo = orderParam + "&" + sign;
+//        final String orderInfo2 = orderParam + "&" + sign;
 //        final String orderInfo = "app_id=2015052600090779&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%22%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.02%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22314VYGIAGG7ZOYY%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign_type=RSA2&timestamp=2016-08-15%2012%3A12%3A15&version=1.0&sign=MsbylYkCzlfYLy9PeRwUUIg9nZPeN9SfXPNavUCroGKR5Kqvx0nEnd3eRmKxJuthNUx4ERCXe552EV9PfwexqW%2B1wbKOdYtDIb4%2B7PL3Pc94RZL0zKaWcaY3tSL89%2FuAVUsQuFqEJdhIukuKygrXucvejOUgTCfoUdwTi7z%2BZzQ%3D";
-        GDLogUtils.i(TAG, "orderInfo:" + orderInfo);
+//        GDLogUtils.i(TAG, "orderInfo:" + orderInfo);
         Runnable payRunnable = new Runnable() {
 
             @Override
             public void run() {
                 /**
-                 * 开启沙窗模式
+                 * 开启沙窗模式 沙箱模式
                  */
-                EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//                EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+                EnvUtils.setEnv(EnvUtils.EnvEnum.ONLINE);
                 PayTask alipay = new PayTask(PayActivity.this);
                 Map<String, String> result = alipay.payV2(orderInfo, true);
                 GDLogUtils.i("map", result.toString());
@@ -307,6 +401,7 @@ public class PayActivity extends BaseActivity {
         pd.setMessage("加载中...");
         pd.show();
         new CardModel().getCardList(new GDOnResponseHandler() {
+
             @Override
             public void onSuccess(int code, String json) {
                 super.onSuccess(code, json);
@@ -325,8 +420,8 @@ public class PayActivity extends BaseActivity {
                     showToast(data.getCode() + ":" + data.getMessage());
                     return;
                 }
-                ArrayList<CardBean> result = data.getData();
-                setPayInfo(result);
+                cardList = data.getData();
+                setPayInfo(cardList);
             }
 
             @Override
@@ -358,6 +453,15 @@ public class PayActivity extends BaseActivity {
                     rbSeason.setText(card.getCardname() + ":" + cardprice + "元");
                     rbSeason.setTag(card);
                     break;
+                case 2:
+                    rbYear.setText(card.getCardname() + ":" + cardprice + "元");
+                    rbYear.setTag(card);
+                    break;
+                case 3:
+                    rbOnce.setText(card.getCardname() + ":" + cardprice + "元");
+                    rbOnce.setTag(card);
+                    break;
+                default:
             }
         }
     }

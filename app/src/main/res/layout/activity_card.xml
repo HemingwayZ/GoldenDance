@@ -9,22 +9,72 @@
 
     <include layout="@layout/i_head" />
 
-    <include layout="@layout/card_item" />
-
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/item_bottom_line" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvSubmit"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="66dp"
-        android:background="@drawable/bg_submit"
-        android:gravity="center"
-        android:text="充值"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/card_item" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/item_bottom_line" />
+
+            <TextView
+                android:id="@+id/tvSubmit"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="66dp"
+                android:background="@drawable/bg_submit"
+                android:gravity="center"
+                android:text="充值"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:text="会员权利"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/vip_right"
+                android:textColor="#bfbebe"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:text="规则说明"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/vip_desc"
+                android:textColor="#bfbebe"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

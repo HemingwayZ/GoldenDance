@@ -135,7 +135,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setUserInfo() {
-        GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
+        if (ivAvatar != null)
+            GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

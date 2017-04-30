@@ -22,6 +22,25 @@ public class User {
     public static String userid = "";
     public static String cardname="";
     public static String coursenum;
+    public static String cardovertime;
+    public static int cardnum;
+
+    public static int getCardnum() {
+        return cardnum;
+    }
+
+    public static void setCardnum(int cardnum) {
+        User.cardnum = cardnum;
+    }
+
+    public static String getCardovertime() {
+        return cardovertime;
+    }
+
+    public static void setCardovertime(String cardovertime) {
+        User.cardovertime = cardovertime;
+    }
+
     public static void setUser(UserBean userBean) {
         if (userBean == null) {
             return;
@@ -39,6 +58,8 @@ public class User {
         signature = userBean.getSignature();
         name = userBean.getName();
         userid = userBean.getUserid();
+        cardovertime = userBean.getCardovertime();
+        cardnum = userBean.getCardnum();
     }
 
     public static void logOut() {

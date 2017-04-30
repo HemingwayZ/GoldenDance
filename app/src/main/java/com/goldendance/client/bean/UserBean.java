@@ -22,6 +22,23 @@ public class UserBean implements Serializable {
     private String coursenum = "";//当前已预约，未结束课程
     private String cardovertime;//卡片超时时间
 
+    public String getCardovertime() {
+        return cardovertime;
+    }
+
+    public void setCardovertime(String cardovertime) {
+        this.cardovertime = cardovertime;
+    }
+
+    public int getCardnum() {
+        return cardnum;
+    }
+
+    public void setCardnum(int cardnum) {
+        this.cardnum = cardnum;
+    }
+
+    private int cardnum;
     public String getCoursenum() {
         return coursenum;
     }

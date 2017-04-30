@@ -154,11 +154,17 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         }
         String gender = User.gender;
 //        if("0".equals()gender)
-        if (!TextUtils.isEmpty(User.name))
+        if (!TextUtils.isEmpty(User.name) && tvUserName != null)
             tvUserName.setText(User.name);
-        GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
-        tvCardName.setText(User.cardname);
-        tvTitle.setText(User.name);
+        if (ivAvatar != null) {
+            GDImageLoader.setImageView(getActivity(), User.icon, ivAvatar);
+        }
+        if ( tvCardName != null){
+            tvCardName.setText(User.cardname);
+        }
+        if (tvTitle != null) {
+            tvTitle.setText(User.name);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
