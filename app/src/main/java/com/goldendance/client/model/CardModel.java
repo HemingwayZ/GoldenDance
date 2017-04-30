@@ -28,7 +28,7 @@ public class CardModel {
             params.put("tel", tel);
         }
         params.put("cardid", cardId);
-        GDHttpManager.doGet(url, params, handler);
+        GDHttpManager.doPost(url, params, handler);
     }
 
     public void getCardRecord(GDOnResponseHandler handler) {

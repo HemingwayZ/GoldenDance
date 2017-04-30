@@ -11,8 +11,13 @@ import com.goldendance.client.R;
 import com.goldendance.client.base.BaseActivity;
 import com.goldendance.client.bean.User;
 
+import java.util.Locale;
+
 public class CardActivity extends BaseActivity {
 
+
+    private static final int REQUEST_CODE_BUY = 10001;
+    private TextView tvCardNum;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class CardActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CardActivity.this, PayActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_BUY);
             }
         });
 
@@ -53,18 +58,26 @@ public class CardActivity extends BaseActivity {
 
         int cardnum = User.getCardnum();
 
-        TextView tvCardNum = (TextView) findViewById(R.id.tvCardNum);
-        tvCardNum.setText("持卡数:" + String.valueOf(cardnum));
+        tvCardNum = (TextView) findViewById(R.id.tvCardNum);
+        tvCardNum.setText(String.format(Locale.getDefault(), getString(R.string.my_card_num), String.valueOf(cardnum)));
 
         TextView tvCardOverTime = (TextView) findViewById(R.id.tvCardOverTime);
-        tvCardOverTime.setText(User.cardovertime);
-        if (cardnum == 0) {
+        tvCardOverTime.setText("我的会员卡到期时间: " + User.cardovertime);
+        if (TextUtils.isEmpty(User.cardovertime))
             tvCardOverTime.setVisibility(View.GONE);
-        }
     }
 
     private void toHistory() {
         Intent intent = new Intent(this, CardHistoryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_BUY) {
+            tvCardNum.setText(String.format(Locale.getDefault(), getString(R.string.my_card_num), String.valueOf(User.cardnum)));
+        }
     }
 }

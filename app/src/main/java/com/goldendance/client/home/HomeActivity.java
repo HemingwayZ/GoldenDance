@@ -1,5 +1,6 @@
 package com.goldendance.client.home;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -143,7 +144,15 @@ public class HomeActivity extends BaseActivity implements HomeFragment.OnFragmen
         }
         GDLogUtils.i(TAG, "token:" + token);
         User.tokenid = token;
+        final ProgressDialog show = ProgressDialog.show(this, null, "登录中...");
+        show.show();
         user.getUserInfo(null, token, new GDOnResponseHandler() {
+            @Override
+            public void onEnd() {
+                super.onEnd();
+                show.dismiss();
+            }
+
             @Override
             public void onFailed(IOException e) {
                 super.onFailed(e);

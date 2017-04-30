@@ -29,6 +29,7 @@ import com.goldendance.client.model.IUserModel;
 import com.goldendance.client.model.UserModel;
 import com.goldendance.client.utils.GDLogUtils;
 import com.goldendance.client.utils.JsonUtils;
+import com.goldendance.client.zhifubao.OrderInfoUtil2_0;
 import com.goldendance.client.zhifubao.PayResult;
 import com.google.gson.reflect.TypeToken;
 
@@ -171,18 +172,21 @@ public class PayActivity extends BaseActivity {
 
     private void getPayInfo() {
 
-        if (cardList == null || cardList.size() < 2) {
+        if (cardList == null) {
 
             Toast.makeText(this, "获取订单信息异常", Toast.LENGTH_SHORT).show();
             return;
         }
         IUserModel userModel = new UserModel();
-        boolean checked = rbMouth.isChecked();
         String cardid = cardList.get(0).getCardid();
-        if (checked) {
+        if (rbMouth.isChecked() && rbMouth.getVisibility() == View.VISIBLE && cardList.size() > 0) {
             cardid = cardList.get(0).getCardid();
-        } else {
+        } else if (rbSeason.isChecked() && rbSeason.getVisibility() == View.VISIBLE && cardList.size() > 1) {
             cardid = cardList.get(1).getCardid();
+        } else if (rbYear.isChecked() && rbYear.getVisibility() == View.VISIBLE && cardList.size() > 2) {
+            cardid = cardList.get(2).getCardid();
+        } else if (rbOnce.isChecked() && rbOnce.getVisibility() == View.VISIBLE && cardList.size() > 3) {
+            cardid = cardList.get(3).getCardid();
         }
         userModel.getALiPayInfo(cardid, etInviteUser.getText().toString(), new GDOnResponseHandler() {
             @Override
@@ -246,8 +250,11 @@ public class PayActivity extends BaseActivity {
                         showToast(da.getCode() + ":" + da.getMessage());
                         return;
                     }
-                    Toast.makeText(PayActivity.this, da.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(PayActivity.this, da.getMessage(), Toast.LENGTH_SHORT).show();
                     User.cardname = card.getCardname();
+                    if (rbOnce.isChecked()) {
+                        User.cardnum++;
+                    }
                     onBackPressed();
                 }
             });
@@ -298,7 +305,7 @@ public class PayActivity extends BaseActivity {
     /**
      * 金舞团
      */
-    public static final String RSA2_PRIVATE = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCMImnLprrBJpiUzEbyRvWsryMRR9vV28idrU8KPoe3H+dM3j1USQNgCLgKvowOGRxujATjnNVab0U+XqPPOrBcFXN48B4MOTEl1jLQxtz1XcgHYNAVFwJWiLk/pYKHaxdW1xR1xQNVsO3EkR7dxOhEKf2KkxTQAfqvEfA++6t5ZaJhrr5YqasuEogA29y3Jvbc3l4e3EsfxhOJDNmaH1rpoLrRRkvS36oH2oIFS/BnOwM2GOyRhMF7Qe9yk/hGuAsa3N4a2MpbQYyMNg430H/cTutVOI1pqEtMKd0Uzx1VPGP3XxQra728UAJMKemJV0r+7sWUQw2wuyo7e/LYstrtAgMBAAECggEAA2xfy0LScx9/QLtQzGBhZguNPsHTpADPgNKYCLcIV7fmzaDsPJ/f/juYS2LmRv3kDOtMv0a4i5IGTgS/2bMkVcuMW5r6EPBgu/zklucUxMW6ujtqOemq+/QxGlXvv2ElW9C7Rjk+4JwG4vNsnpxN1ER2VilLq90wg5Bbnx5EzR1d7vNEfxxXRUu4ZllWCME8bp1N2cbYH48gSjA81SKfgSCdmmYhoNmCUefT9GtdSThBvhHLcj2+oQWJT1vgnXqB66eixw1YT0IkrEoEr5Xo1OAOMEdjhtKRzsrBDaCGllDZ79iv37HZFuCL4acav5q32sZIy0SClhsyvHqj4f7OYQKBgQD1Gl4hyBM8+2Gm16F/rya2tJNtoMeO80HCCpxaPf/Ip99dj8MIN+PiUBnUff/jN4VlS946Fb3iWfScSjHnLbKzLGgZfeZ8GUyNfYORqq+Sai4bR4NTn851kouNWPaE/QDxOj73yFQwagaWWg5RqFBZUT0RFjE03kX5rh+8cGP3OQKBgQCSXVlVqygyxfXYWv/HWaqsl/H16orB3aVxGpPVAbT5wIlxPbe0+kMRhnrS59NfwuP+cUJKORFn4cuXxYjtOSQj8CBFituzsp0430GZ4FdjAbyLkBgTOAG1hwAI/zs4HDMXzdCvbyEFSlmcNCYVIJe9eOepDSGzTpMdvE+FxrLtVQKBgQDYRpULUAWRyOvpEdrC1WXe0EZK9RVCEWpT85L1mkGq6F6Tq3hYNyERoMa6FxiFgYdm0+Ra8rZkFiZfBqU0LcHCkouk+tA3bwd6zmcbUTathp36mkbKsne2jUIwznBw9uMu+Mt5Tz7inZwEbaC280M7HRE6k4+F7CBo6fm9CJtdGQKBgCjE5dBuF4llCODWIC8YM+lVfalhRntP0PibTZhknFOBJQetCFHZ7/qeufGrb35aHAXQ6IUiNk34YCyLcmOZqg50oZidYCtC0nZ4AZ7qFY1Xe3xoi7w2uosk6oaXCZjMihLUWo+zZcBCgIl5IS57YKj/V5AIP13hwirjPEdoHIjtAoGBAM/QeKQOcK4qyRKbkxZUYTzv88C9DOENBe4v/KYpI0xy2ZZzDdyjfv4YJhTsrfHOUb4TjM0Ox0cac3bd64rYzDJH0xkq9M/aNKVQ+AlMFMkpl27vFFnGSzeYWubu5TLSrUvo6JkrsEw+AKVdzS+42PlNSgX6L4gMWBk+rHC2yqrV";
+//    public static final String RSA2_PRIVATE = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCMImnLprrBJpiUzEbyRvWsryMRR9vV28idrU8KPoe3H+dM3j1USQNgCLgKvowOGRxujATjnNVab0U+XqPPOrBcFXN48B4MOTEl1jLQxtz1XcgHYNAVFwJWiLk/pYKHaxdW1xR1xQNVsO3EkR7dxOhEKf2KkxTQAfqvEfA++6t5ZaJhrr5YqasuEogA29y3Jvbc3l4e3EsfxhOJDNmaH1rpoLrRRkvS36oH2oIFS/BnOwM2GOyRhMF7Qe9yk/hGuAsa3N4a2MpbQYyMNg430H/cTutVOI1pqEtMKd0Uzx1VPGP3XxQra728UAJMKemJV0r+7sWUQw2wuyo7e/LYstrtAgMBAAECggEAA2xfy0LScx9/QLtQzGBhZguNPsHTpADPgNKYCLcIV7fmzaDsPJ/f/juYS2LmRv3kDOtMv0a4i5IGTgS/2bMkVcuMW5r6EPBgu/zklucUxMW6ujtqOemq+/QxGlXvv2ElW9C7Rjk+4JwG4vNsnpxN1ER2VilLq90wg5Bbnx5EzR1d7vNEfxxXRUu4ZllWCME8bp1N2cbYH48gSjA81SKfgSCdmmYhoNmCUefT9GtdSThBvhHLcj2+oQWJT1vgnXqB66eixw1YT0IkrEoEr5Xo1OAOMEdjhtKRzsrBDaCGllDZ79iv37HZFuCL4acav5q32sZIy0SClhsyvHqj4f7OYQKBgQD1Gl4hyBM8+2Gm16F/rya2tJNtoMeO80HCCpxaPf/Ip99dj8MIN+PiUBnUff/jN4VlS946Fb3iWfScSjHnLbKzLGgZfeZ8GUyNfYORqq+Sai4bR4NTn851kouNWPaE/QDxOj73yFQwagaWWg5RqFBZUT0RFjE03kX5rh+8cGP3OQKBgQCSXVlVqygyxfXYWv/HWaqsl/H16orB3aVxGpPVAbT5wIlxPbe0+kMRhnrS59NfwuP+cUJKORFn4cuXxYjtOSQj8CBFituzsp0430GZ4FdjAbyLkBgTOAG1hwAI/zs4HDMXzdCvbyEFSlmcNCYVIJe9eOepDSGzTpMdvE+FxrLtVQKBgQDYRpULUAWRyOvpEdrC1WXe0EZK9RVCEWpT85L1mkGq6F6Tq3hYNyERoMa6FxiFgYdm0+Ra8rZkFiZfBqU0LcHCkouk+tA3bwd6zmcbUTathp36mkbKsne2jUIwznBw9uMu+Mt5Tz7inZwEbaC280M7HRE6k4+F7CBo6fm9CJtdGQKBgCjE5dBuF4llCODWIC8YM+lVfalhRntP0PibTZhknFOBJQetCFHZ7/qeufGrb35aHAXQ6IUiNk34YCyLcmOZqg50oZidYCtC0nZ4AZ7qFY1Xe3xoi7w2uosk6oaXCZjMihLUWo+zZcBCgIl5IS57YKj/V5AIP13hwirjPEdoHIjtAoGBAM/QeKQOcK4qyRKbkxZUYTzv88C9DOENBe4v/KYpI0xy2ZZzDdyjfv4YJhTsrfHOUb4TjM0Ox0cac3bd64rYzDJH0xkq9M/aNKVQ+AlMFMkpl27vFFnGSzeYWubu5TLSrUvo6JkrsEw+AKVdzS+42PlNSgX6L4gMWBk+rHC2yqrV";
 
     //沙箱
     public static final String RSA_PRIVATE = "";
@@ -320,12 +327,12 @@ public class PayActivity extends BaseActivity {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(PayActivity.this, "支付成功" + resultInfo, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                         doPay();
 
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PayActivity.this, "取消支付", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 }
@@ -440,24 +447,34 @@ public class PayActivity extends BaseActivity {
         }
         scrollView.setVisibility(View.VISIBLE);
         int size = result.size();
+
+        rbMouth.setVisibility(View.GONE);
+        rbSeason.setVisibility(View.GONE);
+        rbYear.setVisibility(View.GONE);
+        rbOnce.setVisibility(View.GONE);
+
         for (int i = 0; i < size; i++) {
             CardBean card = result.get(i);
             String cardprice = card.getCardprice();
             switch (i) {
                 case 0:
+                    rbMouth.setVisibility(View.VISIBLE);
                     setPayNotice(card.getCardprice(), card.getPoint());
                     rbMouth.setText(card.getCardname() + ":" + cardprice + "元");
                     rbMouth.setTag(card);
                     break;
                 case 1:
+                    rbSeason.setVisibility(View.VISIBLE);
                     rbSeason.setText(card.getCardname() + ":" + cardprice + "元");
                     rbSeason.setTag(card);
                     break;
                 case 2:
+                    rbYear.setVisibility(View.VISIBLE);
                     rbYear.setText(card.getCardname() + ":" + cardprice + "元");
                     rbYear.setTag(card);
                     break;
                 case 3:
+                    rbOnce.setVisibility(View.VISIBLE);
                     rbOnce.setText(card.getCardname() + ":" + cardprice + "元");
                     rbOnce.setTag(card);
                     break;
